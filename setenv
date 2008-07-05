@@ -1,3 +1,0 @@
-export PATH=$PATH:/home/amitu/Projects/Django/django/bin
-export PYTHONPATH=$PYTHONPATH:/home/amitu/Projects/Django/
-export DJANGO_SETTINGS_MODULE="web.settings"
