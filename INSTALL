@@ -1,0 +1,7 @@
+To install it, make sure you have Python 2.3 or greater installed. Then run
+this command from the command prompt:
+
+    python setup.py install
+
+Note this requires a working Internet connection if you don't already have the
+Python utility "setuptools" installed.
