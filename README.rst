@@ -6,7 +6,8 @@ git+openid based wiki/blog/photo-album
 ---------------------------------------
 
 git file structure: 
-    /blocked-authors.txt contains openid of each blocked commenter/rater whatever.
+    /blocked-authors.txt contains openid of each blocked 
+    commenter/rater whatever.
 
     /editors.txt: these ppl can do anything. [openids]
 
@@ -21,14 +22,17 @@ versioned-document, type:
     #. tags: tag1, tag2 [this is the master list]
     #. title:
     #. title-slug: 
-    #. container: blog@/some/date/ or wiki@label or album or photo@albumname
+    #. container: blog@/some/date/ or wiki@label or 
+       album or photo@albumname
     #. is_private
 
     dependencies: 
         /document/some-name/file.gif etc
 
     comment: 
-        /document/some-name/comment/1.rst, 1.meta. comments are threaded: /1.comment, /1/1.comment, 1/2.comment, 1/1/1.comment, comments are rated. 
+        /document/some-name/comment/1.rst, 1.meta. comments are 
+        threaded: /1.comment, /1/1.comment, 1/2.comment, 
+        1/1/1.comment, comments are rated. 
         x.meta: author, timestamp, ratings: [(rater, rating), ], flagged etc.
 
 blog, link-blog:
@@ -42,7 +46,9 @@ wiki:
 photos:
     /photos/album.txt: 
         all photos belong to albums.
-        album and photos are both documents, in album, index.html is generated manually, and it contains a file: photos.txt containing /document/photo-name/
+        album and photos are both documents, in album, index.html is 
+        generated manually, and it contains a file: photos.txt containing 
+        /document/photo-name/
 
 cheatsheets/keynote:
     /notes/name.txt
@@ -59,7 +65,8 @@ tools:
 * gitology sync: updated blog labels file, and other files as needed.
 * gitology wiki document_name: creates wiki link for a document. 
 * gitology create-album: creates a new album.
-* gitology add-photo photo, album: adds the photo to the specified album. [photo can either photo.gif or a document name].
+* gitology add-photo photo, album: adds the photo to the specified album. 
+  [photo can either photo.gif or a document name].
 
 implementation details:
 -----------------------
@@ -68,10 +75,13 @@ gitology shud be a easy_install-able app, and will provide:
 * command line tools
 * django apps: gitology_blog, gitology_wiki, gitology_album and so on.
 
-gitology can be installed system wide and users can configure it as per their preferences. preferences are stored in ~/.gitologyrc. 
+gitology can be installed system wide and users can configure it as per 
+their preferences. preferences are stored in ~/.gitologyrc. 
 
 on preferences:
-    ideally a user shud be able to work with more than on gitology instances, selectable based on env variable, if more than one instances exist. 
+    ideally a user shud be able to work with more than on gitology 
+    instances, selectable based on env variable, if more than one 
+    instances exist. 
     
     export GITOLOGY_CONFIG_FILE=".filenamerc"
 
@@ -82,4 +92,59 @@ on preferences:
     * repo-path: where git repo is located
     * remote: remote where git shud push after commits if required. 
 
-there is a lib. import gitology. it handles config parsing. it handles reading and writing documents. it handles blog, comments, wiki, etc. 
+there is a lib. import gitology. it handles config parsing. it handles 
+reading and writing documents. it handles blog, comments, wiki, etc. and
+it handles versioning.
+
+gitology.document.Document is the document abstraction. 
+
+Basic info:
+    Document.index_content, Document.index_name, Document.index_raw, 
+    Document.summary_content, Document.summary_name, Document.summary_raw, 
+    Document.meta.title, Document.meta.title_slug, Document.meta.tags, 
+    Document.meta.container, Document.meta.is_private.
+
+dependency handling:
+    Document.deps: key==filename, content==content of file, url, mime_type
+
+comments:
+    Document.replies: list of Comment. Comment.title, Comment.content, 
+    Comment.content_raw, Comment.openid, Comment.poster_name, 
+    Comment.poster_email, Comment.poster_url, Comment.posted_on
+    Comment.ratings: array of (openid, rating). Comment.score, 
+    Comment.replies. Comment.versions [CommentRevision(ts, content, title)]
+
+Versioning:
+    Document.versions: [DocumentRevision(ts, title, content)]
+
+methods:
+    * Document.update_title(title)
+    * Document.update_content(content, type=rst) => changing type raises exception.
+    * Document.add_comment(author, content, title=None, in_reply_to=None, timestamp=None)
+
+gitology.blog.Post:
+    Post.document, Post.title, Post.posted_on, Post.slug, Post.content
+    Post.make_private(), Post.make_public()
+
+gitology.blog:
+    * blog_document(Document, published_on=None)
+    * get_post_by_slug(slug)
+    * get_posts(year=None, month=None, day=None, count=10, start=0)
+    * get_post_count(year=None, month=None, day=None)
+
+gitolog.wiki.Page:
+    Page.document, Page.name, Page.content
+
+gitology.wiki:
+    * wiki_this_document(Document, published_on=None)
+    * get_page_by_name(name)
+    * page_exists(name)
+
+gitology.notes.Note:
+    * Note.children[ordereddict], Note.title, Note.content.
+
+gitology.notes:
+    * get_note_by_path("/mysql/insert/")
+    * get_children("path", span_tree=False) :: path can be "" or "/" to indicate root.
+
+.. target-notes:: 
