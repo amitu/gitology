@@ -51,6 +51,7 @@ cheatsheets/keynote:
 
 tools:
 ------
+* gitology init 
 * gitology start document_name. creates a new document. 
 * gitology grep, ls, cd, find [coz documents may be organized in subdirs]
 * gitology blog document_name: blogs the given document. 
@@ -60,3 +61,25 @@ tools:
 * gitology create-album: creates a new album.
 * gitology add-photo photo, album: adds the photo to the specified album. [photo can either photo.gif or a document name].
 
+implementation details:
+-----------------------
+
+gitology shud be a easy_install-able app, and will provide:
+* command line tools
+* django apps: gitology_blog, gitology_wiki, gitology_album and so on.
+
+gitology can be installed system wide and users can configure it as per their preferences. preferences are stored in ~/.gitologyrc. 
+
+on preferences:
+    ideally a user shud be able to work with more than on gitology instances, selectable based on env variable, if more than one instances exist. 
+    
+    export GITOLOGY_CONFIG_FILE=".filenamerc"
+
+    .gitologyrc config file. 
+
+    configuration:
+
+    * repo-path: where git repo is located
+    * remote: remote where git shud push after commits if required. 
+
+there is a lib. import gitology. it handles config parsing. it handles reading and writing documents. it handles blog, comments, wiki, etc. 
