@@ -10,7 +10,7 @@ If environment variable GITOLOGY_CONFIG_FILE set and contains a filename it read
 If file_name is passed, it will be used.
 """
 
-import ConfigParser, path, os
+import ConfigParser, os
 
 # http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/361668
 class attrdict(dict):
@@ -43,7 +43,7 @@ def get_config(file_name=None):
         config.read(os.path.expanduser(file_name))
     elif "GITOLOGY_CONFIG_FILE" in os.environ:
         config.read(os.environ["GITOLOGY_CONFIG_FILE"])
-    elif path.path(os.path.expanduser("~/.gitology")).exists():
+    else: 
         config.read(os.path.expanduser("~/.gitology")) 
     _config = attrdict()
     for section in config.sections():
