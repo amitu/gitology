@@ -8,6 +8,8 @@ This modules is used to talk with git.
 """
 # }}}
 
+import os
+
 class Git(object):
     def __init__(self, local_path, remote_path=None, auto_push=True):
         self.local_path = local_path
@@ -18,7 +20,7 @@ class Git(object):
     # local_path {{{
     def _get_local_path(self): return self._local_path
     def _set_local_path(self, new_path): 
-        self._local_path = new_path
+        self._local_path = os.path.expanduser(new_path)
     
     local_path = property(
         _get_local_path, _set_local_path,
