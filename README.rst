@@ -147,4 +147,37 @@ gitology.notes:
     * get_note_by_path("/mysql/insert/")
     * get_children("path", span_tree=False) :: path can be "" or "/" to indicate root.
 
-.. target-notes:: 
+sample filestructure:
+---------------------
+
+::
+
+   ./wiki
+   ./wiki/python.txt
+   ./blocked-authors.txt
+   ./editors.txt
+   ./documents
+   ./documents/23
+   ./documents/23/ee
+   ./documents/23/ee/python
+   ./documents/23/ee/python/index.rst
+   ./documents/23/ee/python/comments
+   ./documents/23/ee/python/comments/1.rst
+   ./documents/23/ee/python/comments/1.meta
+   ./documents/23/ee/python/meta.json
+   ./notebooks
+   ./notebooks/work
+   ./notebooks/personal
+   ./notebooks/personal/swideas.txt
+   ./notebooks/personal/swideas
+   ./albums
+   ./albums/lonawala.txt
+   ./blogs
+   ./blogs/link
+   ./blogs/main
+   ./blogs/main/labels
+   ./blogs/main/labels/python.lst
+   ./blogs/main/2008
+   ./blogs/main/2008/07
+   ./blogs/main/2008/07/08.lst
+
