@@ -52,3 +52,8 @@ def get_config(file_name=None):
             _config[section][k] = v
     return _config
 
+settings = get_config() # some app may override this property afterwards.
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
