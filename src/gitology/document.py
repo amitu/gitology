@@ -6,6 +6,8 @@ This module gives access to a document. This is the crux of gitology backend.
 from gitology.config import settings
 from gitology import DocumentBase
 
+import md5
+
 class DocumentAlreadyExists(Exception): pass
 class DocumentDoesNotExists(Exception): pass
 
@@ -23,9 +25,18 @@ class Document(DocumentBase):
         document.create().
         """
         super(Document, self).__init__(name)
+   
+    @property 
+    def fs_path(self):
+        md5sum = md5.new(self.name).hexdigest()
+        return settings.LOCAL_REPO_PATH.joinpath(
+            "documents/%s/%s/%s" % (md5sum[:2], md5sum[2:4], self.name)
+        )
 
     def exists(self):
-        pass
+        e = self.fs_path.exists()
+        if e: assert self.fs_path.isdir(), "Document path(%s) exists but is not a directory." % self.fs_path
+        return e
 
     def create(self, index_content, format="rst"):
         """ 
