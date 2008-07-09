@@ -1,6 +1,9 @@
+[DEFAULT]
+AUTHOR: www.amitu.com
+
 [REPO]
 LOCAL: ~/Documents/gitology-repo
 REMOTE: 
-AUTO_COMMIT: False
+AUTO_COMMIT: False 
 
 
