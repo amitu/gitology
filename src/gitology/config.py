@@ -60,8 +60,22 @@ def initialize():
     if "REPO" not in conf: 
         raise ImproperlyConfigured("No section REPO in config, file=%s." % conf.RC_FILE)
     if "LOCAL" not in conf.REPO: 
-        raise ImproperlyConfigured("No section LOCAL in REPO, file=%s." % conf.RC_FILE)
+        raise ImproperlyConfigured("No setting LOCAL in REPO, file=%s." % conf.RC_FILE)
+    if "REMOTE" not in conf.REPO: conf.REPO.REMOTE = ""
+    if "AUTO_COMMIT" in conf.REPO: 
+        conf.REPO.AUTO_COMMIT = { 'True': True }.get(conf.REPO.AUTO_COMMIT, False)
+        if conf.REPO.AUTO_COMMIT and not conf.REPO.REMOTE:
+            raise ImproperlyConfigured("AUTO_COMMIT is set, but remote is not specified. file=%s" % conf.RC_FILE)
+    else: conf.REPO.AUTO_COMMIT = False
+    if "DEFAULTS" not in conf:
+        raise ImproperlyConfigured("No section DEFAULTS in config, file=%s." % conf.RC_FILE)
+    if "AUTHOR" not in conf.DEFAULTS: 
+        raise ImproperlyConfigured("No setting AUTHOR in DEFAULTS, file=%s." % conf.RC_FILE)
+    if not conf.DEFAULTS.AUTHOR:
+        raise ImproperlyConfigured("AUTHOR must not be empty, file=%s." % conf.RC_FILE)
     conf.LOCAL_REPO_PATH = path.path(os.path.expanduser(conf.REPO.LOCAL))
+    import gitter
+    gitter.git = gitter.Git(conf.REPO.LOCAL, conf.REPO.REMOTE, conf.REPO.AUTO_COMMIT)
     return conf
     
 settings = initialize() # some app may override this property afterwards.
