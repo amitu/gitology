@@ -38,14 +38,25 @@ class Document(DocumentBase):
         if e: assert self.fs_path.isdir(), "Document path(%s) exists but is not a directory." % self.fs_path
         return e
 
-    def create(self, index_content, format="rst"):
+    def create(self, index_content, author=None, format="rst"):
         """ 
         Creates the document with specified content. the name of index file
         is "index.%s" % format. 
+    
+        author is openid of the author who created this document. 
         
         This raises DocumentAlreadyExists if document already exists. 
         """
-
+        if self.exists(): raise DocumentAlreadyExists
+        if not author:
+            author = settings.DEFAULTS.AUTHOR
+        assert_author_can_write(author)
+        self.fs_path.makedirs()
+        self.replies.create()
+        self.meta.create()
+        self.meta.author = author
+        self.fs_path.joinpath("index.%s" % format).write_text()
+        
     def get_index(self):
         """
         Get the index content. If index was rst, it will be converted to html.
@@ -105,7 +116,10 @@ class Document(DocumentBase):
             return self._revisions
         else: raise DocumentDoesNotExists
     revisions = property(_get_revisions)
-    
+
+def assert_author_can_write(author):
+    pass
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
