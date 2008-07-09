@@ -10,7 +10,7 @@ If environment variable GITOLOGY_CONFIG_FILE set and contains a filename it read
 If file_name is passed, it will be used.
 """
 
-import ConfigParser, os
+import ConfigParser, os, path
 
 # http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/361668
 class attrdict(dict):
@@ -39,20 +39,32 @@ class attrdict(dict):
 def get_config(file_name=None):
     config = ConfigParser.ConfigParser()
     config.optionxform = str
-    if file_name:
-        config.read(os.path.expanduser(file_name))
-    elif "GITOLOGY_CONFIG_FILE" in os.environ:
-        config.read(os.environ["GITOLOGY_CONFIG_FILE"])
-    else: 
-        config.read(os.path.expanduser("~/.gitology")) 
     _config = attrdict()
+    if file_name:
+        _config.RC_FILE = os.path.expanduser(file_name)
+    elif "GITOLOGY_CONFIG_FILE" in os.environ:
+        _config.RC_FILE = os.path.expanduser(os.environ["GITOLOGY_CONFIG_FILE"])
+    else: 
+        _config.RC_FILE = os.path.expanduser("~/.gitologyrc") 
+    config.read(_config.RC_FILE) 
     for section in config.sections():
         _config[section] = attrdict()
         for k, v in config.items(section):
             _config[section][k] = v
     return _config
 
-settings = get_config() # some app may override this property afterwards.
+class ImproperlyConfigured(Exception): pass
+
+def initialize():
+    conf = get_config()
+    if "REPO" not in conf: 
+        raise ImproperlyConfigured("No section REPO in config, file=%s." % conf.RC_FILE)
+    if "LOCAL" not in conf.REPO: 
+        raise ImproperlyConfigured("No section LOCAL in REPO, file=%s." % conf.RC_FILE)
+    conf.LOCAL_REPO_PATH = path.path(os.path.expanduser(conf.REPO.LOCAL))
+    return conf
+    
+settings = initialize() # some app may override this property afterwards.
 
 if __name__ == "__main__":
     import doctest
