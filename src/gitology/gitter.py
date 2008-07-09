@@ -8,7 +8,7 @@ This modules is used to talk with git.
 """
 # }}}
 
-import os
+import os, path
 from gitology import DocumentBase
 
 class Git(object):
@@ -16,12 +16,11 @@ class Git(object):
         self.local_path = local_path
         self.remote_path = remote_path
         self.auto_push = auto_push
-
     
     # local_path {{{
     def _get_local_path(self): return self._local_path
     def _set_local_path(self, new_path): 
-        self._local_path = os.path.expanduser(new_path)
+        self._local_path = path.path(os.path.expanduser(new_path))
     
     local_path = property(
         _get_local_path, _set_local_path,
@@ -29,10 +28,10 @@ class Git(object):
         >>> from gitology.gitter import Git
         >>> git = Git("/some/path")
         >>> git.local_path 
-        '/some/path'
+        path('/some/path')
         >>> git.local_path = '/someother/path'
         >>> git.local_path
-        '/someother/path'
+        path('/someother/path')
         >>> git.remote_path
         >>> 
         """
@@ -49,7 +48,7 @@ class Git(object):
         >>> from gitology.gitter import Git
         >>> git = Git("local", "remote")
         >>> git.local_path, git.remote_path
-        ('local', 'remote')
+        (path('local'), 'remote')
         """
     )
     # }}}
