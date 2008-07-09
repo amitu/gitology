@@ -4,14 +4,31 @@ document module
 This module gives access to a document. This is the crux of gitology backend.
 """
 from gitology.config import settings
-from gitology import DocumentBase
+from gitology import DocumentBase, attrdict
 
-import md5
+import md5, simplejson
 
 class DocumentAlreadyExists(Exception): pass
 class DocumentDoesNotExists(Exception): pass
 
-class DocumentMeta(DocumentBase): pass
+class DocumentMeta(attrdict): 
+    """ 
+    DocumentMeta Class
+
+    This is a gitology.config.attrdict like class.
+    """
+    def __init__(self, parent_path, *args, **kw):
+        super(DocumentMeta, self).__init__(*args, **kw)
+        self.fs_path = parent_path.joinpath("meta.json")
+        if self.fs_path.exists():
+            d = simplejson.loads(self.fs_path.open().read())
+            self.__dict__.update(d)
+
+    def save(self):
+        d = self.copy()
+        del d["fs_path"]
+        self.fs_path.write_text(simplejson.dumps(d))
+
 class DocumentDependencies(DocumentBase): pass
 
 class Replies(DocumentBase): pass
@@ -87,7 +104,7 @@ class Document(DocumentBase):
     def _get_meta(self):
         if hasattr(self, "_meta"): return self._meta
         if self.exists():
-            self._meta = DocumentMeta(self.name)
+            self._meta = DocumentMeta(self.fs_path)
             return self._meta
         else: raise DocumentDoesNotExists
     meta = property(_get_meta)
