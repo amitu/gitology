@@ -52,7 +52,6 @@ class Document(DocumentBase):
             author = settings.DEFAULTS.AUTHOR
         assert_author_can_write(author)
         self.fs_path.makedirs()
-        self.replies.create()
         self.meta.create()
         self.meta.author = author
         self.fs_path.joinpath("index.%s" % format).write_text()
