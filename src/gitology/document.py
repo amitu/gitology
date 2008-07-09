@@ -71,6 +71,7 @@ class Document(DocumentBase):
         self.fs_path.makedirs()
         self.meta.create()
         self.meta.author = author
+        self.meta.save()
         self.fs_path.joinpath("index.%s" % format).write_text()
         
     def get_index(self):
