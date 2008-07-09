@@ -4,37 +4,16 @@ document module
 This module gives access to a document. This is the crux of gitology backend.
 """
 from gitology.config import settings
+from gitology import DocumentBase
 
 class DocumentAlreadyExists(Exception): pass
 class DocumentDoesNotExists(Exception): pass
-
-class DocumentBase(object):
-    def __init__(self, name): 
-        self._name = name
-    def _get_name(self): return self._name
-    name = property(
-        _get_name, doc="""
-            self.name is readonly.
-
-            >>> d = DocumentMeta("somename")
-            >>> d.name
-            'somename'
-            >>> d.name = "new name"
-            Traceback (most recent call last):
-                ...
-            AttributeError: can't set attribute
-            >>>
-        """
-    )
 
 class DocumentMeta(DocumentBase): pass
 class DocumentDependencies(DocumentBase): pass
 
 class Replies(DocumentBase): pass
 class Comment(object): pass
-
-class FileRevisions(): pass
-class Revision(object): pass
 
 class Document(DocumentBase):
     def __init__(self, name):
