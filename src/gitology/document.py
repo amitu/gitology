@@ -6,7 +6,7 @@ This module gives access to a document. This is the crux of gitology backend.
 from gitology.config import settings
 from gitology import DocumentBase, attrdict
 
-import md5, simplejson
+import md5, simplejson, path
 
 class DocumentAlreadyExists(Exception): pass
 class DocumentDoesNotExists(Exception): pass
@@ -17,9 +17,9 @@ class DocumentMeta(attrdict):
 
     This is a gitology.config.attrdict like class.
     """
-    def __init__(self, parent_path, *args, **kw):
+    def __init__(self, file_path, *args, **kw):
         super(DocumentMeta, self).__init__(*args, **kw)
-        self.fs_path = parent_path.joinpath("meta.json")
+        self.fs_path = path.path(file_path).abspath()
         if self.fs_path.exists():
             d = simplejson.loads(self.fs_path.open().read())
             self.__dict__.update(d)
@@ -69,10 +69,10 @@ class Document(DocumentBase):
             author = settings.DEFAULTS.AUTHOR
         assert_author_can_write(author)
         self.fs_path.makedirs()
-        self.meta.create()
         self.meta.author = author
         self.meta.save()
-        self.fs_path.joinpath("index.%s" % format).write_text()
+        self.fs_path.joinpath("index.%s" % format).write_text(index_content)
+        return self
         
     def get_index(self):
         """
@@ -105,7 +105,7 @@ class Document(DocumentBase):
     def _get_meta(self):
         if hasattr(self, "_meta"): return self._meta
         if self.exists():
-            self._meta = DocumentMeta(self.fs_path)
+            self._meta = DocumentMeta(self.fs_path.joinpath("meta.json"))
             return self._meta
         else: raise DocumentDoesNotExists
     meta = property(_get_meta)
