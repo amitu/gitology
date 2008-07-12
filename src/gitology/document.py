@@ -94,16 +94,21 @@ class Document(DocumentBase):
             )
         elif self.fs_path.joinpath("index.html").exists():
             return self.fs_path.joinpath("index.html").open().read()    
-        else:
+        elif self.fs_path.joinpath("index.txt").exists():
             return utils.text_to_html(
                 self.fs_path.joinpath("index.txt").open().read()    
             )
-        raise DocumentDoesNotExists
+        raise DocumentDoesNotExists, "index does not exist"
     index = property(get_index)
     
     def get_index_name(self):
         """
         """
+        if not self.exists(): raise DocumentDoesNotExists
+        if self.fs_path.joinpath("index.rst").exists(): return "index.rst"
+        elif self.fs_path.joinpath("index.html").exists(): return "index.html"
+        elif self.fs_path.joinpath("index.txt").exists(): return "index.txt"
+        raise DocumentDoesNotExists, "index does not exist"
     index_name = property(get_index_name)
 
     def get_index_format(self):
