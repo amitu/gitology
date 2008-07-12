@@ -3,6 +3,9 @@ Various utility functions used by gitology.*
 """
 import docutils.writers.html4css1, docutils.core
 
+def text_to_html(text_input):
+    return "<pre>%s</pre>" % text_input
+
 def rest_to_html(rest_input, css_path=None):
     """Render ReStructuredText."""
     writer = docutils.writers.html4css1.Writer()

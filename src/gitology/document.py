@@ -6,6 +6,7 @@ This module gives access to a document. This is the crux of gitology backend.
 from gitology.config import settings
 from gitology.utils import DocumentBase, attrdict
 from gitology.gitter import FileRevisions
+from gitology import utils
 
 import md5, simplejson, path
 
@@ -86,6 +87,18 @@ class Document(DocumentBase):
     
         Raises DocumentDoesNotExists if.
         """
+        if not self.exists(): raise DocumentDoesNotExists
+        if self.fs_path.joinpath("index.rst").exists():
+            return utils.rest_to_html(
+                self.fs_path.joinpath("index.rst").open().read()    
+            )
+        elif self.fs_path.joinpath("index.html").exists():
+            return self.fs_path.joinpath("index.html").open().read()    
+        else:
+            return utils.text_to_html(
+                self.fs_path.joinpath("index.txt").open().read()    
+            )
+        raise DocumentDoesNotExists
     index = property(get_index)
     
     def get_index_name(self):
