@@ -53,7 +53,11 @@ class Document(DocumentBase):
 
     def exists(self):
         e = self.fs_path.exists()
-        if e: assert self.fs_path.isdir(), "Document path(%s) exists but is not a directory." % self.fs_path
+        if e: 
+            assert self.fs_path.isdir(), (
+                "Document path(%s) exists but is not a directory." % 
+                self.fs_path
+            )
         return e
 
     def create(self, index_content, author=None, format="rst"):
@@ -130,7 +134,9 @@ class Document(DocumentBase):
     def _get_revisions(self):
         if hasattr(self, "_revisions"): return self._revisions
         if self.exists():
-            self._revisions = FileRevisions("%s/%s" % (self.name, self.index_name))
+            self._revisions = FileRevisions(
+                "%s/%s" % (self.name, self.index_name)
+            )
             return self._revisions
         else: raise DocumentDoesNotExists
     revs = property(_get_revisions)

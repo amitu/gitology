@@ -1,12 +1,15 @@
+"""
+Various utility functions used by gitology.*
+"""
 import docutils.writers, docutils.core
 
-def rest_to_html(rest_input):
+def rest_to_html(rest_input, css_path):
     """Render ReStructuredText."""
     writer = docutils.writers.html4css1.Writer()
     docutils.core.publish_string(
         rest_input, writer=writer,
         settings_overrides={
-            'stylesheet': self.css_path,
+            'stylesheet': css_path,
             'stylesheet_path': None,
             'embed_stylesheet': True
         }

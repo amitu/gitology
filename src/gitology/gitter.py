@@ -79,12 +79,12 @@ class Git(object):
         commit -a everything with specified message.
         """
 
-    def add(self, path="."):
+    def add(self, fpath="."):
         """ 
         add the path in git repo.
         """
 
-    def remove(self, path):
+    def remove(self, fpath):
         """
         git rm -f path
         """
