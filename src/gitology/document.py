@@ -5,6 +5,7 @@ This module gives access to a document. This is the crux of gitology backend.
 """
 from gitology.config import settings
 from gitology import DocumentBase, attrdict
+from gitology.gitter import FileRevisions
 
 import md5, simplejson, path
 
@@ -121,7 +122,7 @@ class Document(DocumentBase):
     def _get_replies(self):
         if hasattr(self, "_replies"): return self._replies
         if self.exists():
-            self._replies = Replies("%s/comments", self.name)
+            self._replies = Replies("%s/comments" % self.name)
             return self._replies
         else: raise DocumentDoesNotExists
     replies = property(_get_replies)
@@ -129,10 +130,10 @@ class Document(DocumentBase):
     def _get_revisions(self):
         if hasattr(self, "_revisions"): return self._revisions
         if self.exists():
-            self._revisions = FileRevisions("%s/%s", (self.name, self.index_name))
+            self._revisions = FileRevisions("%s/%s" % (self.name, self.index_name))
             return self._revisions
         else: raise DocumentDoesNotExists
-    revisions = property(_get_revisions)
+    revs = property(_get_revisions)
 
 def assert_author_can_write(author):
     pass
