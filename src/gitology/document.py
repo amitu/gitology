@@ -4,7 +4,7 @@ document module
 This module gives access to a document. This is the crux of gitology backend.
 """
 from gitology.config import settings
-from gitology import DocumentBase, attrdict
+from gitology.utils import DocumentBase, attrdict
 from gitology.gitter import FileRevisions
 
 import md5, simplejson, path

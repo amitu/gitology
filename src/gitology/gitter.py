@@ -9,7 +9,7 @@ This modules is used to talk with git.
 # }}}
 
 import os, path
-from gitology import DocumentBase
+from gitology.utils import DocumentBase
 
 class Git(object):
     def __init__(self, local_path, remote_path=None, auto_push=True):

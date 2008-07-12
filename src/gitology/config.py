@@ -11,7 +11,7 @@ If file_name is passed, it will be used.
 """
 
 import ConfigParser, os, path
-from gitology import attrdict
+from gitology.utils import attrdict
 
 def get_config(file_name=None):
     config = ConfigParser.ConfigParser()
