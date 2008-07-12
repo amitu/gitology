@@ -114,6 +114,7 @@ class Document(DocumentBase):
     def get_index_format(self):
         """
         """ 
+        return self.index_name.split(".")[-1]
     format = property(get_index_format)
 
     def set_raw_index(self, content, format=None):
