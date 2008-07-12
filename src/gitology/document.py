@@ -125,6 +125,16 @@ class Document(DocumentBase):
         
         Raises DocumentDoesNotExists if.
         """
+        if format is None: format = self.format
+        if format != self.format:
+            self.fs_path.joinpath(self.index_name).remove()
+        self.fs_path.joinpath("index.%s" % format).write_text(content)
+
+    def get_raw_index(self):
+        """
+        Raises DocumentDoesNotExists if.
+        """
+        return self.fs_path.joinpath(self.index_name).open().read()
 
     def _get_meta(self):
         if hasattr(self, "_meta"): return self._meta
