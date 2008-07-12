@@ -1,11 +1,15 @@
 """
 Various utility functions used by gitology.*
 """
-import docutils.writers, docutils.core
+import docutils.writers.html4css1, docutils.core
 
-def rest_to_html(rest_input, css_path):
+def rest_to_html(rest_input, css_path=None):
     """Render ReStructuredText."""
     writer = docutils.writers.html4css1.Writer()
+    from gitology.config import settings
+    import os.path
+    if css_path is None and "DEFAULT_REST_CSS" in settings.DEFAULTS:
+        css_path = os.path.expanduser(settings.DEFAULTS.DEFAULT_REST_CSS)
     docutils.core.publish_string(
         rest_input, writer=writer,
         settings_overrides={

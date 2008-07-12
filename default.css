@@ -1,0 +1,149 @@
+/* Stylesheet for ReStructuredText by Marius Gedminas.
+ * (I didn't like the default one)
+ */
+
+body {
+    font-family: Verdana, sans;
+    margin: 3em;
+    max-width: 50em;
+}
+
+p {
+    text-align: justify;
+}
+
+/* Monospace text */
+
+tt {
+    font-family: Andale Mono, Courier New, monospace;
+    color: #234F32;
+}
+
+/* Definition lists */
+
+dt {
+    font-weight: bold;
+}
+dd {
+    margin-bottom: 1em;
+}
+
+/* Doctest blocks */
+
+pre.doctest-block {
+    color: #008000;
+}
+
+/* Literal blocks */
+
+pre.literal-block {
+    color: #AA4400;
+    margin-left: 40px;
+}
+
+/* Indented quotations */
+
+blockquote > p {
+    color: #000080;
+}
+
+/* Tables */
+
+table {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: none;
+    border-right: none;
+    border-collapse: collapse;
+}
+tr:first-child > th {
+    border-top: none;
+}
+th {
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+    border-bottom: none;
+    text-align: left;
+}
+tr:first-child > td {
+    border-top: 1px solid black;
+}
+table[rules=none] tr:first-child > td {
+    border-top: none;
+}
+td {
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+    border-bottom: none;
+    padding: 1px 4px;
+}
+td, th {
+    padding-left: 1em;
+}
+td:first-child,
+th:first-child {
+    padding-left: 4px;
+}
+
+td p:first-child {
+    margin-top: 0;
+}
+
+/* Footnotes */
+
+a.footnote-reference,
+a.fn-backref {
+    font-size: xx-small;
+    vertical-align: super;
+    line-height: normal;
+    text-decoration: none;
+}
+a.footnote-reference:hover,
+a.fn-backref:hover {
+    text-decoration: underline;
+}
+
+table.footnote {
+    border: none;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 20px;
+    margin-right: 0.5em;
+    font-size: small;
+}
+table.footnote td {
+    border: none;
+    padding-top: 1em;
+    padding-left: 0px;
+}
+table.footnote tr:first-child > td.label {
+    border-top: 1px solid #eee;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+table.footnote + table.footnote {
+    margin-top: 0;
+}
+table.footnote + table.footnote td {
+    border: none;
+    padding-top: 0;
+}
+
+/* System messages (aka errors) */
+
+div.system-message {
+    border-left: 3px double red;
+    margin-left: 19px;
+    padding-left: 19px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: red;
+}
+
+div.system-message p.system-message-title {
+    margin-top: 0;
+    font-weight: bold;
+}
