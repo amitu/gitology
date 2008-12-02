@@ -2,6 +2,19 @@
 gitology
 ========
 
+Note
+----
+
+This is RestructuredText_ document, and it can be viewed by using package 
+restview_ (Command to use: "``$ restview .``", to install: 
+"``sudo easy_install restview``"). 
+
+Development Note
+----------------
+
+Use ``python setup.py develop`` to install instead of usual 
+``python setup.py install``. 
+
 git+openid based wiki/blog/photo-album
 ---------------------------------------
 
@@ -181,3 +194,6 @@ sample filestructure:
    ./blogs/main/2008/07
    ./blogs/main/2008/07/08.lst
 
+.. _RestructuredText: 
+   http://docutils.sourceforge.net/docs/user/rst/quickref.html
+.. _restview: http://mg.pov.lt/restview/
