@@ -170,8 +170,12 @@ class Document(DocumentBase):
         else: raise DocumentDoesNotExists
     revs = property(_get_revisions)
 
+class WriteNotAllowed(Exception): pass
+
 def assert_author_can_write(author):
-    pass
+    """
+    Will raise WriteNotAllowed is there is no permission.
+    """
 
 if __name__ == "__main__":
     import doctest
