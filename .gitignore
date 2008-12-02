@@ -1,0 +1,6 @@
+*.pyc
+*.pyo
+*.swo
+*.swp
+ikog.bak
+ikogc
