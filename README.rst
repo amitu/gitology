@@ -112,7 +112,7 @@ it handles versioning.
 gitology.document.Document is the document abstraction. 
 
 Basic info:
-    Document.index_content, Document.index_name, Document.index_raw, 
+    Document.index, Document.index_name, Document.format, Document.raw_index, 
     Document.summary_content, Document.summary_name, Document.summary_raw, 
     Document.meta.title, Document.meta.title_slug, Document.meta.tags, 
     Document.meta.container, Document.meta.is_private.

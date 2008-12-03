@@ -4,7 +4,7 @@ document module
 This module gives access to a document. This is the crux of gitology backend.
 """
 from gitology.config import settings
-from gitology.utils import DocumentBase, attrdict
+from gitology.utils import NamedObject, attrdict
 from gitology.gitter import FileRevisions
 from gitology import utils
 
@@ -31,20 +31,35 @@ class DocumentMeta(attrdict):
         del d["fs_path"]
         self.fs_path.write_text(simplejson.dumps(d))
 
-class DocumentDependencies(DocumentBase): pass
+class DocumentDependencies(NamedObject):
+    """ 
+    its a proxy for the directory. 
 
-class Replies(DocumentBase): pass
-class Comment(object): pass
+    self.get_dir() returns the directory. use normal python 
+    """ 
 
-class Document(DocumentBase):
+class Comment(object): 
     def __init__(self, name):
-        """
-        Calling the constructor does not do much, to see if document exists,
-        call document.exists() function, and to create it, call 
-        document.create().
-        """
-        super(Document, self).__init__(name)
-   
+        super(Comment, self).__init__(self, name)
+        self.fs_path = path.path(self.name)
+
+class Replies(NamedObject): 
+    """ emulates a list like object containing comments """
+    def __init__(self, name):
+        super(Replies, self).__init__(self, name)
+        self.fs_path = path.path(self.name)
+
+    def __len__(self):
+        return len(self.fs_path.glob("*.meta"))
+
+    def __getitem__(self, k):
+        return Comment(self.fs_path.glob("*.meta")[k].abspath()[:-5])
+
+    def append(self, comment, format=None): pass
+    def __contains__(self, v): pass
+
+
+class Document(NamedObject):
     @property 
     def fs_path(self):
         md5sum = md5.new(self.name).hexdigest()
@@ -136,6 +151,8 @@ class Document(DocumentBase):
         """
         return self.fs_path.joinpath(self.index_name).open().read()
 
+    raw_index = property(get_raw_index, set_raw_index)
+
     def _get_meta(self):
         if hasattr(self, "_meta"): return self._meta
         if self.exists():
@@ -155,7 +172,7 @@ class Document(DocumentBase):
     def _get_replies(self):
         if hasattr(self, "_replies"): return self._replies
         if self.exists():
-            self._replies = Replies("%s/comments" % self.name)
+            self._replies = Replies("%s/comments" % self.fs_name)
             return self._replies
         else: raise DocumentDoesNotExists
     replies = property(_get_replies)
