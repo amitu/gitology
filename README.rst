@@ -70,16 +70,16 @@ cheatsheets/keynote:
 
 tools:
 ------
-* gitology init 
+* gitology init
 * gitology start document_name. creates a new document. 
 * gitology grep, ls, cd, find [coz documents may be organized in subdirs]
 * gitology blog document_name: blogs the given document. 
-* gitology link url tag1, tag2: takes description on stdin.
+* gitology link url tag1, tag2: takes description on stdin. # utility function
 * gitology sync: updated blog labels file, and other files as needed.
 * gitology wiki document_name: creates wiki link for a document. 
 * gitology create-album: creates a new album.
 * gitology add-photo photo, album: adds the photo to the specified album. 
-  [photo can either photo.gif or a document name].
+  [photo can be either photo.gif or a document name].
 
 implementation details:
 -----------------------

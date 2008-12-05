@@ -8,6 +8,7 @@
 # basic blog app  @Anywhere :pDjango :created2008-12-05
 # remove md5sum thing in project path, simple dir structure is okay.  @Anywhere :pNone :created2008-12-05
 # add tests.py and do keep all the tests in this file.  @Anywhere :pNone :created2008-12-05
+# gitology-refresh to refresh the index file.  @Anywhere :pNone :created2008-12-05
 #!<^CONFIG
 cfgColor = 1
 cfgAutoSave = True
