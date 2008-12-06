@@ -9,7 +9,7 @@ This modules is used to talk with git.
 # }}}
 
 import os, path
-from gitology.utils import DocumentBase
+from gitology.utils import NamedObject
 
 class Git(object):
     def __init__(self, local_path, remote_path=None, auto_push=True):
@@ -100,7 +100,7 @@ class Git(object):
     def sync(self):
         """ self.pull() self.push() """
 
-class FileRevisions(DocumentBase): pass
+class FileRevisions(NamedObject): pass
 class Revision(object): pass
 
 if __name__ == "__main__":
