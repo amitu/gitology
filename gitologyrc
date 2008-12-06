@@ -1,6 +1,7 @@
 [DEFAULTS]
 AUTHOR: www.amitu.com
 DEFAULT_REST_CSS: default.css
+USE_MD5: False
 
 [REPO]
 LOCAL: ~/Documents/gitology-repo

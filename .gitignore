@@ -4,3 +4,5 @@
 *.swp
 ikog.bak
 ikogc
+*~
+*.egg-info

@@ -62,10 +62,16 @@ class Replies(NamedObject):
 class Document(NamedObject):
     @property 
     def fs_path(self):
-        md5sum = md5.new(self.name).hexdigest()
-        return settings.LOCAL_REPO_PATH.joinpath(
-            "documents/%s/%s/%s" % (md5sum[:2], md5sum[2:4], self.name)
-        )
+        if settings.DEFAULTS.USE_MD5:
+            md5sum = md5.new(self.name).hexdigest()
+            return settings.LOCAL_REPO_PATH.joinpath(
+                "documents/%s/%s/%s" % (md5sum[:2], md5sum[2:4], self.name)
+            )
+        else:
+            return settings.LOCAL_REPO_PATH.joinpath(
+                "documents/%s" % self.name
+            )
+
 
     def exists(self):
         e = self.fs_path.exists()
