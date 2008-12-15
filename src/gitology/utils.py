@@ -3,6 +3,11 @@ Various utility functions used by gitology.*
 """
 import docutils.writers.html4css1, docutils.core
 
+def path2obj(path):
+    from django.core.urlresolvers import get_mod_func
+    mod_name, obj_name = get_mod_func(path)
+    obj = getattr(__import__(mod_name, {}, {}, ['']), obj_name)
+
 def text_to_html(text_input):
     return "<pre>%s</pre>" % text_input
 

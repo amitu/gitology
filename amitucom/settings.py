@@ -60,6 +60,8 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.doc.XViewMiddleware',
+
+    'gitology.d.middleware.URLConfMiddleware',
 )
 
 ROOT_URLCONF = 'amitucom.urls'

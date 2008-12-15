@@ -1,7 +1,15 @@
-from django.http import Http404
+try:
+    from django.utils import simpljson
+except ImportError:
+    try:
+        import simplejson
+    except ImportError:
+        print """You don't have simplejson installed, get it from:
+http://pypi.python.org/pypi/simplejson"""
+        raise
 
-def generate_urls():
-    """ returns a list of urls available """
+def refresh_urlconf_cache():
+    """ creates a urlconf that is stored """
     # for blog:
     # list of blogs is in $reporoot/blogs/
     # urls: /blog_name/
@@ -37,13 +45,3 @@ def generate_urls():
 
     # this function returns a dict containing url to view mapping.
 
-def path2obj(path):
-    from django.core.urlresolvers import get_mod_func
-    mod_name, obj_name = get_mod_func(path)
-    obj = getattr(__import__(mod_name, {}, {}, ['']), obj_name)
-
-def resolve(request):
-    """ custom resolver """
-    d = generate_urls()
-    if request.path not in d: raise Http404
-    return path2obj(d[request.path])(request)
