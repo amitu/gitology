@@ -5,16 +5,27 @@ from django.conf.urls.defaults import patterns
 import path, sys
 from gitology.config import settings
 
+def get_blog_data(p):
+    blog = {}
+    blog["name"] = p.basename()
+    if p.basename() == "main": blog["prefix"] = "blog/"
+    else: blog["prefix"] = "%s/" % p.basename()
+    blog["labels"] = []
+    for l in p.joinpath("labels").glob("*.lst"):
+        d = {}
+        d["name"] = l.namebase
+        blog["labels"].append(d)
+    return blog
+
 def get_blog(p):
     urls = []
-    if p.basename() == "main": prefix = "blog/"
-    else: prefix = "%s/" % p.basename()
-    urls.append(("%s$" % prefix, "show_blog", { 'name': p.basename(),}))
-    for l in p.joinpath("labels").glob("*.lst"):
+    b = get_blog_data(p)
+    urls.append(("%s$" % b["prefix"], "show_blog", { 'blog_data': b,}))
+    for l in b["labels"]:
         urls.append(
             (
-                "%slabelled/%s/$" % (prefix, l.namebase), "show_category",
-                { 'name': p.basename(), 'category': l.namebase },
+                "%slabelled/%s/$" % (b["prefix"], l["name"]), "show_category",
+                { 'blog_data': b, 'category_data': l },
             )
         )
     return urls

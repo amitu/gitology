@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
-{% block title %}{{ name }}/{{ category }}{% endblock %}
+{% block title %}{{ blog_data.name }}/{{ category_data.name }}{% endblock %}
 {% block content %}
-<h1>{{ name }}</h1>
-<h2>{{ category }}</h2>
+<h1>{{ blog_data.name }}</h1>
+<h2>{{ category_data.name }}</h2>
 Specially made for link blog
 {% endblock %}

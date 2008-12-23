@@ -10,19 +10,19 @@ from gitology.config import settings as gsettings
 # }}}
 
 # show_blog # {{{
-def show_blog(request, name): 
+def show_blog(request, blog_data): 
     return render_to_response(
-        ["blog/%s/index.html" % name, "blog/index.html", ],
-        { 'name': name },
+        ["blog/%s/index.html" % blog_data["name"], "blog/index.html", ],
+        { 'blog_data': blog_data },
         context_instance = RequestContext(request)
     )
 # }}}
 
 # show_category # {{{
-def show_category(request, name, category): 
+def show_category(request, blog_data, category_data): 
     return render_to_response(
-        ["blog/%s/category.html" % name, "blog/category.html", ],
-        { 'name': name, 'category': category },
+        ["blog/%s/category.html" % blog_data["name"], "blog/category.html", ],
+        { 'blog_data': blog_data, 'category_data': category_data },
         context_instance = RequestContext(request)
     )
 # }}}

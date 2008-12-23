@@ -1,5 +1,11 @@
 {% extends "blog/base.html" %}
-{% block title %}{{ name }}{% endblock %}
+{% block title %}{{ blog_data.name }}{% endblock %}
 {% block content %}
-<h1>{{ name }}</h1>
+<h1>{{ blog_data.name }}</h1>
+<h3>Labels:</h3>
+<ul>
+{% for label in blog_data.labels %}
+    <li><a href="/{{ blog_data.prefix }}labelled/{{ label.name }}/">{{ label.name }}</a></li>
+{% endfor %}
+</ul>
 {% endblock %}
