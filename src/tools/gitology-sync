@@ -9,7 +9,7 @@ def get_blog(p):
     urls = []
     if p.basename() == "main": prefix = "blog/"
     else: prefix = "%s/" % p.basename()
-    return [("%s$" % prefix, "show_blog", (p.basename(),))]
+    return [("%s$" % prefix, "show_blog", { 'name': p.basename(),})]
 
 def get_blogs():
     urls = []
@@ -58,8 +58,6 @@ def refresh_urlconf_cache():
     # is to update this file everytime something interesting happens.
 
     # this function returns a dict containing url to view mapping.
-    print urls
-    print settings.LOCAL_REPO_PATH.joinpath("urlconf.cache")
     file(settings.LOCAL_REPO_PATH.joinpath("urlconf.cache"), "w+").write(
         simplejson.dumps(urls)
     )
