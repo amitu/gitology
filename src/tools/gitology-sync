@@ -10,11 +10,24 @@ def get_blog_data(p):
     blog["name"] = p.basename()
     if p.basename() == "main": blog["prefix"] = "blog/"
     else: blog["prefix"] = "%s/" % p.basename()
+    # posts
+    blog["posts"] = {}
+    for y in p.dirs():
+        if y.namebase == "labels": continue
+        for m in y.dirs():
+            for d in m.glob("*.lst"):
+                for l in d.open().readlines():
+                    blog["posts"][l.strip()] = { 'date': d }
+    # labels
     blog["labels"] = []
     for l in p.joinpath("labels").glob("*.lst"):
         d = {}
         d["name"] = l.namebase
+        d["posts"] = []
+        for l in l.open().readlines():
+            d["posts"].append({ l.strip(): blog["posts"][l.strip()]})
         blog["labels"].append(d)
+    print blog
     return blog
 
 def get_blog(p):

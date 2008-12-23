@@ -4,4 +4,10 @@
 <h1>{{ blog_data.name }}</h1>
 <h2>{{ category_data.name }}</h2>
 Specially made for link blog
+<h3>Posts:</h3>
+<ul>
+{% for post, v in category_data.posts %}
+    <li>{{ post }}</li>
+{% endfor %}
+</ul>
 {% endblock %}

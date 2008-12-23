@@ -8,4 +8,9 @@
     <li><a href="/{{ blog_data.prefix }}labelled/{{ label.name }}/">{{ label.name }}</a></li>
 {% endfor %}
 </ul>
+<h3>Posts</h3>
+<ul>
+{% for post in blog_data.posts %}
+    <li>{{ post }}</li>
+{% endfor %}
 {% endblock %}
