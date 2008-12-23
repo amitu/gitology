@@ -9,7 +9,15 @@ def get_blog(p):
     urls = []
     if p.basename() == "main": prefix = "blog/"
     else: prefix = "%s/" % p.basename()
-    return [("%s$" % prefix, "show_blog", { 'name': p.basename(),})]
+    urls.append(("%s$" % prefix, "show_blog", { 'name': p.basename(),}))
+    for l in p.joinpath("labels").glob("*.lst"):
+        urls.append(
+            (
+                "%slabelled/%s/$" % (prefix, l.namebase), "show_category",
+                { 'name': p.basename(), 'category': l.namebase },
+            )
+        )
+    return urls
 
 def get_blogs():
     urls = []
