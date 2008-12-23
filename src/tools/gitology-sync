@@ -1,20 +1,32 @@
 #!/usr/bin/python
+from django.utils import simplejson
+from django.conf.urls.defaults import patterns
 
-try:
-    from django.utils import simplejson
-except ImportError:
-    try:
-        import simplejson
-    except ImportError:
-        print """You don't have simplejson installed, get it from:
-http://pypi.python.org/pypi/simplejson"""
-        raise
+import path, sys
+from gitology.config import settings
+
+def get_blog(p):
+    urls = []
+    if p.basename() == "main": prefix = "blog/"
+    else: prefix = "%s/" % p.basename()
+    return [("%s$" % prefix, "show_blog", (p.basename(),))]
+
+def get_blogs():
+    urls = []
+    blogs_folder = settings.LOCAL_REPO_PATH.joinpath("blogs")
+    for d in blogs_folder.dirs():
+        urls += get_blog(d)
+    return urls
 
 def refresh_urlconf_cache():
     """ creates a urlconf that is stored """
+    urls = ['gitology.d.views'] 
     # for blog:
     # list of blogs is in $reporoot/blogs/
     # urls: /blog_name/
+    # blog named "main" goes under /blog/, rest of them go to /folder_name/
+    urls += get_blogs() 
+
     # for each blog, list of labels in $reporoot/blogs/blog_name/labels/ 
     # urls: /blog_name/label/label_name/
     # for each blog, date based heirarchy is kept in 
@@ -46,4 +58,11 @@ def refresh_urlconf_cache():
     # is to update this file everytime something interesting happens.
 
     # this function returns a dict containing url to view mapping.
+    print urls
+    print settings.LOCAL_REPO_PATH.joinpath("urlconf.cache")
+    file(settings.LOCAL_REPO_PATH.joinpath("urlconf.cache"), "w+").write(
+        simplejson.dumps(urls)
+    )
 
+if __name__ == "__main__": 
+    sys.exit(refresh_urlconf_cache())

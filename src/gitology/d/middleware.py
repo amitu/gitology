@@ -1,9 +1,16 @@
 from django.utils import simplejson
+from django.conf.urls.defaults import patterns
 from django.conf import settings
+
+import sys
+
+from gitology.config import settings as gsettings
+from gitology import utils
 
 class URLConfMiddleware:
     def __init__(self):
-        self.cache_path = settings.GITOLOGY_REPO.joinpath("urlconf.cache")
+        self.cache_path = gsettings.LOCAL_REPO_PATH.joinpath("urlconf.cache")
+        self.old_urlconf = utils.path2obj(settings.ROOT_URLCONF + ".urlpatterns")
 
     def _check_if_urlconf_valid(self):
         # see if _urlconf has been loaded at all
@@ -15,17 +22,18 @@ class URLConfMiddleware:
         return True
 
     def _load_urlconf(self):
-        self._urlconf = settings.ROOT_URLCONF + simplejson.load(
-            file(self.cache_path)
+        self.urlpatterns = self.old_urlconf + patterns(
+            *simplejson.loads(file(self.cache_path).read())
         )
         self.cache_path_mtime = self.cache_path.getmtime()
+        sys.modules["gitology.d.urls"] = self
 
-    def get_urlconf(self):
+    def check_urlconf(self):
         # checks if the urlconf in memory is uptodate, else
         # loads it from disk
         if not self._check_if_urlconf_valid():
             self._load_urlconf()
-        return self._urlconf
 
     def process_request(self, request):
-        request.urlconf = self.get_urlconf()
+        self.check_urlconf()
+        request.urlconf = "gitology.d.urls" # virtual module

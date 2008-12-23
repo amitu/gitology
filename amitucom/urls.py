@@ -8,3 +8,4 @@ urlpatterns = patterns('',
         { 'template': 'website/about.html' },
     ),
 )
+urlpatterns += patterns('', ('about-us/$', 'aboutus'))
