@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 try:
-    from django.utils import simpljson
+    from django.utils import simplejson
 except ImportError:
     try:
         import simplejson
