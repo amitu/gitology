@@ -3,20 +3,27 @@ document module
 ---------------
 This module gives access to a document. This is the crux of gitology backend.
 """
+# imports # {{{
 from gitology.config import settings
 from gitology.utils import NamedObject, attrdict
 from gitology.gitter import FileRevisions
 from gitology import utils
 
 import md5, path
+
 try:
     from django.utils import simplejson
 except ImportError:
     import simplejson
+# }}}
 
+# exceptions # {{{
 class DocumentAlreadyExists(Exception): pass
 class DocumentDoesNotExists(Exception): pass
+class WriteNotAllowed(Exception): pass
+# }}}
 
+# DocumentMeta # {{{
 class DocumentMeta(attrdict): 
     """ 
     DocumentMeta Class
@@ -34,19 +41,25 @@ class DocumentMeta(attrdict):
         d = self.copy()
         del d["fs_path"]
         self.fs_path.write_text(simplejson.dumps(d))
+# }}}
 
+# DocumentDependencies # {{{
 class DocumentDependencies(NamedObject):
     """ 
     its a proxy for the directory. 
 
     self.get_dir() returns the directory. use normal python 
     """ 
+# }}}
 
+# Comment # {{{
 class Comment(object): 
     def __init__(self, name):
         super(Comment, self).__init__(self, name)
         self.fs_path = path.path(self.name)
+# }}}
 
+# Replies # {{{
 class Replies(NamedObject): 
     """ emulates a list like object containing comments """
     def __init__(self, name):
@@ -61,8 +74,9 @@ class Replies(NamedObject):
 
     def append(self, comment, format=None): pass
     def __contains__(self, v): pass
+# }}}
 
-
+# Document {{{
 class Document(NamedObject):
     @property 
     def fs_path(self):
@@ -196,13 +210,14 @@ class Document(NamedObject):
             return self._revisions
         else: raise DocumentDoesNotExists
     revs = property(_get_revisions)
+# }}}
 
-class WriteNotAllowed(Exception): pass
-
+# assert_author_can_write # {{{
 def assert_author_can_write(author):
     """
     Will raise WriteNotAllowed is there is no permission.
     """
+# }}}
 
 if __name__ == "__main__":
     import doctest
