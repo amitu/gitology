@@ -9,8 +9,10 @@
 {% endfor %}
 </ul>
 <h3>Posts</h3>
-<ul>
-{% for post in blog_data.posts %}
-    <li>{{ post }}</li>
+{% for post in blog_data.posts.values %}
+    <div class="post">
+        <h4>{{ post.document.name }}</h4>
+        <div>{{ post.document.index|safe }}</div>
+    </div>
 {% endfor %}
 {% endblock %}

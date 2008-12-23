@@ -14,7 +14,7 @@ class URLConfMiddleware:
 
     def _check_if_urlconf_valid(self):
         # see if _urlconf has been loaded at all
-        if not hasattr(self, '_urlconf'):
+        if not hasattr(self, 'urlpatterns'):
             return False
         # if file has been modified after being loaded, its not valid
         if self.cache_path.getmtime() != self.cache_path_mtime:
@@ -22,8 +22,11 @@ class URLConfMiddleware:
         return True
 
     def _load_urlconf(self):
+        #self.urlpatterns = self.old_urlconf + patterns(
+        #    *simplejson.loads(file(self.cache_path).read())
+        #)
         self.urlpatterns = self.old_urlconf + patterns(
-            *simplejson.loads(file(self.cache_path).read())
+            *utils.refresh_urlconf_cache()
         )
         self.cache_path_mtime = self.cache_path.getmtime()
         sys.modules["gitology.d.urls"] = self

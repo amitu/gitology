@@ -8,7 +8,11 @@ from gitology.utils import NamedObject, attrdict
 from gitology.gitter import FileRevisions
 from gitology import utils
 
-import md5, simplejson, path
+import md5, path
+try:
+    from django.utils import simplejson
+except ImportError:
+    import simplejson
 
 class DocumentAlreadyExists(Exception): pass
 class DocumentDoesNotExists(Exception): pass
