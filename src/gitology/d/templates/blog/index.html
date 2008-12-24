@@ -5,7 +5,7 @@
 <h3>Labels:</h3>
 <ul>
 {% for label in blog_data.labels %}
-    <li><a href="/{{ blog_data.prefix }}labelled/{{ label.name }}/">{{ label.name }}</a></li>
+    <li><a href="/{{ blog_data.prefix }}labelled/{{ label.name }}/">{{ label.name }}</a>: {{ label.posts|length }}</li>
 {% endfor %}
 </ul>
 <h3>Posts</h3>

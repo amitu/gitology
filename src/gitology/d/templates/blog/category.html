@@ -4,9 +4,11 @@
 <h1>{{ blog_data.name }}</h1>
 <h2>{{ category_data.name }}</h2>
 <h3>Posts:</h3>
-<ul>
-{% for post, v in category_data.posts %}
-    <li>{{ post }}</li>
+{% for post in category_data.posts %}
+    <div class="post">
+        <h4>{{ post.name }}</h4>
+        <div>{{ post.index|safe }}</div>
+    </div>
 {% endfor %}
 </ul>
 {% endblock %}

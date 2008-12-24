@@ -108,7 +108,7 @@ def get_blog_data(p):
         d["name"] = l.namebase
         d["posts"] = []
         for l in l.open().readlines():
-            d["posts"].append({ l.strip(): blog["posts"][l.strip()]})
+            d["posts"].append(blog["posts"][l.strip()]['document'])
         blog["labels"].append(d)
     return blog
 # }}}

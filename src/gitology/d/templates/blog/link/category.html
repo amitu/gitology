@@ -5,9 +5,10 @@
 <h2>{{ category_data.name }}</h2>
 Specially made for link blog
 <h3>Posts:</h3>
-<ul>
-{% for post, v in category_data.posts %}
-    <li>{{ post }}</li>
+{% for post in category_data.posts %}
+    <div class="post">
+        <h4>{{ post.name }}</h4>
+        <div class="body">{{ post.index|safe }}</div>
+    </div>
 {% endfor %}
-</ul>
 {% endblock %}

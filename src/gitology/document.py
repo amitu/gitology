@@ -215,7 +215,7 @@ class Document(NamedObject):
 # assert_author_can_write # {{{
 def assert_author_can_write(author):
     """
-    Will raise WriteNotAllowed is there is no permission.
+    Will raise WriteNotAllowed if there is no permission.
     """
 # }}}
 
