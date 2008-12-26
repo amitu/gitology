@@ -1,0 +1,9 @@
+{% extends "blog/base.html" %}
+{% block title %}{{ post.document.name }}:{{ blog_data.name }}{% endblock %}
+{% block content %}
+<h1>{{ blog_data.name }}</h1>
+<div class="post">
+    <h2>{{ post.document.name }}</h2>
+    <div>{{ post.document.index|safe }}</div>
+</div>
+{% endblock %}
