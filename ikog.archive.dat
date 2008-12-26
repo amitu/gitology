@@ -3,3 +3,4 @@
 # remove md5sum thing in project path, simple dir structure is okay.  @Anywhere @Archived :pNone :created2008-12-05 :d2008-12-06
 # basic blog app  @Anywhere @Archived :pDjango :created2008-12-05 :d2008-12-24
 # gitology-refresh to refresh the index file.  @Anywhere @Archived :pNone :created2008-12-05 :d2008-12-24
+# optimize label urls, only one url pattern per blog for all categories  @Anywhere @Archived :pDjango :created2008-12-24 :d2008-12-27

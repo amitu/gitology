@@ -6,7 +6,6 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #!<^DATA
 # add tests.py and do keep all the tests in this file.  @Anywhere :pNone :created2008-12-05
-# optimize label urls, only one url pattern per blog for all categories  @Anywhere :pDjango :created2008-12-24
 # optimize posts: middleware should check for posts and wiki  @Anywhere :pDjango :created2008-12-24
 # run amitu.com on gitology  @Anywhere :pNone :created2008-12-24
 # handle label description somehow  @Anywhere :pCore :created2008-12-24

@@ -98,8 +98,10 @@ def get_blog_data(p):
         for m in y.dirs():
             for d in m.glob("*.lst"):
                 for l in d.open().readlines():
-                    blog["posts"][l.strip()] = { 
-                        'date': d, 'document': Document(l.strip()),
+                    # format: url document_name timestamp
+                    url, document_name, timestamp = l.split()
+                    blog["posts"][url] = { 
+                        'date': timestamp, 'document': Document(document_name),
                     }
     # labels
     blog["labels"] = {}
@@ -108,6 +110,7 @@ def get_blog_data(p):
         d["name"] = l.namebase
         d["posts"] = []
         for line in l.open().readlines():
+            # format: url, data is in respective archive file
             d["posts"].append(blog["posts"][line.strip()]['document'])
         blog["labels"][l.namebase] = d
     return blog
