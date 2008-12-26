@@ -19,7 +19,10 @@ def show_blog(request, blog_data):
 # }}}
 
 # show_category # {{{
-def show_category(request, blog_data, category_data): 
+def show_category(request, blog_data, label_name): 
+    try:
+        category_data = blog_data["labels"][label_name]
+    except KeyError: raise Http404
     return render_to_response(
         ["blog/%s/category.html" % blog_data["name"], "blog/category.html", ],
         { 'blog_data': blog_data, 'category_data': category_data },

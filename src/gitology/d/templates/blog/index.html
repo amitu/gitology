@@ -4,7 +4,7 @@
 <h1>{{ blog_data.name }}</h1>
 <h3>Labels:</h3>
 <ul>
-{% for label in blog_data.labels %}
+{% for label in blog_data.labels.values %}
     <li><a href="/{{ blog_data.prefix }}labelled/{{ label.name }}/">{{ label.name }}</a>: {{ label.posts|length }}</li>
 {% endfor %}
 </ul>

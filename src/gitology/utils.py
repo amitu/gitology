@@ -102,14 +102,14 @@ def get_blog_data(p):
                         'date': d, 'document': Document(l.strip()),
                     }
     # labels
-    blog["labels"] = []
+    blog["labels"] = {}
     for l in p.joinpath("labels").glob("*.lst"):
         d = {}
         d["name"] = l.namebase
         d["posts"] = []
-        for l in l.open().readlines():
-            d["posts"].append(blog["posts"][l.strip()]['document'])
-        blog["labels"].append(d)
+        for line in l.open().readlines():
+            d["posts"].append(blog["posts"][line.strip()]['document'])
+        blog["labels"][l.namebase] = d
     return blog
 # }}}
 
@@ -118,13 +118,12 @@ def get_blog(p):
     urls = []
     b = get_blog_data(p)
     urls.append(("%s$" % b["prefix"], "show_blog", { 'blog_data': b,}))
-    for l in b["labels"]:
-        urls.append(
-            (
-                "%slabelled/%s/$" % (b["prefix"], l["name"]), "show_category",
-                { 'blog_data': b, 'category_data': l },
-            )
+    urls.append(
+        (
+            "%slabelled/(?P<label_name>[^/]+)/$" % b["prefix"], "show_category",
+            { 'blog_data': b },
         )
+    )
     return urls
 # }}}
 
