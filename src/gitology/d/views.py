@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 import sys
 
 from gitology.config import settings as gsettings
+from gitology import utils
 # }}}
 
 # show_blog # {{{
@@ -30,7 +31,14 @@ def show_category(request, blog_data, label_name):
     )
 # }}}
 
-def show_post(request, blog_name, post_slug): pass
+def show_post(request): 
+    blog_data = utils.global_blog_dict[request.path]
+    post = blog_data["posts"][request.path]
+    return render_to_response(
+        ["blog/%s/post.html" % blog_data["name"], "blog/post.html", ],
+        { 'blog_data': blog_data, 'post': post },
+        context_instance = RequestContext(request)
+    )
 def show_archive(request, blog_name, archive_format): pass
 def show_wiki(request, page): pass
 def add_comment(request, document_name): pass

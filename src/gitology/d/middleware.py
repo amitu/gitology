@@ -1,10 +1,12 @@
 from django.utils import simplejson
+from django.http import HttpResponse
 from django.conf.urls.defaults import patterns
 from django.conf import settings
 
 import sys
 
 from gitology.config import settings as gsettings
+from gitology.d.views import show_post
 from gitology import utils
 
 class URLConfMiddleware:
@@ -40,3 +42,11 @@ class URLConfMiddleware:
     def process_request(self, request):
         self.check_urlconf()
         request.urlconf = "gitology.d.urls" # virtual module
+
+    def process_response(self, request, response):
+        if (
+            response.status_code == 404 and 
+            request.path in utils.global_blog_dict
+        ):
+            return show_post(request)
+        return response # else!

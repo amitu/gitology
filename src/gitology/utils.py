@@ -85,6 +85,7 @@ class NamedObject(object):
 # }}}
 
 # get_blog_data # {{{
+global_blog_dict = {}
 def get_blog_data(p):
     from gitology.document import Document
     blog = {}
@@ -103,6 +104,7 @@ def get_blog_data(p):
                     blog["posts"][url] = { 
                         'date': timestamp, 'document': Document(document_name),
                     }
+                    global_blog_dict[url] = blog
     # labels
     blog["labels"] = {}
     for l in p.joinpath("labels").glob("*.lst"):
@@ -145,6 +147,7 @@ def refresh_urlconf_cache():
     print "refresh_urlconf_cache"
     from gitology.config import settings
     """ creates a urlconf that is stored """
+    global_blog_dict = {}
     urls = ['gitology.d.views'] 
     # for blog:
     # list of blogs is in $reporoot/blogs/
