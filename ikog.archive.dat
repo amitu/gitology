@@ -4,3 +4,4 @@
 # basic blog app  @Anywhere @Archived :pDjango :created2008-12-05 :d2008-12-24
 # gitology-refresh to refresh the index file.  @Anywhere @Archived :pNone :created2008-12-05 :d2008-12-24
 # optimize label urls, only one url pattern per blog for all categories  @Anywhere @Archived :pDjango :created2008-12-24 :d2008-12-27
+# optimize posts: middleware should check for posts and wiki  @Anywhere @Archived :pDjango :created2008-12-24 :d2008-12-27
