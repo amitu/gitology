@@ -7,6 +7,7 @@ from django.utils import simplejson
 
 import path, sys
 import docutils.writers.html4css1, docutils.core
+from odict import OrderedDict as odict
 # }}}
 
 # path2obj # {{{
@@ -93,11 +94,17 @@ def get_blog_data(p):
     if p.basename() == "main": blog["prefix"] = "blog/"
     else: blog["prefix"] = "%s/" % p.basename()
     # posts
-    blog["posts"] = {}
-    for y in p.dirs():
+    blog["posts"] = odict()
+    years = p.dirs()
+    years.sort()
+    for y in years:
         if y.namebase == "labels": continue
-        for m in y.dirs():
-            for d in m.glob("*.lst"):
+        months = y.dirs()
+        months.sort()
+        for m in months:
+            dates = m.glob("*.lst")
+            dates.sort()
+            for d in dates:
                 for l in d.open().readlines():
                     # format: url document_name timestamp
                     url, document_name, timestamp = l.split()
