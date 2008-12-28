@@ -2,6 +2,9 @@ from django.utils import simplejson
 
 from gitology.document import Document
 
+blog = "main"
+author = "Amit Upadhyay"
+
 def collect_data():
     data = simplejson.load(file("amitucom/amitucom.blog.json"))
     categories = {}
@@ -15,8 +18,23 @@ def collect_data():
             d[i[u'model']][i[u'pk']] = i[u'fields']
     return d
 
+def parse_date(s):
+    from django.db.models.fields import DateTimeField
+    dtf = DateTimeField()
+    return dtf.to_python(s)
+
+MONTHS = {
+    1:'january', 2:'february', 3:'march', 4:'april', 5:'may', 6:'june',
+    7:'july', 8:'august', 9:'september', 10:'october', 11:'november',
+    12:'december'
+}
+
 def get_post_url(p):
-    return "/blog/2007/august/%s" % p[u'fields']['title_slug']
+    posted_on = parse_date(p["fields"]["posted_on"])
+    return "/blog/%2d/%s/%s" % (
+        posted_on.year, MONTHS[posted_on.month],
+        p[u'fields']['title_slug']
+    )
 
 def convert_to_document_name(u):
     return u[1:].replace("/", "@")
@@ -29,11 +47,11 @@ def create_post(post, data):
     if not document.exists(): 
         document.create(
             index_content = post[u'fields']["content"],
-            format = "html", author = "Amit Upadhyay",
+            format = "html", author = author, 
         )
     else:
         document.set_raw_index(post[u'fields']['content'], 'html')
-    document.meta.author = "Amit Upadhyay"
+    document.meta.author = author
     document.meta.title = post_title
     document.meta.url = post_url
     document.meta.type = "blog_post"
