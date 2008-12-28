@@ -1,5 +1,5 @@
 {% extends "blog/base.html" %}
-{% load paginator %}
+{% load paginator lookup %}
 {% block title %}{{ blog_data.name }}{% endblock %}
 {% block content %}
 <h1>{{ blog_data.name }}</h1>
@@ -11,11 +11,12 @@
 </ul>
 <h3>Posts</h3>
 {% for post in post_list %}
-{{ post }}
-    <div class="post">
-        <h4>{{ post.document.meta.title|safe }}</h4>
-        <div>{{ post.document.index|safe }}</div>
-    </div>
+    {% with blog_data.posts|lookup:post as post %}
+        <div class="post">
+            <h4>{{ post.document.meta.title|safe }}</h4>
+            <div>{{ post.document.index|safe }}</div>
+        </div>
+    {% endwith %}
 {% endfor %}
 {% paginator %}
 {% endblock %}
