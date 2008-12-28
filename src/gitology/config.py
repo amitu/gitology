@@ -50,7 +50,10 @@ def initialize():
         raise ImproperlyConfigured("No setting AUTHOR in DEFAULTS, file=%s." % conf.RC_FILE)
     if not conf.DEFAULTS.AUTHOR:
         raise ImproperlyConfigured("AUTHOR must not be empty, file=%s." % conf.RC_FILE)
-    if "USE_MD5" not in conf.DEFAULTS: conf.DEFAULTS.USE_MD5 = False
+    if "USE_MD5" not in conf.DEFAULTS: 
+        conf.DEFAULTS.USE_MD5 = False
+    else:
+        conf.DEFAULTS.USE_MD5 = { 'True': True }.get(conf.DEFAULTS.USE_MD5, False)
     conf.LOCAL_REPO_PATH = path.path(os.path.expanduser(conf.REPO.LOCAL))
     import gitter
     gitter.git = gitter.Git(conf.REPO.LOCAL, conf.REPO.REMOTE, conf.REPO.AUTO_COMMIT)
