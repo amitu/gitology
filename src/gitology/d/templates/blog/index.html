@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load paginator %}
 {% block title %}{{ blog_data.name }}{% endblock %}
 {% block content %}
 <h1>{{ blog_data.name }}</h1>
@@ -16,4 +17,5 @@
         <div>{{ post.document.index|safe }}</div>
     </div>
 {% endfor %}
+{% paginator %}
 {% endblock %}

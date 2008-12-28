@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list_detail import object_list
+from django.conf import settings 
 
 import sys
 

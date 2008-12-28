@@ -197,7 +197,7 @@ def refresh_urlconf_cache():
         #simplejson.dumps(urls)
         "updated"
     )
-    print urls
+    #print urls
     return urls
 # }}}
 
