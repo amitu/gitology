@@ -116,7 +116,7 @@ class Document(NamedObject):
         self.fs_path.makedirs()
         self.meta.author = author
         self.meta.save()
-        self.fs_path.joinpath("index.%s" % format).write_text(index_content)
+        self.fs_path.joinpath("index.%s" % format).write_text(index_content.encode("utf8"))
         return self
         
     def get_index(self):
@@ -129,13 +129,13 @@ class Document(NamedObject):
         if not self.exists(): raise DocumentDoesNotExists
         if self.fs_path.joinpath("index.rst").exists():
             return utils.rest_to_html(
-                self.fs_path.joinpath("index.rst").open().read()    
+                self.fs_path.joinpath("index.rst").open().read().decode("utf8") 
             )
         elif self.fs_path.joinpath("index.html").exists():
-            return self.fs_path.joinpath("index.html").open().read()    
+            return self.fs_path.joinpath("index.html").open().read().decode("utf8")
         elif self.fs_path.joinpath("index.txt").exists():
             return utils.text_to_html(
-                self.fs_path.joinpath("index.txt").open().read()    
+                self.fs_path.joinpath("index.txt").open().read().decode("utf8") 
             )
         raise DocumentDoesNotExists, "index does not exist"
     index = property(get_index)
@@ -165,15 +165,17 @@ class Document(NamedObject):
         Raises DocumentDoesNotExists if.
         """
         if format is None: format = self.format
-        if format != self.format:
-            self.fs_path.joinpath(self.index_name).remove()
-        self.fs_path.joinpath("index.%s" % format).write_text(content)
+        try:
+            if format != self.format:
+                self.fs_path.joinpath(self.index_name).remove()
+        except DocumentDoesNotExists: pass
+        self.fs_path.joinpath("index.%s" % format).write_text(content.encode("utf8"))
 
     def get_raw_index(self):
         """
         Raises DocumentDoesNotExists if.
         """
-        return self.fs_path.joinpath(self.index_name).open().read()
+        return self.fs_path.joinpath(self.index_name).open().read().decode("utf8")
 
     raw_index = property(get_raw_index, set_raw_index)
 
