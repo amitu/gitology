@@ -1,6 +1,7 @@
 from django.utils import simplejson
 
 from gitology.document import Document
+from gitology.blog import blog_document
 
 blog = "main"
 author = "Amit Upadhyay"
@@ -41,6 +42,7 @@ def convert_to_document_name(u):
 
 def create_post(post, data):
     post_url = get_post_url(post)
+    posted_on = parse_date(post["fields"]["posted_on"])
     post_name = convert_to_document_name(post_url)
     post_title = post[u"fields"]["title"]
     document = Document(post_name)
@@ -58,6 +60,7 @@ def create_post(post, data):
     document.meta.title_slug = post['fields']['title_slug']
     document.meta.posted_on = post['fields']['posted_on']
     document.meta.save()
+    blog_document(document, post_url, blog, posted_on)
     print post_url, post_name, post_title
 
 def main():

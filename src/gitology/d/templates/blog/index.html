@@ -11,7 +11,7 @@
 <h3>Posts</h3>
 {% for post in blog_data.posts.values %}
     <div class="post">
-        <h4>{{ post.document.name }}</h4>
+        <h4>{{ post.document.meta.title|safe }}</h4>
         <div>{{ post.document.index|safe }}</div>
     </div>
 {% endfor %}

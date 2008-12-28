@@ -107,7 +107,7 @@ def get_blog_data(p):
             for d in dates:
                 for l in d.open().readlines():
                     # format: url document_name timestamp
-                    url, document_name, timestamp = l.split()
+                    url, document_name, timestamp = l.split(" ", 2)
                     blog["posts"][url] = { 
                         'date': timestamp, 'document': Document(document_name),
                     }
