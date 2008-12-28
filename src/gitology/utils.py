@@ -112,6 +112,7 @@ def get_blog_data(p):
                         'date': timestamp, 'document': Document(document_name),
                     }
                     global_blog_dict[url] = blog
+    blog["posts"].reverse()
     # labels
     blog["labels"] = {}
     for l in p.joinpath("labels").glob("*.lst"):

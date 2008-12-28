@@ -32,12 +32,16 @@ MONTHS = {
 
 def get_post_url(p):
     posted_on = parse_date(p["fields"]["posted_on"])
-    return "/blog/%2d/%s/%s" % (
+    post_url = "/blog/%2d/%s/%s" % (
         posted_on.year, MONTHS[posted_on.month],
         p[u'fields']['title_slug']
     )
+    if "." not in p[u'fields']['title_slug']:
+        post_url += "/"
+    return post_url
 
 def convert_to_document_name(u):
+    if u.endswith("/"): u = u[:-1]
     return u[1:].replace("/", "@")
 
 def create_post(post, data):
