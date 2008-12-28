@@ -871,6 +871,8 @@ class OrderedDict(dict):
         """
         self._sequence.sort(*args, **kwargs)
 
+    def _clone(self): return self
+
 class Keys(object):
     # FIXME: should this object be a subclass of list?
     """

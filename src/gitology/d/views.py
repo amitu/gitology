@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
 from django.contrib.auth.decorators import login_required
+from django.views.generic.list_detail import object_list
 
 import sys
 
@@ -12,10 +13,11 @@ from gitology import utils
 
 # show_blog # {{{
 def show_blog(request, blog_data): 
-    return render_to_response(
-        ["blog/%s/index.html" % blog_data["name"], "blog/index.html", ],
-        { 'blog_data': blog_data },
-        context_instance = RequestContext(request)
+    return object_list(
+        request, queryset = blog_data["posts"],
+        template_name = "blog/index.html", 
+        template_object_name = "post", paginate_by = 30, 
+        extra_context = { 'blog_data': blog_data },
     )
 # }}}
 
