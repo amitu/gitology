@@ -65,7 +65,6 @@ def create_post(post, data):
     document.meta.posted_on = post['fields']['posted_on']
     document.meta.save()
     blog_document(document, post_url, blog, posted_on)
-    print post_url, post_name, post_title
 
 def main():
     d = collect_data()
@@ -83,6 +82,26 @@ def main():
     document.meta.url = "/blog/"
     document.meta.type = "blog"
     document.meta.save()
+
+    for label_id, label_data in d["blog.category"].items():
+        document = Document(
+            "blogs@main@label@%s" % label_data["name_slug"]
+        )
+        if not document.exists():
+            document.create(
+                index_content = label_data["name"],
+                format = "html", author = author,
+            )
+        else:
+                document.set_raw_index(label_data["name"], "html")
+        document.meta.author = author
+        document.meta.title = label_data["name"]
+        document.meta.description = label_data["descrption"]
+        document.meta.slug = label_data["name_slug"]
+        document.meta.type = "blog_label"
+        document.meta.label_id = label_id
+        document.meta.save()
+
     for post in d[u"blog.post"]:
         create_post(post, d)
     
