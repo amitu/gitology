@@ -9,3 +9,5 @@
 # order posts  @Anywhere @Archived :pCore :created2008-12-27 :d2008-12-30
 # paginate index page  @Anywhere @Archived :pDjango :created2008-12-29 :d2008-12-30
 # blog should be a document, index would be about, etc +pCore  @Anywhere @Archived :pCore :created2008-12-30 :d2008-12-30 #10
+# make labels documents too  @Anywhere @Archived :pCore :created2008-12-30 :d2008-12-30 #10
+# handle label description somehow  @Anywhere @Archived :pCore :created2008-12-24 :d2008-12-30
