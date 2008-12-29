@@ -6,3 +6,5 @@
 # optimize label urls, only one url pattern per blog for all categories  @Anywhere @Archived :pDjango :created2008-12-24 :d2008-12-27
 # optimize posts: middleware should check for posts and wiki  @Anywhere @Archived :pDjango :created2008-12-24 :d2008-12-27
 # handle blog title somehow  @Anywhere @Archived :pCore :created2008-12-24 :d2008-12-29
+# order posts  @Anywhere @Archived :pCore :created2008-12-27 :d2008-12-30
+# paginate index page  @Anywhere @Archived :pDjango :created2008-12-29 :d2008-12-30
