@@ -4,6 +4,7 @@ Various utility functions used by gitology.*
 # imports # {{{
 from django.conf.urls.defaults import patterns
 from django.utils import simplejson
+from django.contrib.syndication.feeds import Feed
 
 import path, sys
 import docutils.writers.html4css1, docutils.core
@@ -130,11 +131,33 @@ def get_blog_data(p):
 def get_blog(p):
     urls = []
     b = get_blog_data(p)
-    urls.append(("%s$" % b["prefix"], "show_blog", { 'blog_data': b,}))
+    urls.append(
+        ("%s$" % b["prefix"], "gitology.d.views.show_blog", { 'blog_data': b,})
+    )
     urls.append(
         (
-            "%slabelled/(?P<label_name>[^/]+)/$" % b["prefix"], "show_category",
-            { 'blog_data': b },
+            "%slabelled/(?P<label_name>[^/]+)/$" % b["prefix"], 
+            "gitology.d.views.show_category", { 'blog_data': b },
+        )
+    )
+    class LatestEntries(Feed):
+        title = "TITLE"
+        link = "/LINK/"
+        description = "DESCRIPTION"
+
+        def items(self):
+            return b["posts"].values()[:10]
+
+        def item_link(self, item): 
+            return item["document"].meta.url
+
+    feeds = { 'latest': LatestEntries }
+
+    urls.append(
+        (
+            '%sfeeds/(?P<url>.*)/$' % b["prefix"], 
+            'django.contrib.syndication.views.feed',
+            {'feed_dict': feeds},
         )
     )
     return urls
@@ -156,7 +179,7 @@ def refresh_urlconf_cache():
     from gitology.config import settings
     """ creates a urlconf that is stored """
     global_blog_dict = {}
-    urls = ['gitology.d.views'] 
+    urls = [''] 
     # for blog:
     # list of blogs is in $reporoot/blogs/
     # urls: /blog_name/
