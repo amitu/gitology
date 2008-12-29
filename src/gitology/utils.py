@@ -92,6 +92,7 @@ def get_blog_data(p):
     from gitology.document import Document
     blog = {}
     blog["name"] = p.basename()
+    blog["document"] = Document("blogs@%s" % blog["name"])
     if p.basename() == "main": blog["prefix"] = "blog/"
     else: blog["prefix"] = "%s/" % p.basename()
     # posts

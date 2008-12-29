@@ -69,6 +69,20 @@ def create_post(post, data):
 
 def main():
     d = collect_data()
+    document = Document("blogs@main")
+    if not document.exists():
+        document.create(
+            index_content = "A blog by Amit Upadhyay",
+            format = "html", author = author,
+        )
+    else:
+            document.set_raw_index("A blog by Amit Upadhyay", "html")
+    document.meta.author = author
+    document.meta.title = "Anything Else"
+    document.meta.subtitle = "Nerdier than thou"
+    document.meta.url = "/blog/"
+    document.meta.type = "blog"
+    document.meta.save()
     for post in d[u"blog.post"]:
         create_post(post, d)
     
