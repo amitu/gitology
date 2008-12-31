@@ -1,6 +1,6 @@
 # imports # {{{
 from django.http import HttpResponseRedirect, Http404, HttpResponse
-from django.template import RequestContext
+from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list_detail import object_list
@@ -17,7 +17,9 @@ from gitology import utils
 def show_blog(request, blog_data): 
     return object_list(
         request, queryset = blog_data["posts"],
-        template_name = "blog/index.html", 
+        template_name = loader.select_template(
+            ["blog/%s/index.html" % blog_data["name"], "blog/index.html"]
+        ).name,
         template_object_name = "post", paginate_by = 30, 
         extra_context = { 'blog_data': blog_data },
     )
@@ -30,7 +32,9 @@ def show_category(request, blog_data, label_name):
     except KeyError: raise Http404
     return object_list(
         request, queryset = category_data["posts"],
-        template_name = "blog/category.html",
+        template_name = loader.select_template(
+            ["blog/%s/category.html" % blog_data["name"], "blog/category.html"]
+        ).name,
         template_object_name = "post", paginate_by = 30,
         extra_context = { 
             'blog_data': blog_data, 'category_data': category_data 
