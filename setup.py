@@ -8,12 +8,6 @@ setup(
     scripts = [
         'src/tools/gitology',
         'src/tools/gitology-blog',
-        'src/tools/gitology-link',
-        'src/tools/gitology-sync',
-        'src/tools/gitology-add-photo',
-        'src/tools/gitology-create-album',
-        'src/tools/gitology-start',
-        'src/tools/gitology-wiki'
     ],
 
     package_data = {
