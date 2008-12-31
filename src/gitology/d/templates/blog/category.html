@@ -1,14 +1,16 @@
 {% extends "blog/base.html" %}
+{% load paginator %}
 {% block title %}{{ blog_data.prefix }}{{ category_data.name }}{% endblock %}
 {% block content %}
 <h1>{{ blog_data.name }}</h1>
 <h2>{{ category_data.name }}</h2>
 <h3>Posts:</h3>
-{% for post in category_data.posts %}
+{% for post in post_list %}
     <div class="post">
         <h4>{{ post.name }}</h4>
         <div>{{ post.index|safe }}</div>
     </div>
 {% endfor %}
 </ul>
+{% paginator %}
 {% endblock %}

@@ -87,6 +87,9 @@ class NamedObject(object):
 # }}}
 
 # get_blog_data # {{{
+class list_with_clone(list):
+    def _clone(self): return self
+
 global_blog_dict = {}
 def get_blog_data(p):
     from gitology.document import Document
@@ -120,7 +123,7 @@ def get_blog_data(p):
     for l in p.joinpath("labels").glob("*.lst"):
         d = {}
         d["name"] = l.namebase
-        d["posts"] = []
+        d["posts"] = list_with_clone()
         d["document"] = Document("blogs@%s@label@%s" % (blog["name"], l.namebase))
         for line in l.open().readlines():
             # format: url, data is in respective archive file
