@@ -1,11 +1,16 @@
 from django.conf.urls.defaults import *
 
+from gitology.config import settings as gsettings
+
 urlpatterns = patterns('',
+    # some url not managed by gitology. 
+    # gitology will add to this conf file for the rest of the urls.
     (   
-        # some url not managed by gitology. 
-        # gitology will add to this conf file for the rest of the urls.
-        'about/$', 'django.views.generic.simple.direct_to_template',
-        { 'template': 'website/about.html' },
+        'files/(?P<path>.*)$', 'django.views.static.serve',
+        { 'document_root': gsettings.LOCAL_REPO_PATH.joinpath("files") },
+    ),
+    (   
+        'static/(?P<path>.*)$', 'django.views.static.serve',
+        { 'document_root': gsettings.LOCAL_REPO_PATH.joinpath("static") },
     ),
 )
-urlpatterns += patterns('', ('about-us/$', 'aboutus'))

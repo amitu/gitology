@@ -4,7 +4,6 @@ Various utility functions used by gitology.*
 # imports # {{{
 from django.conf.urls.defaults import patterns
 from django.utils import simplejson
-from django.contrib.syndication.feeds import Feed
 
 import path, sys
 import docutils.writers.html4css1, docutils.core
@@ -146,6 +145,7 @@ def get_blog(p):
             "gitology.d.views.show_category", { 'blog_data': b },
         )
     )
+    from django.contrib.syndication.feeds import Feed
     class LatestEntries(Feed):
         title = b["document"].meta.title
         link = b["document"].meta.title
