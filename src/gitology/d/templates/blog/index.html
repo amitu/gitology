@@ -18,6 +18,12 @@
         <div class="post">
             <h4>{{ post.document.meta.title|safe }}</h4>
             <div>{{ post.document.index|safe }}</div>
+            <h5>Labels:</h5>
+            <ul>
+                {% for label in post.labels %}
+                    <li>{{ label.document.meta.title }}</li>
+                {% endfor %}
+            </ul>
         </div>
     {% endwith %}
 {% endfor %}
