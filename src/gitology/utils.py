@@ -121,9 +121,15 @@ def get_blog_data(p):
         d = {}
         d["name"] = l.namebase
         d["posts"] = []
+        d["document"] = Document("%s@label@%s" % (blog["name"], l.basename))
         for line in l.open().readlines():
-            # format: url, data is in respective archive file
-            d["posts"].append(blog["posts"][line.strip()]['document'])
+            # FIXME: this should never happen
+            try:
+                # format: url, data is in respective archive file
+                d["posts"].append(blog["posts"][line.strip()]['document'])
+                blog["posts"][line.strip()].setdefault("labels", []).append(d)
+            except KeyError: 
+                print line.strip(), "missing"
         blog["labels"][l.namebase] = d
     return blog
 # }}}
