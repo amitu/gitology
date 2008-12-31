@@ -9,9 +9,8 @@ def blog_document(document, url, blog="main", dtime=None):
     ).joinpath(blog).joinpath("%04d" % dtime.year).joinpath(
         "%02d" % dtime.month
     ).joinpath("%02d.lst" % dtime.day)
-    print blog_file
     # blog_file.makedirs()
     if not blog_file.parent.exists(): blog_file.parent.makedirs()
-    blog_file.open("w+").write(
+    blog_file.open("a+").write(
         "%s %s %s\n" % (url, document.name, str(dtime))
     )
