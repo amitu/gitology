@@ -1,15 +1,21 @@
 {% extends "blog/base.html" %}
 {% load paginator %}
-{% block title %}{{ blog_data.prefix }}{{ category_data.name }}{% endblock %}
+{% block title %}Posts about {{ category_data.document.meta.title }}: {{ blog_data.document.meta.title }}{% endblock %}
 {% block content %}
 <h1>{{ blog_data.name }}</h1>
 <h2>{{ category_data.name }}</h2>
 <h3>Posts:</h3>
 {% for post in post_list %}
     <div class="post">
-        <h4>{{ post.name }}</h4>
-        <div>{{ post.index|safe }}</div>
+        <h4>{{ post.document.meta.title }}</h4>
+        <div>{{ post.document.index|safe }}</div>
     </div>
+    <h5>Labels:</h5>
+    <ul>
+        {% for label in post.labels %}
+            <li>{{ label.document.meta.title }}</li>
+        {% endfor %}
+    </ul>
 {% endfor %}
 </ul>
 {% paginator %}

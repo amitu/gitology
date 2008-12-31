@@ -5,14 +5,9 @@
 # or refer to the notice section later in the file.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #!<^DATA
-# pass label documents as part of blog_data  @Anywhere :pCore :created2008-12-30 #10
 # run amitu.com on gitology  @Anywhere :pNone :created2008-12-24
-# rss feed for blog and categories  @Anywhere :pDjango :created2008-12-27
 # add tests.py and do keep all the tests in this file.  @Anywhere :pNone :created2008-12-05
-# import labels  @Anywhere :pNone :created2008-12-29
-# paginate label page  @Anywhere :pDjango :created2008-12-29
-# fix blog feed title and descriptions  @Anywhere :pDjango :created2008-12-30
-# paginate category page  @Anywhere :pDjango :created2008-12-30
+# rss feeds for labels  @Anywhere :pDjango :created2009-01-01
 #!<^CONFIG
 cfgColor = 1
 cfgAutoSave = True

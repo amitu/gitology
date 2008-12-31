@@ -1,9 +1,15 @@
 {% extends "blog/base.html" %}
-{% block title %}{{ post.document.name }}:{{ blog_data.name }}{% endblock %}
+{% block title %}{{ post.document.meta.title }}:{{ blog_data.document.meta.title }}{% endblock %}
 {% block content %}
-<h1>{{ blog_data.name }}</h1>
+<h1>{{ blog_data.document.meta.title }}</h1>
 <div class="post">
-    <h2>{{ post.document.name }}</h2>
+    <h2>{{ post.document.meta.title }}</h2>
     <div>{{ post.document.index|safe }}</div>
 </div>
+<h5>Labels:</h5>
+<ul>
+    {% for label in post.labels %}
+        <li>{{ label.document.meta.title }}</li>
+    {% endfor %}
+</ul>
 {% endblock %}

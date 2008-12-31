@@ -11,3 +11,9 @@
 # blog should be a document, index would be about, etc +pCore  @Anywhere @Archived :pCore :created2008-12-30 :d2008-12-30 #10
 # make labels documents too  @Anywhere @Archived :pCore :created2008-12-30 :d2008-12-30 #10
 # handle label description somehow  @Anywhere @Archived :pCore :created2008-12-24 :d2008-12-30
+# pass label documents as part of blog_data  @Anywhere @Archived :pCore :created2008-12-30 :d2009-01-01 #10
+# paginate label page  @Anywhere @Archived :pDjango :created2008-12-29 :d2009-01-01
+# fix blog feed title and descriptions  @Anywhere @Archived :pDjango :created2008-12-30 :d2009-01-01
+# paginate category page  @Anywhere @Archived :pDjango :created2008-12-30 :d2009-01-01
+# rss feed for blogs  @Anywhere @Archived :pDjango :created2008-12-27 :d2009-01-01
+# import labels  @Anywhere @Archived :pNone :created2008-12-29 :d2009-01-01

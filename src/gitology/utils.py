@@ -127,7 +127,7 @@ def get_blog_data(p):
         d["document"] = Document("blogs@%s@label@%s" % (blog["name"], l.namebase))
         for line in l.open().readlines():
             # format: url, data is in respective archive file
-            d["posts"].append(blog["posts"][line.strip()]['document'])
+            d["posts"].append(blog["posts"][line.strip()])
             blog["posts"][line.strip()].setdefault("labels", []).append(d)
         blog["labels"][l.namebase] = d
     return blog
@@ -147,9 +147,9 @@ def get_blog(p):
         )
     )
     class LatestEntries(Feed):
-        title = "TITLE"
-        link = "/LINK/"
-        description = "DESCRIPTION"
+        title = b["document"].meta.title
+        link = b["document"].meta.title
+        description = b["document"].meta.subtitle
 
         def items(self):
             return b["posts"].values()[:10]
