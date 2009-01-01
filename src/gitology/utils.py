@@ -27,14 +27,13 @@ def rest_to_html(rest_input, css_path=None):
     import os.path
     if css_path is None and "DEFAULT_REST_CSS" in settings.DEFAULTS:
         css_path = os.path.expanduser(settings.DEFAULTS.DEFAULT_REST_CSS)
-    docutils.core.publish_string(
-        rest_input, writer=writer,
-        settings_overrides={
+    return docutils.core.publish_parts(
+        rest_input, writer_name="html", settings_overrides={
             'stylesheet': css_path,
             'stylesheet_path': None,
             'embed_stylesheet': True
         }
-    )
+    )['html_body']
     return writer.output
 # }}}
 
