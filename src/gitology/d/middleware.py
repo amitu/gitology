@@ -1,7 +1,8 @@
 from django.utils import simplejson
-from django.http import HttpResponse, HttpResponsePermanentRedirect
+from django import http 
 from django.conf.urls.defaults import patterns
 from django.conf import settings
+from django.core import urlresolvers
 
 import sys
 
@@ -43,12 +44,19 @@ class URLConfMiddleware:
         request.urlconf = "gitology.d.urls" # virtual module
 
     def process_response(self, request, response):
-        if (
-            response.status_code == 404 and 
-            request.path in utils.global_blog_dict
-        ):
+        if response.status_code != 404: return response
+        if request.path in utils.global_blog_dict:
             return show_post(request)
         if not request.path.endswith("/"):
             if "%s/" % request.path in utils.global_blog_dict:
-                return HttpResponsePermanentRedirect(request.path + "/")
-        return response # else!
+                return http.HttpResponsePermanentRedirect(request.path + "/")
+            else:
+                try:
+                    urlresolvers.resolve(
+                        request.path_info
+                    )
+                except urlresolvers.Resolver404: 
+                    return http.HttpResponseRedirect(request.path + "/")
+                else:
+                    return http.HttpResponsePermanentRedirect(request.path + "/")
+        return response # must be real 404!
