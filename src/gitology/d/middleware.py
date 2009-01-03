@@ -1,5 +1,5 @@
 from django.utils import simplejson
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf.urls.defaults import patterns
 from django.conf import settings
 
@@ -48,4 +48,6 @@ class URLConfMiddleware:
             request.path in utils.global_blog_dict
         ):
             return show_post(request)
+        if not request.path.endswith("/"):
+            return HttpResponseRedirect(request.path + "/")
         return response # else!
