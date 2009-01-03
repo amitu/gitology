@@ -13,6 +13,8 @@ class URLConfMiddleware:
     def __init__(self):
         self.cache_path = gsettings.LOCAL_REPO_PATH.joinpath("urlconf.cache")
         self.old_urlconf = utils.path2obj(settings.ROOT_URLCONF + ".urlpatterns")
+        self.handler500 = utils.path2obj(settings.ROOT_URLCONF + ".handler500")
+        self.handler404 = utils.path2obj(settings.ROOT_URLCONF + ".handler404")
 
     def _check_if_urlconf_valid(self):
         # see if _urlconf has been loaded at all
@@ -24,9 +26,6 @@ class URLConfMiddleware:
         return True
 
     def _load_urlconf(self):
-        #self.urlpatterns = self.old_urlconf + patterns(
-        #    *simplejson.loads(file(self.cache_path).read())
-        #)
         self.urlpatterns = self.old_urlconf + patterns(
             *utils.refresh_urlconf_cache()
         )
