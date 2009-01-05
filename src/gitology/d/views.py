@@ -10,6 +10,7 @@ import sys
 
 from gitology.config import settings as gsettings
 from gitology import utils
+from gitology.d import forms
 # }}}
 
 # blog related views # {{{
@@ -46,9 +47,17 @@ def show_category(request, blog_data, label_name):
 def show_post(request): 
     blog_data = utils.global_blog_dict[request.path]
     post = blog_data["posts"][request.path]
+    remote_ip = request.META['REMOTE_ADDR']
+    if request.method == "POST":
+        form = forms.CommentForm(remote_ip, request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.path)
+    else:
+        form = forms.CommentForm(remote_ip)
     return render_to_response(
         ["blog/%s/post.html" % blog_data["name"], "blog/post.html", ],
-        { 'blog_data': blog_data, 'post': post },
+        { 'blog_data': blog_data, 'post': post, 'form': form },
         context_instance = RequestContext(request)
     )
 # }}}

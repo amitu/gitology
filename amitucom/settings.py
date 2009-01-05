@@ -57,6 +57,12 @@ INSTALLED_APPS = (
     'gitology.d',
 )
 
+# recaptcha # {{{
+RECAPTCHA_PUB_KEY = "YOUR PUBLIC KEY"
+RECAPTCHA_PRIV_KEY = "YOUR SECRET KEY"
+RECAPTCHA_THEME = "white"
+# }}}
+
 try:
     from local_settings import *
 except ImportError: pass
