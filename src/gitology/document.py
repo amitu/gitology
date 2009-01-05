@@ -57,6 +57,12 @@ class Comment(object):
     def __init__(self, name):
         super(Comment, self).__init__(self, name)
         self.fs_path = path.path(self.name)
+
+    def _get_replies(self):
+        if hasattr(self, "_replies"): return self._replies
+        self._replies = Replies("%s/comments" % self.fs_name)
+        return self._replies
+    replies = property(_get_replies)
 # }}}
 
 # Replies # {{{
@@ -66,14 +72,17 @@ class Replies(NamedObject):
         super(Replies, self).__init__(self, name)
         self.fs_path = path.path(self.name)
 
+    def count(self):
+        "total number of replies, number of nodes in children subtree"
+     
     def __len__(self):
+        "number of direct replies" 
         return len(self.fs_path.glob("*.meta"))
 
     def __getitem__(self, k):
         return Comment(self.fs_path.glob("*.meta")[k].abspath()[:-5])
 
     def append(self, comment, format=None): pass
-    def __contains__(self, v): pass
 # }}}
 
 # Document {{{

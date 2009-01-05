@@ -9,6 +9,8 @@ setup(
         'src/tools/gitology',
         'src/tools/gitology-blog',
     ],
+    
+    test_suite = "gitology.tests.suite", 
 
     package_data = {
         # If any package contains *.txt or *.rst files, include them:

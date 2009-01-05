@@ -4,7 +4,7 @@ DEFAULT_REST_CSS: default.css
 USE_MD5: False
 
 [REPO]
-LOCAL: ~/Documents/gitology-repo
+LOCAL: gitology-sample-repo/
 REMOTE: 
 AUTO_COMMIT: False 
 
