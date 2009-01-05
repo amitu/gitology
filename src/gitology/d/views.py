@@ -51,7 +51,7 @@ def show_post(request):
     if request.method == "POST":
         form = forms.CommentForm(remote_ip, request.POST)
         if form.is_valid():
-            form.save()
+            form.save(post)
             return HttpResponseRedirect(request.path)
     else:
         form = forms.CommentForm(remote_ip)

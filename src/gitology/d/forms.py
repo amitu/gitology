@@ -8,4 +8,11 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
     email = forms.EmailField(required=False)
     comment = forms.CharField(widget=forms.Textarea)
 
-    def save(self): pass
+    def save(self, post): 
+        d = self.cleaned_data.get
+        post["document"].replies.append(
+            author_name = d("name"),
+            email = d("email"),
+            url = d("url"),
+            comment_content = d("comment"),
+        )

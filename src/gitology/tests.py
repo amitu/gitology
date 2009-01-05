@@ -65,6 +65,7 @@ True
 'index.rst'
 >>> comment.index
 u'<div class="document">\n<p>python sucks!</p>\n</div>\n'
+>>> python_document.replies.append(author_name="amit upadhyay", comment_content="this rocks")
 >>>
 
 >>> asd_document = Document("asd")

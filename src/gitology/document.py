@@ -54,13 +54,33 @@ class DocumentDependencies(NamedObject):
 
 # DocumentBase # {{{
 class DocumentBase(NamedObject):
-    def _get_meta(self):
-        if hasattr(self, "_meta"): return self._meta
-        if self.exists():
-            self._meta = DocumentMeta(self.fs_path.joinpath("meta.json"))
-            return self._meta
-        else: raise DocumentDoesNotExists
-    meta = property(_get_meta)
+    def exists(self):
+        e = self.fs_path.exists()
+        if e: 
+            assert self.fs_path.isdir(), (
+                "Document path(%s) exists but is not a directory." % 
+                self.fs_path
+            )
+        return e
+
+    def create(self, index_content, author=None, format="rst"):
+        """ 
+        Creates the document with specified content. the name of index file
+        is "index.%s" % format. 
+    
+        author is openid of the author who created this document. 
+        
+        This raises DocumentAlreadyExists if document already exists. 
+        """
+        if self.exists(): raise DocumentAlreadyExists
+        if not author:
+            author = settings.DEFAULTS.AUTHOR
+        assert_author_can_write(author)
+        self.fs_path.makedirs()
+        self.meta.author = author
+        self.meta.save()
+        self.fs_path.joinpath("index.%s" % format).write_text(index_content.encode("utf8"))
+        return self
 
     def get_index(self):
         """
@@ -121,6 +141,14 @@ class DocumentBase(NamedObject):
         return self.fs_path.joinpath(self.index_name).open().read().decode("utf8")
     raw_index = property(get_raw_index, set_raw_index)
 
+    def _get_meta(self):
+        if hasattr(self, "_meta"): return self._meta
+        if self.exists():
+            self._meta = DocumentMeta(self.fs_path.joinpath("meta.json"))
+            return self._meta
+        else: raise DocumentDoesNotExists
+    meta = property(_get_meta)
+
     def _get_replies(self):
         if hasattr(self, "_replies"): return self._replies
         if self.exists():
@@ -145,8 +173,6 @@ class Comment(DocumentBase):
     def __init__(self, name):
         super(Comment, self).__init__(name)
         self.fs_path = path.path(self.name)
-
-    def exists(self): return True # dummy
 # }}}
 
 # Replies # {{{
@@ -175,7 +201,27 @@ class Replies(NamedObject):
         utils.sort_nicely(dirs)
         return Comment(dirs[k].abspath())
 
-    def append(self, comment, format=None): pass
+    def append(
+        self, author_name, comment_content, format="rst",
+        author_openid="anonymous", email=None, url=None, 
+    ): 
+        if not self.fs_path.exists():
+            self.fs_path.makedirs()
+        # find comment name
+        dirs = self.fs_path.dirs()
+        utils.sort_nicely(dirs)
+        if dirs:
+            comment_id = str(int(dirs[-1].namebase) + 1)
+        else: comment_id = "1"
+        comment = Comment(self.fs_path.joinpath(comment_id))
+        comment.create(
+            index_content=comment_content, author=author_openid
+        )
+        comment.meta.author_name = author_name
+        comment.meta.author_email = email
+        comment.meta.author_url = url
+        comment.meta.author_openid = author_openid
+        comment.meta.save()
 # }}}
 
 # Document {{{
@@ -193,33 +239,6 @@ class Document(DocumentBase):
             )
 
 
-    def exists(self):
-        e = self.fs_path.exists()
-        if e: 
-            assert self.fs_path.isdir(), (
-                "Document path(%s) exists but is not a directory." % 
-                self.fs_path
-            )
-        return e
-
-    def create(self, index_content, author=None, format="rst"):
-        """ 
-        Creates the document with specified content. the name of index file
-        is "index.%s" % format. 
-    
-        author is openid of the author who created this document. 
-        
-        This raises DocumentAlreadyExists if document already exists. 
-        """
-        if self.exists(): raise DocumentAlreadyExists
-        if not author:
-            author = settings.DEFAULTS.AUTHOR
-        assert_author_can_write(author)
-        self.fs_path.makedirs()
-        self.meta.author = author
-        self.meta.save()
-        self.fs_path.joinpath("index.%s" % format).write_text(index_content.encode("utf8"))
-        return self
         
     def _get_deps(self):
         if hasattr(self, "_deps"): return self._deps
