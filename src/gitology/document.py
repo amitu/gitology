@@ -158,17 +158,19 @@ class Replies(NamedObject):
 
     def count(self):
         "total number of replies, number of nodes in children subtree"
+        if not self.fs_path.exists(): return 0
         c = 0
         for comment in self:
             c += len(comment.replies) + 1
         return c
-     
+
     def __len__(self):
         "number of direct replies" 
         if not self.fs_path.exists(): return 0
         return len(self.fs_path.dirs())
 
     def __getitem__(self, k):
+        if not self.fs_path.exists(): raise KeyError
         dirs = self.fs_path.dirs()
         utils.sort_nicely(dirs)
         return Comment(dirs[k].abspath())

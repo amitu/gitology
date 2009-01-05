@@ -63,6 +63,15 @@ Analyzing a single comment:
 True
 >>> comment.index_name
 'index.rst'
+>>> comment.index
+u'<div class="document">\n<p>python sucks!</p>\n</div>\n'
+>>>
+
+>>> asd_document = Document("asd")
+>>> asd_document.exists()
+True
+>>> asd_document.replies.count()
+0
 >>>
 """
 
