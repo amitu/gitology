@@ -59,7 +59,7 @@ True
 
 Analyzing a single comment:
 >>> comment = python_document.replies[0]
->>> comment.name.endswith('/gitology-sample-repo/documents/python/replies/2')
+>>> comment.name.endswith('/gitology-sample-repo/documents/python/replies/1')
 True
 >>> comment.index_name
 'index.rst'

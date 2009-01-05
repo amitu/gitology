@@ -169,7 +169,9 @@ class Replies(NamedObject):
         return len(self.fs_path.dirs())
 
     def __getitem__(self, k):
-        return Comment(self.fs_path.dirs()[k].abspath())
+        dirs = self.fs_path.dirs()
+        utils.sort_nicely(dirs)
+        return Comment(dirs[k].abspath())
 
     def append(self, comment, format=None): pass
 # }}}
