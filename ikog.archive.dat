@@ -19,3 +19,5 @@
 # import labels  @Anywhere @Archived :pNone :created2008-12-29 :d2009-01-01
 # add multi template support in lookup  @Anywhere @Archived :pDjango :created2009-01-01 :d2009-01-01
 # run amitu.com on gitology  @Anywhere @Archived :pNone :created2008-12-24 :d2009-01-03
+# blog comment  @Anywhere @Archived :pDjango :created2009-01-03 :d2009-01-06
+# blog comment spam protection  @Anywhere @Archived :pDjango :created2009-01-03 :d2009-01-06

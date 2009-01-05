@@ -12,8 +12,7 @@
 # blog view permission  @Anywhere :pDjango :created2009-01-03
 # openid support, login via google/yahoo/fb  @Anywhere :pDjango :created2009-01-03
 # encrypted documents support, index.enc.  @Anywhere :pCore :created2009-01-03
-# blog comment  @Anywhere :pDjango :created2009-01-03
-# blog comment spam protection  @Anywhere :pDjango :created2009-01-03
+# wiki support  @Anywhere :pDjango :created2009-01-06
 #!<^CONFIG
 cfgColor = 1
 cfgAutoSave = True
