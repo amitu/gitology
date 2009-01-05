@@ -1,4 +1,5 @@
 from django import forms
+from django.core.mail import send_mail
 
 from gitology.d import recaptcha_forms
 
@@ -16,3 +17,10 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
             url = d("url"),
             comment_content = d("comment"),
         )
+        send_mail(
+            'New comment by %s' % d("name"), 
+            "www.amitu.com%s" % post["document"].meta.url, 
+            'upadhyay+gitology@gmail.com',
+            ['upadhyay@gmail.com'], fail_silently=False
+        )
+
