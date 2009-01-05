@@ -10,6 +10,7 @@ from gitology.gitter import FileRevisions
 from gitology import utils
 
 import md5, path
+from datetime import datetime
 
 try:
     from django.utils import simplejson
@@ -203,7 +204,7 @@ class Replies(NamedObject):
 
     def append(
         self, author_name, comment_content, format="rst",
-        author_openid="anonymous", email=None, url=None, 
+        author_openid="anonymous", on=None, email=None, url=None, 
     ): 
         if not self.fs_path.exists():
             self.fs_path.makedirs()
@@ -221,6 +222,8 @@ class Replies(NamedObject):
         comment.meta.author_email = email
         comment.meta.author_url = url
         comment.meta.author_openid = author_openid
+        if not on: on = datetime.now()
+        comment.meta.posted_on = str(on)
         comment.meta.save()
 # }}}
 
