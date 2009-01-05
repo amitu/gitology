@@ -53,14 +53,14 @@ class DocumentDependencies(NamedObject):
 # }}}
 
 # Comment # {{{
-class Comment(object): 
+class Comment(NamedObject): 
     def __init__(self, name):
-        super(Comment, self).__init__(self, name)
+        super(Comment, self).__init__(name)
         self.fs_path = path.path(self.name)
 
     def _get_replies(self):
         if hasattr(self, "_replies"): return self._replies
-        self._replies = Replies("%s/comments" % self.fs_name)
+        self._replies = Replies(self.fs_path)
         return self._replies
     replies = property(_get_replies)
 # }}}
@@ -74,6 +74,10 @@ class Replies(NamedObject):
 
     def count(self):
         "total number of replies, number of nodes in children subtree"
+        c = 0
+        for comment in self:
+            c += len(comment.replies) + 1
+        return c
      
     def __len__(self):
         "number of direct replies" 
@@ -207,7 +211,7 @@ class Document(NamedObject):
     def _get_replies(self):
         if hasattr(self, "_replies"): return self._replies
         if self.exists():
-            self._replies = Replies("%s/comments" % self.meta["fs_path"])
+            self._replies = Replies("%s/comments" % self.fs_path)
             return self._replies
         else: raise DocumentDoesNotExists
     replies = property(_get_replies)

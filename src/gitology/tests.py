@@ -29,6 +29,9 @@ Testing basic properties of a document:
 
 >>> python_document.name
 'python'
+>>> python_document.fs_path
+path('gitology-sample-repo/documents/python')
+>>>
 
 Meta data is stored:
 
@@ -40,7 +43,13 @@ True
 Replies:
 
 >>> python_document.replies
-<gitology.document.Replies object at 0x...>
+Replies(gitology-sample-repo/documents/python/comments)
+>>> python_document.replies.fs_path.endswith("gitology-sample-repo/documents/python/comments")
+True
+>>> len(python_document.replies)
+3
+>>> python_document.replies.count()
+4
 >>> 
 """
 
