@@ -69,7 +69,7 @@ class Comment(object):
 class Replies(NamedObject): 
     """ emulates a list like object containing comments """
     def __init__(self, name):
-        super(Replies, self).__init__(self, name)
+        super(Replies, self).__init__(name)
         self.fs_path = path.path(self.name)
 
     def count(self):
@@ -207,7 +207,7 @@ class Document(NamedObject):
     def _get_replies(self):
         if hasattr(self, "_replies"): return self._replies
         if self.exists():
-            self._replies = Replies("%s/comments" % self.fs_name)
+            self._replies = Replies("%s/comments" % self.meta["fs_path"])
             return self._replies
         else: raise DocumentDoesNotExists
     replies = property(_get_replies)
