@@ -52,86 +52,16 @@ class DocumentDependencies(NamedObject):
     """ 
 # }}}
 
-# Comment # {{{
-class Comment(NamedObject): 
-    def __init__(self, name):
-        super(Comment, self).__init__(name)
-        self.fs_path = path.path(self.name)
+# DocumentBase # {{{
+class DocumentBase(NamedObject):
+    def _get_meta(self):
+        if hasattr(self, "_meta"): return self._meta
+        if self.exists():
+            self._meta = DocumentMeta(self.fs_path.joinpath("meta.json"))
+            return self._meta
+        else: raise DocumentDoesNotExists
+    meta = property(_get_meta)
 
-    def _get_replies(self):
-        if hasattr(self, "_replies"): return self._replies
-        self._replies = Replies(self.fs_path)
-        return self._replies
-    replies = property(_get_replies)
-# }}}
-
-# Replies # {{{
-class Replies(NamedObject): 
-    """ emulates a list like object containing comments """
-    def __init__(self, name):
-        super(Replies, self).__init__(name)
-        self.fs_path = path.path(self.name)
-
-    def count(self):
-        "total number of replies, number of nodes in children subtree"
-        c = 0
-        for comment in self:
-            c += len(comment.replies) + 1
-        return c
-     
-    def __len__(self):
-        "number of direct replies" 
-        return len(self.fs_path.glob("*.meta"))
-
-    def __getitem__(self, k):
-        return Comment(self.fs_path.glob("*.meta")[k].abspath()[:-5])
-
-    def append(self, comment, format=None): pass
-# }}}
-
-# Document {{{
-class Document(NamedObject):
-    @property 
-    def fs_path(self):
-        if settings.DEFAULTS.USE_MD5:
-            md5sum = md5.new(self.name).hexdigest()
-            return settings.LOCAL_REPO_PATH.joinpath(
-                "documents/%s/%s/%s" % (md5sum[:2], md5sum[2:4], self.name)
-            )
-        else:
-            return settings.LOCAL_REPO_PATH.joinpath(
-                "documents/%s" % self.name
-            )
-
-
-    def exists(self):
-        e = self.fs_path.exists()
-        if e: 
-            assert self.fs_path.isdir(), (
-                "Document path(%s) exists but is not a directory." % 
-                self.fs_path
-            )
-        return e
-
-    def create(self, index_content, author=None, format="rst"):
-        """ 
-        Creates the document with specified content. the name of index file
-        is "index.%s" % format. 
-    
-        author is openid of the author who created this document. 
-        
-        This raises DocumentAlreadyExists if document already exists. 
-        """
-        if self.exists(): raise DocumentAlreadyExists
-        if not author:
-            author = settings.DEFAULTS.AUTHOR
-        assert_author_can_write(author)
-        self.fs_path.makedirs()
-        self.meta.author = author
-        self.meta.save()
-        self.fs_path.joinpath("index.%s" % format).write_text(index_content.encode("utf8"))
-        return self
-        
     def get_index(self):
         """
         Get the index content. If index was rst, it will be converted to html.
@@ -189,29 +119,12 @@ class Document(NamedObject):
         Raises DocumentDoesNotExists if.
         """
         return self.fs_path.joinpath(self.index_name).open().read().decode("utf8")
-
     raw_index = property(get_raw_index, set_raw_index)
-
-    def _get_meta(self):
-        if hasattr(self, "_meta"): return self._meta
-        if self.exists():
-            self._meta = DocumentMeta(self.fs_path.joinpath("meta.json"))
-            return self._meta
-        else: raise DocumentDoesNotExists
-    meta = property(_get_meta)
-
-    def _get_deps(self):
-        if hasattr(self, "_deps"): return self._deps
-        if self.exists():
-            self._deps = DocumentDependencies(self.name)
-            return self._deps
-        else: raise DocumentDoesNotExists
-    deps = property(_get_deps)
 
     def _get_replies(self):
         if hasattr(self, "_replies"): return self._replies
         if self.exists():
-            self._replies = Replies("%s/comments" % self.fs_path)
+            self._replies = Replies("%s/replies" % self.fs_path)
             return self._replies
         else: raise DocumentDoesNotExists
     replies = property(_get_replies)
@@ -225,6 +138,93 @@ class Document(NamedObject):
             return self._revisions
         else: raise DocumentDoesNotExists
     revs = property(_get_revisions)
+# }}}
+
+# Comment # {{{
+class Comment(DocumentBase): 
+    def __init__(self, name):
+        super(Comment, self).__init__(name)
+        self.fs_path = path.path(self.name)
+
+    def exists(self): return True # dummy
+# }}}
+
+# Replies # {{{
+class Replies(NamedObject): 
+    """ emulates a list like object containing comments """
+    def __init__(self, name):
+        super(Replies, self).__init__(name)
+        self.fs_path = path.path(self.name)
+
+    def count(self):
+        "total number of replies, number of nodes in children subtree"
+        c = 0
+        for comment in self:
+            c += len(comment.replies) + 1
+        return c
+     
+    def __len__(self):
+        "number of direct replies" 
+        if not self.fs_path.exists(): return 0
+        return len(self.fs_path.dirs())
+
+    def __getitem__(self, k):
+        return Comment(self.fs_path.dirs()[k].abspath())
+
+    def append(self, comment, format=None): pass
+# }}}
+
+# Document {{{
+class Document(DocumentBase):
+    @property 
+    def fs_path(self):
+        if settings.DEFAULTS.USE_MD5:
+            md5sum = md5.new(self.name).hexdigest()
+            return settings.LOCAL_REPO_PATH.joinpath(
+                "documents/%s/%s/%s" % (md5sum[:2], md5sum[2:4], self.name)
+            )
+        else:
+            return settings.LOCAL_REPO_PATH.joinpath(
+                "documents/%s" % self.name
+            )
+
+
+    def exists(self):
+        e = self.fs_path.exists()
+        if e: 
+            assert self.fs_path.isdir(), (
+                "Document path(%s) exists but is not a directory." % 
+                self.fs_path
+            )
+        return e
+
+    def create(self, index_content, author=None, format="rst"):
+        """ 
+        Creates the document with specified content. the name of index file
+        is "index.%s" % format. 
+    
+        author is openid of the author who created this document. 
+        
+        This raises DocumentAlreadyExists if document already exists. 
+        """
+        if self.exists(): raise DocumentAlreadyExists
+        if not author:
+            author = settings.DEFAULTS.AUTHOR
+        assert_author_can_write(author)
+        self.fs_path.makedirs()
+        self.meta.author = author
+        self.meta.save()
+        self.fs_path.joinpath("index.%s" % format).write_text(index_content.encode("utf8"))
+        return self
+        
+    def _get_deps(self):
+        if hasattr(self, "_deps"): return self._deps
+        if self.exists():
+            self._deps = DocumentDependencies(self.name)
+            return self._deps
+        else: raise DocumentDoesNotExists
+    deps = property(_get_deps)
+
 # }}}
 
 # assert_author_can_write # {{{

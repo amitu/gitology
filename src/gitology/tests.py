@@ -31,7 +31,12 @@ Testing basic properties of a document:
 'python'
 >>> python_document.fs_path
 path('gitology-sample-repo/documents/python')
->>>
+>>> python_document.index
+u'<div class="document" id="python">\n<h1 class="title">Python</h1>\n<p>get md5: import md5; md5.new(&quot;amit upadhyay&quot;).hexdigest()</p>\n</div>\n'
+>>> python_document.index_name
+'index.rst'
+>>> python_document.format
+'rst'
 
 Meta data is stored:
 
@@ -43,14 +48,22 @@ True
 Replies:
 
 >>> python_document.replies
-Replies(gitology-sample-repo/documents/python/comments)
->>> python_document.replies.fs_path.endswith("gitology-sample-repo/documents/python/comments")
+Replies(gitology-sample-repo/documents/python/replies)
+>>> python_document.replies.fs_path.endswith("gitology-sample-repo/documents/python/replies")
 True
 >>> len(python_document.replies)
 3
 >>> python_document.replies.count()
 4
 >>> 
+
+Analyzing a single comment:
+>>> comment = python_document.replies[0]
+>>> comment.name.endswith('/gitology-sample-repo/documents/python/replies/2')
+True
+>>> comment.index_name
+'index.rst'
+>>>
 """
 
 import unittest
