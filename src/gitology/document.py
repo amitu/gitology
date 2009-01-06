@@ -9,7 +9,7 @@ from gitology.utils import NamedObject, attrdict
 from gitology.gitter import FileRevisions
 from gitology import utils
 
-import md5, path
+import md5, path, time
 from datetime import datetime
 
 try:
@@ -209,11 +209,7 @@ class Replies(NamedObject):
         if not self.fs_path.exists():
             self.fs_path.makedirs()
         # find comment name
-        dirs = self.fs_path.dirs()
-        utils.sort_nicely(dirs)
-        if dirs:
-            comment_id = str(int(dirs[-1].namebase) + 1)
-        else: comment_id = "1"
+        comment_id = str(time.time())
         comment = Comment(self.fs_path.joinpath(comment_id))
         comment.create(
             index_content=comment_content, author=author_openid
