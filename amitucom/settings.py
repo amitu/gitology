@@ -32,7 +32,8 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.doc.XViewMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_openidconsumer.middleware.OpenIDMiddleware',
 
     'gitology.d.middleware.URLConfMiddleware',
 )
@@ -53,7 +54,13 @@ TEMPLATE_DIRS = (
     gsettings.LOCAL_REPO_PATH.joinpath("templates"),
 )
 
+DATABASE_ENGINE = "sqlite3"
+DATABASE_NAME = "sqlite.db"
+
 INSTALLED_APPS = (
+    'django.contrib.sessions',
+    'django_openidconsumer',
+
     'gitology.d',
 )
 

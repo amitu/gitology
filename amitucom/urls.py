@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 
 from gitology.config import settings as gsettings
+from gitology.d import urls as gitology_urls
 
 urlpatterns = patterns('',
     # some url not managed by gitology. 
@@ -14,3 +15,5 @@ urlpatterns = patterns('',
         { 'document_root': gsettings.LOCAL_REPO_PATH.joinpath("static") },
     ),
 )
+
+urlpatterns += gitology_urls.urlpatterns
