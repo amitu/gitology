@@ -12,8 +12,10 @@
 # blog view permission  @Anywhere :pDjango :created2009-01-03
 # encrypted documents support, index.enc.  @Anywhere :pCore :created2009-01-03
 # login page with yahoo/gmail logo along with openid textinput  @Anywhere :pDesign :created2009-01-07
-# add comments to wiki pages  @Anywhere :pDjango :created2009-01-07
 # utilities to find ancestory in wiki pages  @Anywhere :pCore :created2009-01-07
+# user info store indexed on openid  @Anywhere :pCore :created2009-01-07
+# user groups, multi user in one group  @Anywhere :pCore :created2009-01-07
+# permissions based on groups and individuals, on blog/wiki/document basis  @Anywhere :pCore :created2009-01-07
 #!<^CONFIG
 cfgColor = 1
 cfgAutoSave = True
