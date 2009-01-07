@@ -8,6 +8,7 @@ setup(
     scripts = [
         'src/tools/gitology',
         'src/tools/gitology-blog',
+        'src/tools/gitology-init',
     ],
     
     test_suite = "gitology.tests.suite", 

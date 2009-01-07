@@ -1,0 +1,61 @@
+#!/usr/bin/python
+"""
+creates gitology-repo in the current directory.
+"""
+
+import sys, gitology, textwrap, os
+from optparse import OptionParser
+
+
+def build_parser():
+    parser = OptionParser(
+        version = "%prog " + gitology.VERSION,
+        usage = "Usage: %prog [options] repository_name",
+    )
+    parser.add_option(
+        "--use-md5", action="store_true", dest="use_md5",
+        default=False, help="use MD5 for creating document folders."
+    )
+    parser.add_option(
+        "--rcs", metavar="RCS", default="git", dest="rcs",
+        help="revision control system to be used. none, git, svn, bzr and hg are supported, default is git." 
+    )
+    parser.add_option(
+        "-m", "--message", default="Initical checkin of gitology", dest="message", 
+        help="the commit message to be used for initial commit, can be left empty to force no commits by gitology."
+    )
+    parser.add_option(
+        "--about", action="callback", callback=print_about,
+        help="find out more about this script"
+    )
+    return parser
+
+def smart_wrap(s, width=None):
+    if width is None:
+        width = int(os.environ.get("COLUMNS", 70))
+    lines = []
+    for line in s.split("\n"):
+        if not line.split(): lines.append("")
+        else: lines += textwrap.wrap(line, width=width)
+    return "\n".join(lines)
+
+def print_about(*args, **kw):
+    print smart_wrap(
+        """Create a blank directory structure that can be used with gitology. 
+
+If the "none" RCS is selected, gitology-init will not use any version control system. For other RCS, it will create a new repo, and initialize and add the files in it.""" 
+    )
+    raise SystemExit
+
+def main():
+    parser = build_parser()
+    (options, args) = parser.parse_args()
+    if len(args) == 0:
+        parser.error("Please specify repository name")
+    elif len(args) > 1:
+        parser.error("Please specify only one repository name")
+    print options, args
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
