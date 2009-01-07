@@ -1,0 +1,44 @@
+{% extends "base.html" %} 
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block extra_style %}
+#main
+{
+font-size: 80%;
+}
+hr
+{
+width: 80%;
+}
+{% endblock %}
+#blog-header
+{
+text-align: right;
+}
+{% block extra_head_right_pre %}
+<a href="/">m</a> |	
+{% endblock %}
+
+{% block main %}
+<div id=blog-header>
+	{% if post %}
+	<h1 align=right><a href="{{ blog.base_url }}">{{ blog.title }}</a></h1>
+	{% else %}
+	<h1 align=right>{{ blog.title }}</h1>
+	{% endif %}
+	<h3 align=right>{{ blog.subtitle }}</h3>
+</div>
+<table width=100%>
+	<tr>
+		<td width="80%" valign=top>
+			{% block blog_content %}{% endblock %}
+		</td>
+		<td valign=top>
+			{% block blog_sidebar %}{% endblock %}
+		</td>
+	</tr>
+</table>
+{% endblock %}
+{% block footer %}<p align=right style="margin-top: 0px">&copy; Amit Upadhyay</p>{% endblock %}
+
+

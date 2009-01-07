@@ -1,0 +1,13 @@
+<p>
+One of the most important factor in a users percieved performance of a website is the initial page load time. Initial load time depends on backend performance, time it took for the backend to generate the HTML page, and front end performance, the time it takes for the browser to download and render the HTML and all its dependencies. And it turns out that browsers typically take much longer to download dependencies than the original HTML page, due to browser pipelining. Look at the chart below: 
+<a href="/static2/frontend-performance.gif"><img src="/static2/frontend-performance.gif" width=400px></a>
+</p>
+<p>
+As one can see, most of the time is spent in downloading the images, especially problematic for image heavy sites. Read <a href="http://yuiblog.com/blog/category/performance/">Yahoo! UI Blog's entries</a> on this topic for futher details. 
+ </p>
+<p> 
+Google recently released <a href="http://googlewebtoolkit.blogspot.com/2007/05/google-web-toolkit-14-release-candidate.html">GWT 1.4</a>, and one of the features introduced in this release is <a href="http://code.google.com/p/google-web-toolkit/wiki/ImageBundleDesign">ImageBundle</a>. The basic idea is to bundle all the images into one at the server side, and use CSS sprite technique to render them. Inspired by it, I just finished an implementation of "Image Bundling" for Django. Here is a <a href="http://www.amitu.com/projects/django-image-bundle/demo/">demo</a> of the same. The <a href="http://www.djangosnippets.org/snippets/278/">original template</a> to generate the page is here. Look at the <a href="http://www.amitu.com/static2/e0f4895fdf1f772705d71320c24b5ef1.jpg">bundled image</a>. And the <a href="http://www.djangosnippets.org/snippets/279/">image bundle template tag library</a> can be downloaded from djangosnippets.com. As an added bonus the size of bundled image is about 70% of the total size of individual images, so one can save both total bandwidth, and number of http requests. 
+</p>
+<p>
+This is still the first cut solution. Both this and Google's ImageBundle face an issue when dealing with images with padding, google suggests to avoid padding, or put a wrapper div around the image and put the padding on it. Another issue is images in CSS. They are to be handled slightly differently, but to still keep the output image count to one, some kind of bundle naming is to be done. Google's approach here is creating bundles and using them as two separate steps, I have tried to combine the two together for greater flexibility. 
+</p>

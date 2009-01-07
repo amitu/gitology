@@ -1,0 +1,14 @@
+<p><div style="clear:both;"></div><style type="text/css"><!-- a span {display: none;} a:hover span {display: block;     position: absolute; top: auto; left: auto; width: 250px;     color: #000; background:  white;     border: 2px solid;     padding: 5px; margin: 10px; z-index: 100;    text-decoration: none;     font: 10px Verdana, sans-serif; } --></style> Somehow I keep hitting this theme, <a href="">hiding<span>This is a hidden text, should appear when you hover the mouse over the link, that is, if you are not using IE and are reading this on my blog, not the RSS copy of it. </span></a> things, and showing them when required, anyways, this is what a day in bed due to bad cold, and boredom made me do. 
+<br /> <br />Its in pure CSS, no Javascript, but does not work in <a href="http://news.com.com/2100-1032_3-5088642.html">Internet Explorer</a>. Got the inspiration and some code from <a href="http://www.meyerweb.com/eric/css/edge/popups/demo.html">here</a>. 
+<br /> <br /><span style="font-weight:bold;">HowTo</span>: Put the following in the CSS Section of your blogger template (for example), enclosed between "&lt;style type="text/css"&gt;&lt;!--" and "--&gt;&lt;/style&gt;": 
+<br /> <br />a span {display: none;}
+<br />a:hover span {display: block;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;position: absolute; top: auto; left: auto; width: 250px;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;color: #000; background: white;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;border: 2px solid;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;padding: 5px; margin: 10px; z-index: 100;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;text-decoration: none;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;font: 10px Verdana, sans-serif; }
+<br /> <br />And in the post, edit the html for links to include a &lt;span&gt; tag containing the descriptive text. eg. &lt;a href = "http://www.meye.../demo.html" &gt;CSS Popup&lt;span&gt;A demo and tutorial for popups in pure CSS&lt;/span&gt;&lt;/a&gt; will produce: <a href="http://www.meyerweb.com/eric/css/edge/popups/demo.html">CSS Popup<span>A demo and tutorial for popups in pure CSS</span></a>. You can change the width of popup by overriding it in span tag: &lt;span style="width: 600"&gt;. <a href="">Demo<span style="width:600px">You can change the width of popup by overriding it in span tag: &lt;span style="width: 600"&gt;.</span></a>.
+<br /> <br />Another cool thing to do would be to place a small icon or some kind of indicator when such hidden texts are present, but that can not be done with <a href="http://academ.hvcc.edu/~kantopet/css/index.php?page=css+context+selectors&amp;parent=css+syntax">contextual selection</a> [or may be I need to read more] and I am spoiled by them as assigning classes seems too much work.
+<br /><div style="clear:both; padding-bottom: 0.25em;"></div></p>

@@ -1,0 +1,62 @@
+<p>
+According to <a href="http://www.gnu.org/software/m4/manual/m4.html">m4's official online documentation</a>:
+</p>
+<blockquote>
+<p>
+m4 is a macro processor, in the sense that it copies its input to the output, expanding macros as it goes. Macros are either builtin or user-defined, and can take any number of arguments. Besides just doing macro expansion, m4 has builtin functions for including named files, running shell commands, doing integer arithmetic, manipulating text in various ways, performing recursion, etc.... m4 can be used either as a front-end to a compiler, or as a macro processor in its own right.
+</p>
+</blockquote>
+<p>Linux would have it installed by default, windows binaries can be obtained <a href="http://gnuwin32.sourceforge.net/packages/m4.htm">here</a>.
+</p>
+<p>
+So seriously what is it?
+</p>
+<blockquote>
+<pre>
+<font color=purple>Command Prompt: > m4</font>
+<font color=purple>define(NAME, Amit)</font>
+
+<font color=purple>NAME</font>
+Amit
+<font color=purple>define(AGE, 24 years)</font>
+
+<font color=purple>My age is AGE.</font>
+My age is 24 years.
+<font color=purple>format('result is %d', eval(2*10))</font>
+'result is 20'
+<font color=purple>define(full_name, NAME upadhyay)</font>
+
+<font color=purple>full_name</font>
+amit upadhyay
+<font color=purple>syscmd(dir *dbg)</font>
+ Volume in drive C has no label.
+ Volume Serial Number is 7C69-CA73
+
+ Directory of C:\Documents and Settings\amitu
+
+06/22/2007  03:29 PM    &lt;DIR&gt;          bin-dbg
+               0 File(s)              0 bytes
+               1 Dir(s)   1,825,427,456 bytes free
+
+<font color=purple>define(`foo', `Macro `foo'.')dnl things after dnl are comments.</font>
+<font color=purple>foo</font>
+Macro foo.
+</pre>
+</blockquote>
+<p>
+<font color=purple>Things in purple are input</font>, rest is output. 
+</p>
+<p>
+Why not your fav programming language? For most simple cases, m4 is much easier to read and understand, and you don't have to write and store scripts everywhere. Think of it as a simple templating language.
+</p>
+<p>
+A disclaimer:
+</p>
+<blockquote>
+<p>
+Some people find m4 to be fairly addictive. They first use m4 for simple problems, then take bigger and bigger challenges, learning how to write complex sets of m4 macros along the way. Once really addicted, users pursue writing of sophisticated m4 applications even to solve simple problems, devoting more time debugging their m4 scripts than doing real work. Beware that m4 may be dangerous for the health of compulsive programmers.
+</p>
+</blockquote>
+<p>
+:-)
+</p>

@@ -1,0 +1,527 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>{{ blog_data.document.meta.title }}: {{ post.document.meta.title }}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="alternate" type="application/atom+xml" title="Anything Else (Atom 0.3)" href="http://www.amitu.com/blog/feeds/latest/">
+
+<style type="text/css">
+/* 
+Blogger Template Style
+Name:     TicTac (Blueberry)
+Author:   Dan Cederholm
+URL:      www.simplebits.com
+Date:     1 March 2004
+*/
+
+/* ---( page defaults )--- */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, sans-serif;
+  font-size: small;
+  text-align: center;
+  color: #333;
+  background: #e0e0e0;
+
+  }
+
+pre
+{
+overflow: auto
+}
+
+blockquote {
+  margin: 0 0 0 30px;
+  padding: 10px 0 0 20px;
+  font-size: 88%;
+  line-height: 1.5em;
+  color: #666;
+  background: url(http://www.blogblog.com/tictac_blue/quotes.gif) no-repeat top left;
+  }
+
+blockquote p {
+  margin-top: 0;
+  }
+
+abbr, acronym {
+  cursor: help;
+  font-style: normal;
+  border-bottom: 1px dotted;
+  }
+
+code {
+  color: #996666;
+overflow: auto
+  }
+
+hr {
+  display: none;
+  }
+
+img {
+  border: none;
+  }
+
+
+/* unordered list style */
+
+ul {
+  list-style: none;
+  margin: 0 0 20px 30px;
+  padding: 0;
+  }
+
+li {
+  list-style: none;
+
+  padding-left: 14px;
+  margin-bottom: 3px;
+  background: url(http://www.blogblog.com/tictac_blue/tictac_blue.gif) no-repeat 0 6px;
+  }
+
+/* links */
+
+a:link {
+  color: #6699cc;
+  }
+
+a:visited {
+  color: #666699;
+  }
+
+a:hover {
+  color: #5B739C;
+  }
+
+a:active {
+  color: #5B739C;
+  text-decoration: none;
+  }
+
+/* ---( layout structure )---*/
+
+
+#wrap {
+  width: 847px;
+  margin: 0 auto;
+  text-align: left;
+  background: url(http://www.blogblog.com/tictac_blue/tile.gif) repeat-y;
+  }
+
+#content {
+  margin-left: 62px; /* to avoid the BMH */
+  }
+
+#main-content {
+  float: left;
+  width: 460px;
+  margin: 20px 0 0 0;
+  padding: 0;
+  line-height: 1.5em;
+  }
+
+#sidebar {
+  margin: 0 41px 0 547px;
+  padding: 20px 0 0 0;
+  font-size: 85%;
+  line-height: 1.4em;
+  color: #999;
+  background: url(http://www.blogblog.com/tictac_blue/sidebar_bg.gif) no-repeat 0 0;
+  }
+
+/* ---( header and site name )--- */
+
+#blog-header {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Grande", "Trebuchet MS";
+  background: #e0e0e0 url(http://www.blogblog.com/tictac_blue/top_div_blue.gif) no-repeat top left;
+  }
+
+#blog-header h1 {
+  margin: 0;
+  padding: 45px 60px 50px 160px;
+  font-size: 200%;
+  color: #fff;
+  text-shadow: #4F73B6 2px 2px 2px;
+  background: url(http://www.blogblog.com/tictac_blue/top_h1_blue.gif) no-repeat bottom left;
+  }
+
+#blog-header h1 a {
+  text-decoration: none;
+  color: #fff;
+  }
+
+#blog-header h1 a:hover {
+  color: #eee;
+  }
+
+/* ---( main column )--- */
+
+h2.date-header {
+  margin-top: 0;
+  padding-left: 14px;
+  font-size: 90%;
+  color: #999999;
+  background: url(http://www.blogblog.com/tictac_blue/date_icon_blue.gif) no-repeat 0 50%;
+  }
+
+h3.post-title {
+  margin-top: 0;
+  font-family: "Lucida Grande", "Trebuchet MS";
+  font-size: 130%;
+  color: #993333;
+  }
+
+.post {
+  margin: 0 0 1.5em 0;
+  padding: 0 0 1.5em 14px;
+  }
+
+.post a span {display: none;}
+
+.post a:hover span {
+   display: block !important; 
+   position: absolute; top: auto; left: auto; width: 250px;
+   color: #000; background: white;
+   border: 2px solid;
+   padding: 5px; margin: 10px; z-index: 100;
+   text-decoration: none;
+   font: 10px Verdana, sans-serif;
+}
+
+.post-footer {
+  margin: 0;
+  padding: 0 0 0 14px;
+  font-size: 88%;
+  color: #999;
+  background: url(http://www.blogblog.com/tictac_blue/tictac_grey.gif) no-repeat 0 8px;
+  }
+
+.post img {
+  padding: 6px;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #c0c0c0;
+  border-right: 1px solid #c0c0c0;
+  }
+
+/* comment styles */
+
+#comments {
+  padding-left: 15px;
+  font-size: 85%;
+  line-height: 1.5em;
+  color: #666;
+  }
+
+#comments h4 {
+  margin: 20px 0 15px 0;
+  padding: 8px 0 0 40px;
+  font-family: "Lucida Grande", "Trebuchet MS";
+  font-size: 130%;
+  color: #666;
+  background: url(http://www.blogblog.com/tictac_blue/bubbles.gif) no-repeat 10px 0;
+  height: 29px !important; /* for most browsers */
+  height /**/:37px; /* for IE5/Win */
+  }
+  
+#comments ul {
+  margin-left: 0;
+  }
+
+#comments li {
+  background: none;
+  padding-left: 0;
+  }
+  
+.comment-body {
+  padding: 0 10px 0 25px;
+  background: url(http://www.blogblog.com/tictac_blue/tictac_blue.gif) no-repeat 10px 5px;
+  }
+
+.comment-body p {
+  margin-bottom: 0;
+  }
+
+.comment-data {
+  margin: 4px 0 0 0;
+  padding: 0 10px 1em 60px;
+  color: #999;
+  border-bottom: 1px solid #ddd;
+  background: url(http://www.blogblog.com/tictac_blue/comment_arrow_blue.gif) no-repeat 44px 2px;
+  }
+
+.comment-form {
+  padding: 0 10px 0 25px;
+}
+.deleted-comment {
+  font-style:italic;
+  color:gray;
+  }
+
+/* ---( sidebar )--- */
+
+h2.sidebar-title {
+  margin: 0 0 0 0;
+  padding: 25px 0 0 50px;
+  font-family: "Lucida Grande", "Trebuchet MS";
+  font-size: 130%;
+  color: #666;
+  height: 32px;
+  background: url(http://www.blogblog.com/tictac_blue/sidebar_icon.gif) no-repeat 20px 15px;
+  height: 32px !important; /* for most browsers */
+  height /**/:57px; /* for IE5/Win */
+  }
+
+#sidebar ul, #sidebar p {
+  margin: 0;
+  padding: 5px 20px 1em 20px;
+  border-bottom: 1px solid #ddd;
+  }
+
+#sidebar li {
+  background: url(http://www.blogblog.com/tictac_blue/tictac_blue.gif) no-repeat 0 5px;
+  }
+
+/* profile block */
+
+.profile-datablock {
+  margin: 0;
+  padding: 5px 20px 0 20px;
+  }
+
+.profile-datablock dd {
+  margin: 0;
+  padding: 0;
+  }
+
+.profile-img img {
+  float: left;
+  margin: 0 10px 0 0;
+  padding: 4px;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-bottom: 1px solid #c0c0c0;
+  border-right: 1px solid #c0c0c0;
+  background: #fff;
+  }
+
+#sidebar p.profile-link {
+  padding-left: 36px;
+  background: url(http://www.blogblog.com/tictac_blue/profile_blue.gif) no-repeat 20px 4px;
+  }
+
+p#powered-by, #sidebar p.profile-textblock {
+  margin-top: 1em;
+  border: none;
+  }
+
+/* ---( footer )--- */
+
+.clear { /* to fix IE6 padding-top issue */
+  clear: both;
+  height: 0;
+  }
+
+#footer {
+  margin: 0;
+  padding: 0 0 9px 0;
+  font-size: 85%;
+  color: #ddd;
+  background: url(http://www.blogblog.com/tictac_blue/bottom_sill.gif) no-repeat bottom left;
+  }
+
+#footer p {
+  margin: 0;
+  padding: 20px 320px 20px 95px;
+  background: url(http://www.blogblog.com/tictac_blue/bottom_sash.gif) no-repeat top left;
+  }
+
+span.fullpost {display:none;}
+
+</style>
+<style type="text/css">
+    div.b-mobile {display:none;}
+</style>
+<style type="text/css">
+    .zg_div {margin:0px 5px 5px 0px; width:117px;}
+    .zg_div_inner {border: solid 1px #000000; background-color:#ffffff;  color:#666666; text-align:center; font-family:arial, helvetica; font-size:11px;}
+    .zg_div a, .zg_div a:hover, .zg_div a:visited {color:#3993ff; background:inherit !important; text-decoration:none !important;}
+    .comment-link {margin-left:.6em;}
+</style>
+</head>
+<body>
+<div id="wrap"> <!-- #wrap - for centering -->
+
+<!-- Blog Header -->
+<div id="blog-header">
+  <h1>
+    <a href="/blog/">
+	{{ blog_data.document.meta.title }}
+    </a>
+  </h1>
+</div>
+
+
+<div id="content"> <!-- #content wrapper -->
+
+<!-- Begin #main-content -->
+<div id="main-content">
+
+  <h2 class="date-header">{{ post.posted_on|date:"l, F j, Y" }}</h2>
+  <div class="post">
+    <h3 class="post-title">
+	 
+	 {{ post.document.meta.title }}
+	 
+    </h3>
+    
+     
+    <div class="post-body">
+    
+    <p></p><div style="clear: both;"></div>
+    {{ post.document.index|safe }}
+    <div style="clear: both; padding-bottom: 0.25em;"></div>
+    </div>
+    {% if post.labels %}
+    <p>
+        Label{{ post.labels|length|pluralize }}: 
+        {% for label in post.labels %}
+            <a href="/blog/labelled/{{ label.document.meta.slug }}/" title="{{ label.document.meta.descrption }}">
+                {{ label.document.meta.title }}</a>
+        {% endfor %}
+    </p>
+    {% endif %}
+    <p>If you find this post useful, please conside buying me a pizza! 
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="display: inline">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but21.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0px none">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+</form></p>
+    <p class="post-footer">Posted by Amit at 
+      <a href="{{ post.document.meta.url }}" title="permanent link">{{ post.document.meta.posted_on }}</a> 
+    </p>
+  </div>
+  <!-- End .post -->
+
+  <!-- End #comments -->
+<div name="comments" id="comments">
+    <h4>Comments</h4>
+{% if post.document.replies.count %}
+<ul>
+    {% for comment in post.document.replies %}
+    <li>
+    <div class="comment-body">
+        {{ comment.index|safe }}
+        <br>
+        <a href="{{ comment.meta.author_url }}">{{ comment.meta.author_name }}</a>
+    </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no comments, be the first to comment.</p>
+{% endif %}
+    <h3>Enter Comment</h3>
+    <form method="post" action=".">
+        <table>{{ form }}</table>
+        <input type="submit" value="Post Comment">
+    </form>
+</div>
+  <hr>
+
+</div><!-- End #main-content -->
+</div><!-- End #content -->
+
+
+
+<!-- Begin #sidebar -->
+<div id="sidebar">
+
+  <h2 class="sidebar-title">About</h2>
+   <dl class="profile-datablock">   
+     <dd class="profile-data">{{ blog_data.document.meta.subtitle }}</dd>
+     <dd class="profile-img"> <a href="http://flickr.com/photos/upadhyay/tags/me/"><img alt="My Photo" src="http://photos7.flickr.com/10890414_377e775913_m.jpg" style="border: 0px none ; margin: 0px; padding: 5px; background: inherit inherit inherit inherit inherit; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;" width="200"></a>  </dd> <br> <br>
+     <dd class="profile-data"> <strong>Name: </strong> Amit Upadhyay</dd>  
+     <dd class="profile-data"> <strong>Email: </strong> upad<a href="http://mailhide.recaptcha.net/d?k=01GIUdFc1NEPmQd_k9tC2coQ==&amp;c=tCWgkrPA6YF7YjqOr1kqxNlRERgcy5-pGcbDWN5YfVM=" onclick="window.open('http://mailhide.recaptcha.net/d?k=01GIUdFc1NEPmQd_k9tC2coQ==&amp;c=tCWgkrPA6YF7YjqOr1kqxNlRERgcy5-pGcbDWN5YfVM=', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;" title="Reveal this e-mail address">...</a>@gmail.com</dd>  
+     <dd class="profile-data"> <strong>Mobile: </strong> +91-9867-359-701</dd>
+   </dl>  
+<p> </p>
+  <!-- End #profile -->
+  <h2 class="sidebar-title">Labels</h2>
+  
+  <ul class="archive-list">
+   	    {% for label in blog_data.labels.values %} 
+            <li><a href="/blog/labelled/{{ label.document.meta.slug }}/" title="{{ label.document.meta.descrption }}">{{ label.document.meta.title }}</a></li>
+        {% endfor %}
+  </ul>
+  <h2 class="sidebar-title">Previous</h2>
+  
+  <ul id="recently">
+    {% for recent_post in blog.post_set.all|slice:":10" %} 
+        <li><a href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a></li>
+    {% endfor %}
+     
+  </ul>
+  
+  
+<h2 class="sidebar-title">Links</h2>
+<ul>
+  <li><a href="http://www.vakow.com/">SMS Forwards</a></li>
+  <li><a href="http://chaturvedi.blogspot.com/">What's not Amit?</a></li>
+  <li><a href="http://www.orkut.com/Profile.aspx?uid=14621930857631909179">me@Orkut</a></li>
+</ul>
+<!-- Creative Commons License -->
+<h2 class="sidebar-title"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/"><img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.gif" align="left" border="0"></a></h2>
+<p></p>
+<!-- /Creative Commons License -->
+<!--
+
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="">
+   <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+   <license rdf:resource="http://creativecommons.org/licenses/by-nc-sa/2.0/" />
+</Work>
+
+<License rdf:about="http://creativecommons.org/licenses/by-nc-sa/2.0/">
+   <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
+   <permits rdf:resource="http://web.resource.org/cc/Distribution" />
+   <requires rdf:resource="http://web.resource.org/cc/Notice" />
+   <requires rdf:resource="http://web.resource.org/cc/Attribution" />
+   <prohibits rdf:resource="http://web.resource.org/cc/CommercialUse" />
+   <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+   <requires rdf:resource="http://web.resource.org/cc/ShareAlike" />
+</License>
+
+</rdf:RDF>
+
+-->
+
+  <!--<h2 class="sidebar-title">New</h2>
+  
+  <p>This is a paragraph of text in the sidebar.</p>
+  -->
+</div> <!-- End #sidebar -->
+
+<div class="clear">&nbsp;</div>
+
+<div id="footer">
+   <p><!-- If you'd like, you could place footer information here. -->Amit Upadhyay &lt;upadhyay@gmail.com&gt;</p>
+</div>
+
+</div> <!-- end #wrap -->
+
+<!-- c(~) -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-68097-4";
+urchinTracker();
+</script>
+</body></html>

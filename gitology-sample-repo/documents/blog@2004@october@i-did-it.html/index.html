@@ -1,0 +1,38 @@
+<p><div style="clear:both;"></div>Finally after hours of struggle I have a solution for <a href="http://help.blogger.com/bin/answer.py?answer=898&amp;topic=12">How can I create expandable post summaries?</a> <br /> <br /><span style="font-style: italic;">With this trick, you can choose to display an arbitrary amount of text from the beginning of each post, as a teaser for the whole thing. Then users who want to read the rest of the post can click a link to see the full text. This is handy if you have lots of long articles all on one page. Note that you'll need to have </span><a style="font-style: italic;" href="http://help.blogger.com/bin/answer.py?answer=732">post pages</a> enabled in order to make this feature work.
+<br /> <br />Thanks partly to <a href="http://daniel.glazman.free.fr/weblog/newarchive/2003_06_01_glazblogarc.html#s95320189">this post</a> on how to use Javascripts DOM model.
+<br /><span class="fullpost"> <br />You have to modify the template a bit: 
+<br /> <br /><b>Update Stylesheet</b> <br /> <br />Locate the &lt;style&gt; &lt;/style&gt; tags near the top of the
+<br />template, and insert the following lines before &lt;/style&gt;.  
+<br /><i> <br />&lt;MainOrArchivePage&gt; 
+<br />&nbsp;&nbsp;&nbsp;&nbsp;   span.fullpost {display:none;}
+<br />&lt;/MainOrArchivePage&gt;
+<br /> <br />&lt;ItemPage&gt;
+<br />&nbsp;&nbsp;&nbsp;&nbsp;   span.fullpost {display:inline;}
+<br />&lt;/ItemPage&gt;
+<br /></i> <br /> <br /><b>Add javascript </b> <br /> <br />Add the following lines before &lt;body&gt; tag.
+<br /><i> <br />&lt;script type="text/javascript"&gt;
+<br />var memory = 0;
+<br />var number = 0;
+<br />&lt;/script&gt;
+<br /></i> <br /> <br />Then locate the following or similer snippet:
+<br /><i> <br />&lt;div class="post-body"&gt;
+<br /> <br />&lt;$BlogItemBody$&gt;
+<br /> <br />&lt;/div&gt;
+<br /></i> <br />and add the following after it:
+<br /><i> <br />&lt;MainOrArchivePage&gt;
+<br />&lt;script type="text/javascript"&gt;
+<br />spans = document.getElementsByTagName('span');
+<br />number = 0;
+<br />for(i=0; i < spans.length; i++){
+<br />&nbsp;&nbsp;&nbsp;&nbsp;    var c = " " + spans[i].className + " ";
+<br />&nbsp;&nbsp;&nbsp;&nbsp;    if (c.indexOf("fullpost") != -1)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         number++;
+<br />}
+<br />if(number != memory){
+<br />&nbsp;&nbsp;&nbsp;&nbsp;    document.write('&lt;a href="&lt;$BlogItemPermalinkUrl$&gt;" title="permanent link"&gt;Read More&lt;/a&gt;');
+<br />}
+<br />memory = number;
+<br />&lt;/script&gt;
+<br />&lt;/MainOrArchivePage&gt;
+<br /></i> <br /> <br /><b>Thats it!</b> <br /> <br />Put the portion of your post that you dont want to be visible in the
+<br />main page in between <i>&lt;span class="fullpost"&gt; &lt;/span&gt;.</i> <br /> <br /></span><div style="clear:both; padding-bottom: 0.25em;"></div></p>

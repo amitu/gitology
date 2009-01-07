@@ -1,0 +1,21 @@
+<p>
+You are all aware of object pagination, search results, your photo on flickr, stories on reddit, all have a next page/previous page paradigm. Django makes it trivially easy to create such pages by providing object_list generic view. There are some problems with the current implementation of pagination that we see around, page no 0/1 is assigned to the latest objects in the list. While in search result this makes little difference, in other cases it has a few consequences. 
+</p>
+<p>
+In reddit for example, you are on the main page, you see 25 stories there, you take 10 minutes to go through all of them, and click next. There is a good chance that 3-5 stories on the first page would have moved to now second page, and you will see them again. Not a good experience, but acceptable. You spend next 3-4 hours working, and click back to see the stories on the first page, you are taken to page 0, and there are good chances you have missed 12 stories that moved from first page to second, as your current page labelled second page became third. This is all quite confusing if you think about it. [I am assuming from this discussion the stories changing their relative rankings for simplicity, you can take example of flickr group photos, they also change rapidly, and order does not change there]. 
+</p>
+<p>
+Another problem is, I am page on 26 of this flickr group, and I see some fellow has posted 8 nice photos to the group. I bookmark the page, and come back later/email it to a friend, and by the time the page is visited again, 100s of new photos has been added and the content of page 26 is now on page 29 or so, and I don't find what I was looking for.
+</p>
+<p>
+The last consequence of this is caching difficulty. If a group has 5 thousand pages worth 30 photos each, and one more photo gets added, either the page number of the photos in each page will change for 5 thousand of those pages. This will happen on each photo being added, and there for the page can hardly be ever cached. 
+</p>
+<p>
+I propose a solution to this problem, I call it reverse pagination, and this blog is currently using a patched django to demonstrate it. In reverse pagination, page no 0/1 is assigned to the older page ever. When on reddit home page, and click next, you will not go to page 2, you will jump to page 20566 or something like that. The content of page 20566 will never change, only the content of latest page would be changing while new items are being added. This means all pages other than the main page can be cached for the rest of the life span of the website. And user will not face the other two problems I listed above. 
+</p>
+<p>
+Only downside is on the main page/latest page, you will upto 19 items if you paginate by 10 items per page. 
+</p>
+<p>
+Here is the <a href="http://code.djangoproject.com/ticket/4956">patch</a> for django. Enjoy!
+</p>

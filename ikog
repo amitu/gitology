@@ -5,7 +5,7 @@
 # or refer to the notice section later in the file.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #!<^DATA
-# add tests.py and do keep all the tests in this file.  @Anywhere :pNone :created2008-12-05
+# create new website design template  @Anywhere :pDesign :created2009-01-06 :d2009-01-06
 # rss feeds for labels  @Anywhere :pDjango :created2009-01-01
 # meta blog all, this will contain posts across all blogs  @Anywhere :pDjango :created2009-01-03
 # flexible blog, +/- blog/labels, multi filters.  @Anywhere :pDjango :created2009-01-03
@@ -14,6 +14,7 @@
 # encrypted documents support, index.enc.  @Anywhere :pCore :created2009-01-03
 # wiki support  @Anywhere :pDjango :created2009-01-06
 # comments folder name should be based on timestamp  @Anywhere :pCore :created2009-01-06
+# add openid test app  @Anywhere :pDevelopment :created2009-01-06
 #!<^CONFIG
 cfgColor = 1
 cfgAutoSave = True
