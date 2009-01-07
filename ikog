@@ -10,11 +10,10 @@
 # meta blog all, this will contain posts across all blogs  @Anywhere :pDjango :created2009-01-03
 # flexible blog, +/- blog/labels, multi filters.  @Anywhere :pDjango :created2009-01-03
 # blog view permission  @Anywhere :pDjango :created2009-01-03
-# openid support, login via google/yahoo/fb  @Anywhere :pDjango :created2009-01-03
 # encrypted documents support, index.enc.  @Anywhere :pCore :created2009-01-03
-# wiki support  @Anywhere :pDjango :created2009-01-06
-# comments folder name should be based on timestamp  @Anywhere :pCore :created2009-01-06
-# add openid test app  @Anywhere :pDevelopment :created2009-01-06
+# login page with yahoo/gmail logo along with openid textinput  @Anywhere :pDesign :created2009-01-07
+# add comments to wiki pages  @Anywhere :pDjango :created2009-01-07
+# utilities to find ancestory in wiki pages  @Anywhere :pCore :created2009-01-07
 #!<^CONFIG
 cfgColor = 1
 cfgAutoSave = True

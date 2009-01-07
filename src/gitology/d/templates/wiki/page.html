@@ -1,0 +1,5 @@
+{% extends "wiki/base.html" %}
+{% block title %}{{ document.meta.title }}{% endblock %}
+{% block content %}
+{{ document.index|safe }}
+{% endblock %}

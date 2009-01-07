@@ -174,13 +174,27 @@ def get_blog(p):
 
 # get_blogs # {{{
 def get_blogs():
-    from gitology.config import settings
+    from gitology.config import settings as gsettings
     urls = []
-    blogs_folder = settings.LOCAL_REPO_PATH.joinpath("blogs")
+    blogs_folder = gsettings.LOCAL_REPO_PATH.joinpath("blogs")
     for d in blogs_folder.dirs():
         urls += get_blog(d)
     return urls
 # }}}
+
+global_wiki_dict = {}
+def get_wiki():
+    from gitology.config import settings as gsettings
+    from gitology.document import Document
+    urls = []
+    wiki_folder = gsettings.LOCAL_REPO_PATH.joinpath("wiki")
+    for i in wiki_folder.walk():
+        if not i.isfile(): continue
+        wiki_document = Document(i.open().read().strip())
+        wiki_url = i[len(wiki_folder):-4] + "/"
+        global_wiki_dict[wiki_url] = wiki_document
+        print wiki_document, wiki_url
+    return urls
 
 # refresh_urlconf_cache # {{{
 def refresh_urlconf_cache():
@@ -188,13 +202,14 @@ def refresh_urlconf_cache():
     from gitology.config import settings
     """ creates a urlconf that is stored """
     global_blog_dict = {}
+    global_wiki_dict = {}
     urls = [''] 
     # for blog:
     # list of blogs is in $reporoot/blogs/
     # urls: /blog_name/
     # blog named "main" goes under /blog/, rest of them go to /folder_name/
     urls += get_blogs() 
-
+    urls += get_wiki()
     # for each blog, list of labels in $reporoot/blogs/blog_name/labels/ 
     # urls: /blog_name/label/label_name/
     # for each blog, date based heirarchy is kept in 

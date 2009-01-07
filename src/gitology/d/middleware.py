@@ -7,7 +7,7 @@ from django.core import urlresolvers
 import sys
 
 from gitology.config import settings as gsettings
-from gitology.d.views import show_post
+from gitology.d.views import show_post, show_wiki
 from gitology import utils
 
 class URLConfMiddleware:
@@ -47,6 +47,8 @@ class URLConfMiddleware:
         if response.status_code != 404: return response
         if request.path in utils.global_blog_dict:
             return show_post(request)
+        if request.path in utils.global_wiki_dict:
+            return show_wiki(request)
         if not request.path.endswith("/"):
             if "%s/" % request.path in utils.global_blog_dict:
                 return http.HttpResponsePermanentRedirect(request.path + "/")

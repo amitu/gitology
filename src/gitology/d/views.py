@@ -66,7 +66,14 @@ def show_archive(request, blog_name, archive_format): pass
 # }}}
 
 # wiki related views # {{{
-def show_wiki(request, page): pass
+# show_wiki # {{{
+def show_wiki(request): 
+    return render_to_response(
+        "wiki/page.html",
+        { 'document': utils.global_wiki_dict[request.path] },
+        context_instance = RequestContext(request)
+    )
+# }}}
 def add_comment(request, document_name): pass
 def index(request): return HttpResponse("OK")
 # }}}
