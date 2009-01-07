@@ -18,12 +18,15 @@
         <div class="post">
             <h4>{{ post.document.meta.title|safe }}</h4>
             <div>{{ post.document.index|safe }}</div>
+            {% if post.labels %}
             <h5>Labels:</h5>
             <ul>
                 {% for label in post.labels %}
                     <li>{{ label.document.meta.title }}</li>
                 {% endfor %}
             </ul>
+            {% endif %}
+            <a href="{{ post.document.meta.url }}#comments">{{ post.document.replies.count }} comment{{ post.document.replies.count|pluralize }}</a>
         </div>
     {% endwith %}
 {% endfor %}

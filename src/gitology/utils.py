@@ -193,7 +193,6 @@ def get_wiki():
         wiki_document = Document(i.open().read().strip())
         wiki_url = i[len(wiki_folder):-4] + "/"
         global_wiki_dict[wiki_url] = wiki_document
-        print wiki_document, wiki_url
     return urls
 
 # refresh_urlconf_cache # {{{

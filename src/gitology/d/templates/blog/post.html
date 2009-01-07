@@ -6,10 +6,34 @@
     <h2>{{ post.document.meta.title }}</h2>
     <div>{{ post.document.index|safe }}</div>
 </div>
+{% if post.labels %}
 <h5>Labels:</h5>
 <ul>
     {% for label in post.labels %}
         <li>{{ label.document.meta.title }}</li>
     {% endfor %}
 </ul>
+{% endif %}
+<h4>Comments</h4>
+{% if post.document.replies.count %}
+<ul>
+    {% for comment in post.document.replies %}
+    <li>
+    <div class="comment-body">
+        {{ comment.index|safe }}
+        <br>
+        <a href="{{ comment.meta.author_url }}">{{ comment.meta.author_name }}</a>
+    </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no comments, be the first to comment.</p>
+{% endif %}
+    <h3>Enter Comment</h3>
+    <form method="post" action=".">
+        <table>{{ form }}</table>
+        <input type="submit" value="Post Comment">
+    </form>
+</div>
 {% endblock %}

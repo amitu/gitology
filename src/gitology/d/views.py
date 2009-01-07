@@ -51,7 +51,7 @@ def show_post(request):
     if request.method == "POST":
         form = forms.CommentForm(remote_ip, request.POST)
         if form.is_valid():
-            form.save(post)
+            form.save(post["document"])
             return HttpResponseRedirect(request.path)
     else:
         form = forms.CommentForm(remote_ip)
@@ -68,9 +68,17 @@ def show_archive(request, blog_name, archive_format): pass
 # wiki related views # {{{
 # show_wiki # {{{
 def show_wiki(request): 
+    document = utils.global_wiki_dict[request.path] 
+    remote_ip = request.META['REMOTE_ADDR']
+    if request.method == "POST":
+        form = forms.CommentForm(remote_ip, request.POST)
+        if form.is_valid():
+            form.save(document)
+            return HttpResponseRedirect(request.path)
+    else:
+        form = forms.CommentForm(remote_ip)
     return render_to_response(
-        "wiki/page.html",
-        { 'document': utils.global_wiki_dict[request.path] },
+        "wiki/page.html", { 'document': document, 'form': form },
         context_instance = RequestContext(request)
     )
 # }}}
