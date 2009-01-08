@@ -3,14 +3,14 @@
 creates gitology-repo in the current directory.
 """
 
-import sys, gitology, textwrap, os
+import sys, gitology, textwrap, os, path
 from optparse import OptionParser
 
-
+# build_parser # {{{
 def build_parser():
     parser = OptionParser(
         version = "%prog " + gitology.VERSION,
-        usage = "Usage: %prog [options] repository_name",
+        usage = "Usage: %prog [options] [repository_folder_location]",
     )
     parser.add_option(
         "--use-md5", action="store_true", dest="use_md5",
@@ -29,7 +29,9 @@ def build_parser():
         help="find out more about this script"
     )
     return parser
+# }}}
 
+# smart_wrap # {{{
 def smart_wrap(s, width=None):
     if width is None:
         width = int(os.environ.get("COLUMNS", 70))
@@ -38,7 +40,9 @@ def smart_wrap(s, width=None):
         if not line.split(): lines.append("")
         else: lines += textwrap.wrap(line, width=width)
     return "\n".join(lines)
+# }}}
 
+# print_about # {{{
 def print_about(*args, **kw):
     print smart_wrap(
         """Create a blank directory structure that can be used with gitology. 
@@ -46,15 +50,54 @@ def print_about(*args, **kw):
 If the "none" RCS is selected, gitology-init will not use any version control system. For other RCS, it will create a new repo, and initialize and add the files in it.""" 
     )
     raise SystemExit
+# }}}
 
 def main():
+    # get arguments # {{{
     parser = build_parser()
     (options, args) = parser.parse_args()
+    if len(args) > 1:
+        parser.error("Please specify only one repository folder location")
     if len(args) == 0:
-        parser.error("Please specify repository name")
-    elif len(args) > 1:
-        parser.error("Please specify only one repository name")
-    print options, args
+        try:
+            repo_name = raw_input("Please enter a repository folder location: ") 
+        except KeyboardInterrupt: 
+            print
+            return 1
+    else: 
+        repo_name = args[0]
+    repo_path = path.path(".").joinpath(repo_name)
+    if repo_path.exists():
+        print "%s already exists, can not overwrite content. Exiting." % repo_path.abspath()
+        return 3
+    # }}}
+    try:
+        repo_path.makedirs()
+    except OSError, e:
+        print "Can not create directories. %s. Exiting." % e
+        return 4
+    repo_path.joinpath("editors.txt").touch()
+    repo_path.joinpath("blocked-authors.txt").touch()
+    rc_file = path.path(os.environ["HOME"]).joinpath(".gitologyrc")
+    rc_file_content = """\
+[DEFAULTS]
+AUTHOR: www.example.com
+USE_MD5: %s
+
+[REPO]
+LOCAL: %s
+REMOTE: 
+AUTO_COMMIT: False
+""" % ( options.use_md5, repo_path.abspath() )
+    s_rc_file = repo_path.joinpath("sample.gitologyrc")
+    s_rc_file.open("w").write(rc_file_content)
+    if rc_file.exists():
+        print "You already have .gitlogyrc file, sample rc file written to", 
+        print s_rc_file.abspath()
+        print "Copy it to ~/.gitologyrc"
+    else: 
+        rc_file.open("w").write(rc_file_content)
+        print "Information about this repo written to %s" % rc_file.abspath()
     return 0
 
 if __name__ == "__main__":
