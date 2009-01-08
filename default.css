@@ -4,7 +4,7 @@
 
 body {
     font-family: Verdana, sans;
-    margin: 3em;
+    margin-left: 3em;
     max-width: 50em;
 }
 
@@ -12,6 +12,20 @@ p {
     text-align: justify;
 }
 
+cite {
+    color: #8B1B1B;
+    font-family: Andale Mono, Courier New, monospace;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 1.3em;
+}
+
+h1.title {
+    text-align: center;
+    font-size: 2.5em;
+}
 /* Monospace text */
 
 tt {
@@ -41,6 +55,10 @@ pre.literal-block {
     margin-left: 40px;
 }
 
+pre.literal-block a {
+    color: #AA4400;
+    text-decoration: none;
+}
 /* Indented quotations */
 
 blockquote > p {
