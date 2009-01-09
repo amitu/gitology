@@ -5,50 +5,83 @@ Gitology Getting Started Guide
 about
 -----
 
-Gitology is a knowledge-management system. It uses text files to store data, 
+**Gitology is a knowledge-management system**. It uses text files to store data, 
 in a special directory called a gitology repository. Gitology repository itself is 
 under a version control system. As of now only `git` is supported as RCS backend.
 
 gitology repository
 -------------------
 
-Gitology repository is designed to be accessed manually. The structure of 
-gitology repository is explained in `gitology-repo-structure.txt`. Standard tools
-like `vim`, `ls`, `grep`, `find`, `cat` etc can be used to work with gitology 
-repo. Gitology also comes with a set of command line scripts to help in common 
-operations on gitology repository.
+**All knowldege base, articles, blog posts, wiki pages, albums ete; are stored in a 
+folder called gitology repository**. Gitology repository is designed to be accessed 
+manually. The structure of gitology repository is explained in 
+`gitology-repo-structure.txt`. Standard tools like `vim`, `ls`, `grep`, `find`, 
+`cat` etc can be used to work with gitology repo. Gitology also comes with a set 
+of command line scripts to help in common operations on gitology repository.
 
-gitology repository lookup protocol
------------------------------------
+**gitology repository lookup protocol**
 
 Gitology repository can be located anywhere on the file system. Its location and 
 few other gitology related configurations are stored in a rc file. By default 
-configuration file is called `.gitologyrc` on unix like systems and `_gitology`
-under windows. The file is located in `$HOME` directory of the user. 
+**gitology configuration file is called** `.gitologyrc` **on unix like systems 
+and** `_gitology` **on windows**. The file is located in `$HOME` directory of 
+the user. 
 
 Note: The location of configuration file can also be specified in an environment 
 variable called `GITOLOGY_CONFIG_FILE`. 
 
-creating a gitology repository
-------------------------------
+**creating a gitology repository**
 
-New gitology repository can be created using `gitology-init` command. This command
+New **gitology repository can be created using** `gitology-init` **command**. This command
 comes as a part of gitology. To create gitology repository named `gitology_repo`,
 located under `~/Documents/` folder, run the command `gitology-init 
 ~/Documents/gitology_repo`. This command will check and create a gitology 
 configuration file, `.gitology`, containing the location of newly created repository.
 
+**gitology repo meta files**
+
+Gitology repository contains the following files:
+
+editors.txt
+
+  This file contains the list of `openids` of users who are allowed to edit documents. 
+  Each document can contain a meta data called `editors`. This can be used to specify 
+  edit permission on per document basis.  This feature is used only when gitology 
+  document is being modified from web. 
+
+Gitology repository contains a file called `blocked-authors.txt`. This file contains a 
+list of users who are not given any permissions on any document in this repository. This 
+is also used only when gitology web application is being used to modify document from 
+browser. 
+
+**gitology-info**
+
+**Gitology comes with a utility called `gitology-info` to find information about current
+gitology repository**. It follows the gitology repository lookup protocol to find 
+repository location. It can tell users about the following information about the gitology
+repository:
+
+- repository location 
+- repository size 
+- number of documents in repository
+- number and other information about blogs in repository
+- information about wiki pages managed by repository
+
+`gitology-info` prints a summary about repository by default. It also has a lot of comman
+line arguments to find out specific details mentioned above and more. For more details
+about this command run `man gitology-ingo` or `gitology-info --about`.
+
 gitology document
 -----------------
 
-Gitology organized the knowledge in a primitive called a gitology `document`. The 
-document has a unique name, and is composed of content, meta data, comments on 
-the document, dependencies and versions. Gitology documents are stored in a 
-directory called `documents` in gitology repository. Each document is stored as
-a directory named after the document's name. For this reason document's name
-should be a valid file name. The name of the document is for internal use only.
-Document supports meta data store which can be used for storing more meaningful
-title of the document. 
+**Gitology organized the knowledge in a primitive called a gitology** `document`. 
+The document has a unique name, and is composed of content, meta data, comments 
+on the document, dependencies and versions. **Gitology** `documents` **are stored
+in a directory called** `documents` **in gitology repository**. Each document 
+is stored as a directory named after the document's name. For this reason 
+document's name should be a valid file name. The name of the document is for
+internal use only. Document supports meta data store which can be used for
+storing more meaningful title of the document. 
 
 Note: Some operating systems do not support large number of files in a directory. 
 This could be a problem if the gitology repository starts to become too big, 
@@ -85,17 +118,17 @@ to convert existing repositores.
       |- blocked-users.txt
       ...
 
-The document can store its primary content in either a text file, an html file or as
+The **document stores its primary content in either a text file**, an html file or as
 a restructured text document. Other content formats would be supported in future.
 The format of the content is deduced from the name of the content file, which is called
 `index`. 
 
-Meta data on document are stored in a file called `meta.json`. Meta data is stored as 
+**Meta data on document are stored in a file called** `meta.json`. Meta data is stored as 
 `key-value` pairs, and any arbitrary data can be stored as meta data. Typically each 
 document has meta data about the `author` of the document, `created_on`, and 
 `last_modified_on`, and `type`. None of these data are required. 
 
-Each document can have replies associated with this document. The replies are stored in 
+**Each document can have replies associated with this document**. The replies are stored in 
 a folder called `replies`. Each reply itself contains an `index`, which follows the same
 index guideline as that for `documents`. Each reply can also have meta data to store 
 the name of the person who created that reply or when was it created etc. Replies can have
@@ -106,7 +139,6 @@ Further, each document can have a set of dependencies, stored in a folder called
 
 Everything in the document is under version control. `gitology python module` or `git`
 can be used to find out history of each file in the document. 
-
 
 gitology python api
 --------------------
@@ -128,23 +160,10 @@ of the document.
 
 Furhter API reference can be looked up in the `api.rst` file. 
 
-gitology repo meta files
--------------------------
-
-Gitology repository contains a file called `editors.txt`. This file contains the list 
-of `openids` of users who are allowed to edit documents. Each document can contain a meta
-data called `editors`. This can be used to specify edit permission on per document basis.
-This feature is used only when gitology document is being modified from web. 
-
-Gitology repository contains a file called `blocked-authors.txt`. This file contains a 
-list of users who are not given any permissions on any document in this repository. This 
-is also used only when gitology web application is being used to modify document from 
-browser. 
-
 gitology blogs
 ---------------
 
-Gitology repository can be used as a blogs. Gitology repository contains a folder
+**Gitology repository can be used as a blogs**. Gitology repository contains a folder
 called `blogs` for this purpose. One gitology repository can have more then one
 blogs. 
 
@@ -175,7 +194,7 @@ for blog name, title and subtitle and creates the document and blog folder for y
 
 **blog posts**
 
-Blog posts are stored as documents in gitology repository. Any existing document
+**Blog posts are stored as documents in gitology repository**. Any existing document
 can be converted to blog post by using `gitology-blog-document` command line tool.
 This tool will ask for the blog name and name of the document. It will pick the
 meta data `title` from the document if it exists, otherwise it will prompt for the
@@ -214,9 +233,9 @@ change, nor should there be duplication of content on multiple urls.  For all th
 reasons, using the term `blog` in url may be avoided, and more generic url scheme
 should be preferred.
 
-Gitology ships with a django application that can be used to expose the blogs stored
-in gitology repositories on web. The application is called `gitology.d`. This 
-application supports basic blog and threaded comments, along with feeds. To 
+**Gitology ships with a django application that can be used to expose the blogs 
+stored in gitology repositories on web**. The application is called `gitology.d`.
+This application supports basic blog and threaded comments, along with feeds. To 
 learn how to use this application please see `installing gitology.d` section. 
 
 *offline online syncronization of gitology blog*
@@ -293,13 +312,13 @@ Gitology is composed of gitology-core and gitology.d, a django application.
 Gitology core consists of a set of command line scripts to work with gitology 
 repositories, and a django app to expose the repo on web.
 
-**Gitology core dependencies**
+**gitology core dependencies**
 
 #. Python 2.4 or above
 #. Django 1.0 or above.
 #. git
 
-**Gitololgy.d, django app dependencies**
+**gitololgy.d, django app dependencies**
 
 #. gitology core
 #. python-yadis
@@ -307,10 +326,9 @@ repositories, and a django app to expose the repo on web.
 #. django-openid [branch=openid-2.0+auth]
 #. docutils
 
-installing dependencies on ubuntu
----------------------------------
+**installing dependencies on ubuntu**
 
-*Installing Django*
+*installing django*
 
 First confirm that you don't have old version of django installed.
 
@@ -357,7 +375,7 @@ Get new django:
     $ cd Django-1.0.2-final
     $ sudo python setup.py install
 
-*Installing python-yadis*
+*installing python-yadis*
 
 ::
 
@@ -370,7 +388,7 @@ setuptools first:
 
     $ sudo apt-get install python-setuptools
 
-*Installing python-openid 2.2.1*
+*installing python-openid 2.2.1*
 
 ::
 
@@ -379,7 +397,7 @@ setuptools first:
     $ cd python-openid-2.2.1
     $ sudo python setup.py install 
 
-*Installing django-openid*
+*installing django-openid*
 
 ::
 
@@ -404,8 +422,7 @@ It will list a directories, copy django_openidconsumer in any of the directories
     $ sudo apt-get install python-docutils
 
 
-installing gitology
--------------------
+**installing gitology**
 
 :: 
 

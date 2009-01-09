@@ -1,20 +1,19 @@
 #!/usr/bin/python
 """
-creates gitology-repo in the current directory.
+Find information about gitology-repo.
 """
 
 import sys, gitology, textwrap, os, path
 from optparse import OptionParser
-from gitology import utils
 
 # build_parser # {{{
 def build_parser():
     parser = OptionParser(
         version = "%prog " + gitology.VERSION,
-        usage = "Usage: %prog [options] [repository_folder_location]",
+        usage = "Usage: %prog [options]",
     )
     parser.add_option(
-        "--use-md5", action="store_true", dest="use_md5",
+        "--show-repo-path", action="store_true", dest="use_md5",
         default=False, help="use MD5 for creating document folders."
     )
     parser.add_option(
@@ -32,10 +31,9 @@ def build_parser():
     return parser
 # }}}
 
-
 # print_about # {{{
 def print_about(*args, **kw):
-    print utils.smart_wrap(
+    print smart_wrap(
         """Create a blank directory structure that can be used with gitology. 
 
 If the "none" RCS is selected, gitology-init will not use any version control system. For other RCS, it will create a new repo, and initialize and add the files in it.""" 

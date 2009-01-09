@@ -182,6 +182,7 @@ def get_blogs():
     return urls
 # }}}
 
+# get_wiki # {{{
 global_wiki_dict = {}
 def get_wiki():
     from gitology.config import settings as gsettings
@@ -194,6 +195,7 @@ def get_wiki():
         wiki_url = i[len(wiki_folder):-4] + "/"
         global_wiki_dict[wiki_url] = wiki_document
     return urls
+# }}}
 
 # refresh_urlconf_cache # {{{
 def refresh_urlconf_cache():
@@ -265,4 +267,15 @@ def sort_nicely(l):
     """ Sort the given list in the way that humans expect.
     """
     l.sort(key=alphanum_key)
+# }}}
+
+# smart_wrap # {{{
+def smart_wrap(s, width=None):
+    if width is None:
+        width = int(os.environ.get("COLUMNS", 70))
+    lines = []
+    for line in s.split("\n"):
+        if not line.split(): lines.append("")
+        else: lines += textwrap.wrap(line, width=width)
+    return "\n".join(lines)
 # }}}
