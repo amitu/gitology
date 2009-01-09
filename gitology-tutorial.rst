@@ -192,6 +192,43 @@ and open default editor of user to enter the post content.
 
 Any document that is used as a blog post is given a `type` meta data called `blog_post`.
 
+Gitology repository stores the connection between a blog post document, and the
+blog in the directory for the blog under `blogs/${blog_name}`. This folder contains
+a folder for each year. It has folders named `blogs/{%blog_name}/2008/`, 
+`blogs/${blog_name/2009/` and so on. Each of these year folders contains folders for 
+months, eg `blogs/${blog_name/2008/01` for posts in january of 2008, 
+`blogs/${blog_name/2008/02` for posts in february 2008 and so on. Within each of 
+the month folder, there are text files for each date, eg 
+`blogs/${blog_name/2008/02/01.lst` for posts on 1st of february 2008 etc. The date 
+text file contains one entry per line for each blog post. The format is:
+`/desired/url/of/post/ post_document_name 2008:02:01 04:30pm`. 
+
+Gitology blog system does not enforce any URL scheme on blog posts. Users can chose
+any scheme they prefer, `/writings/topic/` or `/blog/2008/02/07/topic/` or even
+`/blog/2008/march/topic.html` and so on. 
+
+Note: Gitology is designed with the mindset that a blog post can someday become a wiki
+page if it gets popular and if author feels there is value in letting others
+edit the post page. Gitology is also designed with the mindset that URLs should not
+change, nor should there be duplication of content on multiple urls.  For all these 
+reasons, using the term `blog` in url may be avoided, and more generic url scheme
+should be preferred.
+
+Gitology ships with a django application that can be used to expose the blogs stored
+in gitology repositories on web. The application is called `gitology.d`. This 
+application supports basic blog and threaded comments, along with feeds. To 
+learn how to use this application please see `installing gitology.d` section. 
+
+*offline online syncronization of gitology blog*
+
+The web application lets you modify the post from the web. The comments posted by 
+visitors on web are stored in gitology repoistory under `replies` folder of the 
+document for that blog post. All these modifications are checked in the revision 
+control system used by gitology repository. The revision control system can then
+be used to syncronize the gitology repository deployed on the webserver with the 
+one on author's local machine. 
+
+
 **blog categories**
 
 Information about post, its document name, the url, and the time it was blogged,
