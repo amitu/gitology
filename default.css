@@ -4,27 +4,37 @@
 
 body {
     font-family: Verdana, sans;
-    margin-left: 3em;
+    margin-left: 7em;
     max-width: 50em;
+    color: #7C7C7C;
 }
+
+strong { color: #666666; }
+
+a { color: #7c7c7c; text-decoration: none; border-bottom: 1px dotted;}
 
 p {
     text-align: justify;
+    line-height: 1.5;
 }
 
+p strong { color: #7c7c7c; }
+
 cite {
-    color: #8B1B1B;
+    color: #954545;
     font-family: Andale Mono, Courier New, monospace;
     font-style: normal;
 }
 
 h1 {
     font-size: 1.3em;
+    color: #6b6b6b;
 }
 
 h1.title {
     text-align: center;
     font-size: 2.5em;
+    color: #464646;
 }
 /* Monospace text */
 
@@ -51,12 +61,12 @@ pre.doctest-block {
 /* Literal blocks */
 
 pre.literal-block {
-    color: #AA4400;
+    color: #954545;
     margin-left: 40px;
 }
 
 pre.literal-block a {
-    color: #AA4400;
+    color: #954545;
     text-decoration: none;
 }
 /* Indented quotations */
