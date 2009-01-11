@@ -11,7 +11,13 @@ body {
 
 strong { color: #666666; }
 
-a { color: #7c7c7c; text-decoration: none; border-bottom: 1px dotted;}
+a { 
+    color: #7c7c7c; 
+    text-decoration: none; 
+    border-bottom: 1px dotted;
+    letter-spacing: 1;
+}
+
 a:hover { border-bottom: 1px solid; }
 
 p {

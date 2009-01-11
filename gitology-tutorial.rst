@@ -1,6 +1,6 @@
-==============================
-Gitology Getting Started Guide
-==============================
+======================
+Gitology Documentation
+======================
 
 about
 -----
@@ -52,10 +52,11 @@ editors.txt
   be used to specify edit permission on per document basis.  This feature is
   used only when gitology document is being modified from web. 
 
-Gitology repository contains a file called `blocked-authors.txt`. This file
-contains a list of users who are not given any permissions on any document in
-this repository. This is also used only when gitology web application is being
-used to modify document from browser. 
+blocked-authors.txt
+
+  This file contains a list of users who are not given any permissions on any
+  document in this repository. This is also used only when gitology web
+  application is being used to modify document from browser. 
 
 **gitology-info**
 
@@ -345,8 +346,105 @@ meta data will be updated by `gitology-blog-document`.
 gitology wiki
 -------------
 
-Gitology comes with a wiki system, and any document in gitology repository can
-be exposed to web as a wiki. 
+Gitology comes with a wiki system. Any `document` stored in gitology repository
+can be exposed to web as a wiki page. Gitology wiki comes with fine grained
+permission system to control who can view or edit the document online. 
+
+To expose an existing `document` as wiki, gitology comes with a command line
+tool call `gitology-wiki-document`. This command takes the name of the
+`document` and the `url` at which it should be accessible, along with read and
+write permissions. Gitology also comes with a command to create a new
+`document` and simultaneously expose it to web as wiki, called
+`gitology-wiki-new`. 
+
+Gitology wiki does not enforce any url scheme. And documents can go to any
+arbitrary url, `/wiki/python/` or `/articles/python/` or even
+`/somepath/python.html` etc. Gitology is designed to make it easy for users to
+convert a wiki document to blog post on a later date, or vice versa. For this
+reason gitology recommends not using wiki as part of url, and organize document
+urls in more natural fashion. 
+
+Gitology repository contains a folder called `wiki`. If a document named
+`python` is exposed to web on url `/python_tips/`, `gitology-wiki-document` or
+`gitology-wiki-new` will create a file named `python_tips.txt` under the folder
+`wiki`. This text file will contain the name of the document in it, in this
+case `python`. URL heirarchy can be achieved by creating folder heirarchy in
+`wiki` folder. eg to expose a document named `python` to web as wiki on the
+url`/articles/python-tips/`, gitology will create
+`wiki/articles/python-tips.txt`. This fille contain `python` which is the name
+of the document. 
+
+`gitology-wiki-document` can be called repeatedly on any `document` or url, to
+alter the document name or url or any other meta data controlling wiki, for
+example authorship permission.
+
+Gitology wiki supports a threaded comment system. Comments are stored in
+`replies` folder of the document that is exposed as wiki. 
+
+Gitology web application can authenticate users using openid, and openid's of
+users can be given permissions to view and or edit the document online.
+
+gitology's django web application
+=================================
+
+Gitology comes with a package `gitology.d`. It is a django application and can
+be plugged into any existing django website. Gitology source distribution comes
+with an example project, `amitucom`, that can be used as starting point for
+intigrating `gitology.d` with django projects. 
+
+Gitology stores all its relevant files as text files in the gitology
+repository. For this reason`gitology.d.models` do not expose any models. There
+are basically some views and templates and a urls.py file connecting views to
+urls. 
+
+There are a lot of url's that are read from gitology repository and are not to
+be hard coded in django project. Example include things like the names of
+blogs, and their urls, wiki pages etc. Gitology dynamically constructs the
+`urlconf` object in a middleware, `gitology.d.middleware.GitologyMiddleware`. 
+
+For performace reason, `GitologyMiddleware` caches the `urlconf` object in
+memory unless a text file, `gitology.cache` is updated.
+
+Gitology comes with a utility called `gitology-refresh` that should be called
+everytime something in gitology repository is changed that should change url
+configuration, like a new post getting added to some blog or some old wiki
+getting removed. Gitology tools like `gitology-blog-*`, `gitology-wiki-*`
+automatically call `gitology-refresh` to keep things in sync. If gitology
+repository has been modified by external commands, that gitology is designed to
+facilitate, `gitology-refresh` should be called from time to time.
+
+**adding gitology.d in a django project**
+
+Follow the following steps to add `gitology.d` to a django project:
+
+#. add 'gitology.d' to `INSTALLED_APPS` in `settings.py` so that `templatetags`
+   shipped with gitology are available to templates.  
+
+#. add the following at the end of your `urls.py`:
+
+::
+
+   import gitology.d.urls
+   urlpatterns += gitology.d.urls.urlpatterns
+
+3. add `gitology.d.middleware.GitologyMiddleware` to your `MIDDLEWARE_CLASSES`
+   in `settings.py`. 
+
+#. add the following in `settings.py` so that django can read templates stored
+   in gitology repository:
+
+::
+
+   from gitology import settings as gsettings
+   TEMPLATE_FOLDERS = (gsettings.LOCAL_REPO_PATH.joinpath("templates"), )
+
+
+You will also have to tell `gitology.d` about the `.gitologyrc` configuration file. This can be achieved by setting `GITOLOGY_CONFIG_FILE` environment variable before importing `gitlogy.d` modules. 
+
+`GITOLOGY_CONFIG_FILE` environment variable can be set in `modpython` projects by adding a `SetEnv GITOLOGY_CONFIG_FILE /location/of/gitologyrc` in apache's httpd.conf. Another way to achieve the same could be to programatically set environment variable in `settings.py` eg, inside `settings.py`::
+
+	import os
+	os.environ["GITOLOGY_CONFIG_FILE"] = "/path/of/gitlogyrc"
 
 installation
 ------------
