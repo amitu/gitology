@@ -29,8 +29,8 @@ default **gitology configuration file is called** `.gitologyrc` **on unix like
 systems and** `_gitology` **on windows**. The file is located in `$HOME`
 directory of the user. 
 
-Note: The location of configuration file can also be specified in an
-environment variable called `GITOLOGY_CONFIG_FILE`. 
+    Note: The location of configuration file can also be specified in an
+    environment variable called `GITOLOGY_CONFIG_FILE`. 
 
 **creating a gitology repository**
 
@@ -87,20 +87,6 @@ name. For this reason document's name should be a valid file name. The name of
 the document is for internal use only. Document supports meta data store which
 can be used for storing more meaningful title of the document. 
 
-Note: Some operating systems do not support large number of files in a
-directory.  This could be a problem if the gitology repository starts to become
-too big, and reaches the file system limits of the operating system. Gitology
-comes with a feature that can be used to work around this by further creating
-subdirectories inside document folder. Gitology uses md5 based naming scheme to
-overcome this limitation. This feature makes guessing the name of the folder,
-in which a document's data is store, difficult. Gitology ships with md5 use
-diabled. It can be enabled by adding `USE_MD5=True` under `REPO` section of
-`.gitologyrc` file.  Gitology repository with support of thie feature can be
-created by supplying `--md5` flag to `gitology-init` command, eg:
-`gitology-init --md5 ~/Document/gitology_repo`.  `gitology-convert-repo
---to-md5` or `gitology-convert-repo --to-flat` can be used to convert existing
-repositores. 
-
 ::
 
     ~/Documents/gitology_repo/
@@ -146,6 +132,21 @@ called `deps`.
 
 Everything in the document is under version control. `gitology python module`
 or `git` can be used to find out history of each file in the document. 
+
+    Note: Some operating systems do not support large number of files in a
+    directory.  This could be a problem if the gitology repository starts to
+    become too big, and reaches the file system limits of the operating system.
+    Gitology comes with a feature that can be used to work around this by
+    further creating subdirectories inside document folder. Gitology uses md5
+    based naming scheme to overcome this limitation. This feature makes
+    guessing the name of the folder, in which a document's data is store,
+    difficult. Gitology ships with md5 use diabled. It can be enabled by adding
+    `USE_MD5=True` under `REPO` section of `.gitologyrc` file.  Gitology
+    repository with support of thie feature can be created by supplying `--md5`
+    flag to `gitology-init` command, eg: `gitology-init --md5
+    ~/Document/gitology_repo`.  `gitology-convert-repo --to-md5` or
+    `gitology-convert-repo --to-flat` can be used to convert existing
+    repositores. 
 
 gitology python api
 --------------------
@@ -260,15 +261,12 @@ revision control system used by gitology repository. The revision control
 system can then be used to syncronize the gitology repository deployed on the
 webserver with the one on author's local machine. 
 
-
-**blog categories**
+**blog folder in gitology**
 
 Information about post, its document name, the url, and the time it was
 blogged, is stored under the blog special folder. Each blog special folder,
 like `blogs/links/` mentioned for a blog named `links` contains the following
 folder heirarchy.
-
-**blog folder heirarchy**
 
 :: 
 
@@ -311,6 +309,38 @@ folder heirarchy.
       /   /   ...
       /   ...
       ...
+
+**blog categories**
+
+Gitology blogs support categories. Each post can have one or more categories.
+
+Each category has a gitology `document` associated with it, containing meta
+data and category description. The name of the `document` for category is based
+on categories name and blog name. e.g. for a blog named `links`, and category
+named `programming`, the name would be `blogs@links@labels@programming`. The
+name of the category should be valid directory name. The actual title of the
+category that is shown to the user is stored as meta data `title` on category
+document. The url of category page is based on meta data `slug`, the url of
+category page would be `/links/labelled/programming/` for the above example. 
+
+A category is associated to a blog by means of a text file named after category
+name. This text file resides in the folder
+`blogs/${blog_name}/labels/%{category_name}.lst`. The text file contains the
+urls of the blog posts that have this category. For example all posts in blog
+`links` that belong to `programming` category are stored in the mentioned
+`.lst` file, one url per line. Each post url can appear in one or more
+category's `.lst` file.
+
+The `document` for blog post also contains category information as document
+meta data.  This is the master source of category information, and all category
+`.lst` files can be generated based on this using the gitology tool
+`gitology-refresh`. The category information stored in blog post document's
+meta data will be updated by `gitology-blog-document`. 
+
+    NOTE: `gitology-blog-document` comment can be used multiple time on the
+    same blog document to update information about blog document. You can edit
+    the title of a blog post or its categories after blogging it first, but
+    rerunning this command line tool. 
 
 gitology wiki
 -------------

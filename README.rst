@@ -6,8 +6,8 @@ Note
 ----
 
 This is RestructuredText_ document, and it can be viewed by using package 
-restview_ (Command to use: "``$ restview .``", to install: 
-"``sudo easy_install restview``"). 
+restview_ (Command to use: ``restview --css=default.css *.rst``, to install: 
+`sudo easy_install restview`). 
 
 Development Note
 ----------------
