@@ -76,6 +76,35 @@ of comman line arguments to find out specific details mentioned above and more.
 For more details about this command run `man gitology-ingo` or `gitology-info
 --about`.
 
+**gitology repository visualization**
+
+::
+
+    ~/Documents/gitology_repo/          <-- this is the gitology repo folder
+      |~ documents/                     <-- all documents are stored in this
+      |   |~ hello_word/                <-- document named hello_world
+      |   |   |- index.rst              <-- primary content of the document
+      |   |   |- meta.json              <-- all meta data is stored here
+      |   |   |~ replies/               <-- comments/replies stored here
+      |   |   |   |+  0/                <-- very first comment
+      |   |   |   |   |- index.rst      <-- actual comment content
+      |   |   |   |   |- meta.json      <-- meta data abt comment, auther, date
+      |   |   |   |   |+ 0/             <-- comments are nested
+      /   /   /   /   ...
+      |   |   |   |+  1/                <-- comment folder names are arbitrary,
+      |   |   |   |+  5/                    numerically ordered
+      /   /   /   ...                   <-- other replies to hello_world
+      |   |   |~ deps                   <-- dependencies are stored here
+      |   |   |   |- hello_world.gif    
+      |   |   |   |- hello_world.py
+      |   |   |   |+ somedir/           <-- dependencies can be organized
+      /   /   /   ...                   <-- other dependencies
+      /   /   ...
+      /   ...
+      |- editors.txt                    <-- openids listed here can edit stuff
+      |- blocked-users.txt              <-- blocked openids and ips
+      ...                                
+
 gitology document
 -----------------
 
@@ -87,28 +116,6 @@ repository**. Each document is stored as a directory named after the document's
 name. For this reason document's name should be a valid file name. The name of
 the document is for internal use only. Document supports meta data store which
 can be used for storing more meaningful title of the document. 
-
-::
-
-    ~/Documents/gitology_repo/
-      |~ documents/
-      |   |~ hello_word/
-      |   |   |- index.rst/index.html/index.txt
-      |   |   |- meta.json
-      |   |   |~ replies/
-      |   |   |   |+  0/
-      |   |   |   |+  2/
-      /   /   /   ...
-      |   |   |~ deps
-      |   |   |   |- hello_world.gif
-      |   |   |   |- hello_world.py
-      |   |   |   |+ somedir/
-      /   /   /   ...
-      /   /   ...
-      /   ...
-      |- editors.txt
-      |- blocked-users.txt
-      ...
 
 The **document stores its primary content in either a text file**, an html file
 or as a restructured text document. Other content formats would be supported in
@@ -176,6 +183,59 @@ gitology blogs
 **Gitology repository can be used as a blogs**. Gitology repository contains a
 folder called `blogs` for this purpose. One gitology repository can have more
 then one blogs. 
+
+*gitology tree for understanding blogs*
+
+:: 
+
+    ~/Documents/gitology_repo/
+      |~ documents/
+      |   |+ hello_world/                   <-- some normal document
+      |   |~ blogs@links/                   <-- document about blog called links
+      |   |   |- index.rst                  <-- "about" the blog/description etc
+      |   |   |- meta.json                  <-- metadata abt blog, title etc
+      /   /   ...
+      |   |~ my_first_blog_post/            <-- a blog post
+      |   |   |- index.rst                  <-- content of blog post is here
+      |   |   |- meta.json                  <-- meta data like author/timestamp
+      |   |   |+ replies/                   <-- replies to this blog post
+      |   |   |+ deps/                      <-- deps for blog post: img etc
+      /   /   ...
+      |   |~ blog@links@labels@python/      <-- lable "python" for blog "links" 
+      |   |   |- index.rst                  <-- labels can have description
+      |   |   |- meta.json                  <-- other data abt label
+      |   |+ blog@links@labels@opensource/
+      /   ...
+      |- editors.txt
+      |- blocked-users.txt
+      |~ blogs/                             <-- all blog info is stored here
+      |   |~ links/                         <-- folder for blog called "links"
+      |   |   |~ labels                     <-- all labels are stored here
+      |   |   |   |- python.lst             <-- label python, contains all url
+      |   |   |   |- opensource.lst             of posts tagged python
+      |   |   |+ 2007/                      <-- info abt posts posted in 2007
+      |   |   |~ 2008/                      <-- for 2008       
+      |   |   |   |+ 01/                    <-- info abt posts in jan 2008
+      |   |   |   |+ 02/                    <-- feb 2008 
+      |   |   |   |+ 03/
+      |   |   |   |~ 04/
+      |   |   |   |   |-01.lst              <-- info abt posts on 1st march 08
+      |   |   |   |   |-02.lst                  contains url<space>documentname
+      |   |   |   |   |-03.lst                  <space>date posted per line
+      /   /   /   /   ...
+      |   |   |   |+ 05/
+      /   /   /   ...
+      |   |   |+ 2009/
+      /   /   ...
+      /   ...
+      ...
+
+**blog folder in gitology**
+
+Information about post, its document name, the url, and the time it was
+blogged, is stored under the blog special folder. Each blog special folder,
+like `blogs/links/` mentioned for a blog named `links` contains the following
+folder heirarchy.
 
 **blog meta data**
 
@@ -262,55 +322,6 @@ revision control system used by gitology repository. The revision control
 system can then be used to syncronize the gitology repository deployed on the
 webserver with the one on author's local machine. 
 
-**blog folder in gitology**
-
-Information about post, its document name, the url, and the time it was
-blogged, is stored under the blog special folder. Each blog special folder,
-like `blogs/links/` mentioned for a blog named `links` contains the following
-folder heirarchy.
-
-:: 
-
-    ~/Documents/gitology_repo/
-      |~ documents/
-      |   |+ hello_world/
-      |   |~ blogs@links/
-      |   |   |- index.rst
-      |   |   |- meta.json
-      /   /   ...
-      |   |~ my_first_blog_post/
-      |   |   |- index.rst
-      |   |   |- meta.json
-      |   |   |+ replies/
-      |   |   |+ deps/
-      /   /   ...
-      |   |+ blog@links@labels@python/
-      |   |+ blog@links@labels@opensource/
-      /   ...
-      |- editors.txt
-      |- blocked-users.txt
-      |~ blogs/
-      |   |~ links/
-      |   |   |~ labels
-      |   |   |   |- python.lst
-      |   |   |   |- opensource.lst
-      |   |   |+ 2007
-      |   |   |~ 2008
-      |   |   |   |+ 01/
-      |   |   |   |+ 02/
-      |   |   |   |+ 03/
-      |   |   |   |~ 04/
-      |   |   |   |   |-01.lst
-      |   |   |   |   |-02.lst
-      |   |   |   |   |-03.lst
-      /   /   /   /   ...
-      |   |   |   |+ 05/
-      /   /   /   ...
-      |   |   |+ 2009/
-      /   /   ...
-      /   ...
-      ...
-
 **blog categories**
 
 Gitology blogs support categories. Each post can have one or more categories.
@@ -350,8 +361,30 @@ Gitology comes with a wiki system. Any `document` stored in gitology repository
 can be exposed to web as a wiki page. Gitology wiki comes with fine grained
 permission system to control who can view or edit the document online. 
 
+*wiki in gitology repository*
+
+::
+
+    ~/Documents/gitology_repo/
+      |~ documents/
+      |   |+ python/                    <-- document to be put on wiki
+      |   |+ python-meta-programming/   <-- another document for wiki
+      /   /   ...
+      |- editors.txt
+      |- blocked-users.txt
+      |+ blogs/
+      |~ wiki/                          <-- this maps documents to url
+      |   |- python.txt                 <-- this represents url /python/,
+      |   |~ python/                        contains "python", document name
+      |   |   |- meta-programming.txt   <-- url: /python/meta-programming/
+      /   /   ...                       <-- other wiki urls
+      /   ...
+      ...
+
+**creating wiki pages**
+
 To expose an existing `document` as wiki, gitology comes with a command line
-tool call `gitology-wiki-document`. This command takes the name of the
+tool called `gitology-wiki-document`. This command takes the name of the
 `document` and the `url` at which it should be accessible, along with read and
 write permissions. Gitology also comes with a command to create a new
 `document` and simultaneously expose it to web as wiki, called

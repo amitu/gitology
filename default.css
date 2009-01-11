@@ -70,6 +70,10 @@ pre.doctest-block {
 pre.literal-block {
     color: #954545;
     margin-left: 40px;
+    background: #fcfcfc;
+    border: 1px solid #f1f1f1;
+    padding: 15px 15px;
+    width: auto;
 }
 
 pre.literal-block a {
