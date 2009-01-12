@@ -80,6 +80,9 @@ def main():
         print gsettings.LOCAL_REPO_PATH
         return 0
     # show repo size
+    if options.show_repo_size:
+        print "%.2f %s" % utils.getDirSize(gsettings.LOCAL_REPO_PATH)
+        return 0
     # show number of documents
     # show all blogs
     # show info about one blog
