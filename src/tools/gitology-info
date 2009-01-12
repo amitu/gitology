@@ -2,9 +2,18 @@
 """
 Find information about gitology-repo.
 """
-
+# imports # {{{
 import sys, gitology, textwrap, os, path
 from optparse import OptionParser
+
+from gitology import utils
+
+try:
+    from gitology.config import settings as gsettings
+except utils.ImproperlyConfigured, e:
+    print "ImproperlyConfigured:", e
+    raise SystemExit
+# }}}
 
 # build_parser # {{{
 def build_parser():
@@ -13,16 +22,36 @@ def build_parser():
         usage = "Usage: %prog [options]",
     )
     parser.add_option(
-        "--show-repo-path", action="store_true", dest="use_md5",
-        default=False, help="use MD5 for creating document folders."
+        "--rc-file", action="store_true", dest="show_rc_file",
+        default=False, help="show rc file"
     )
     parser.add_option(
-        "--rcs", metavar="RCS", default="git", dest="rcs",
-        help="revision control system to be used. none, git, svn, bzr and hg are supported, default is git." 
+        "--repo-path", action="store_true", dest="show_repo_path",
+        help="show repo path", default=False
     )
     parser.add_option(
-        "-m", "--message", default="Initical checkin of gitology", dest="message", 
-        help="the commit message to be used for initial commit, can be left empty to force no commits by gitology."
+        "--repo-size", action="store_true", dest="show_repo_size",
+        help="show repo size", default=False
+    )
+    parser.add_option(
+        "-n", "--number-of-documents", action="store_true", dest="show_num_documents",
+        help="show number of documents in repository", default=False
+    )
+    parser.add_option(
+        "-d", "--document", action="store", dest="document_name",
+        help="show informations about document named DOCUMENT_NAME"
+    )
+    parser.add_option(
+        "--blogs", action="store_true", dest="show_blogs",
+        default=False, help="show information about all blogs"
+    )
+    parser.add_option(
+        "-b", "--blog", action="store", dest="blog_name",
+        help="show information about blog named BLOG_NAME"
+    )
+    parser.add_option(
+        "--url", action="store", dest="url",
+        help="show information about the given URL"
     )
     parser.add_option(
         "--about", action="callback", callback=print_about,
@@ -33,10 +62,8 @@ def build_parser():
 
 # print_about # {{{
 def print_about(*args, **kw):
-    print smart_wrap(
-        """Create a blank directory structure that can be used with gitology. 
-
-If the "none" RCS is selected, gitology-init will not use any version control system. For other RCS, it will create a new repo, and initialize and add the files in it.""" 
+    print utils.smart_wrap(
+        """If no command line arguments are supplied, this command prints a summary of gitology repository."""
     )
     raise SystemExit
 # }}}
@@ -45,48 +72,18 @@ def main():
     # get arguments # {{{
     parser = build_parser()
     (options, args) = parser.parse_args()
-    if len(args) > 1:
-        parser.error("Please specify only one repository folder location")
-    if len(args) == 0:
-        try:
-            repo_name = raw_input("Please enter a repository folder location: ") 
-        except KeyboardInterrupt: 
-            print
-            return 1
-    else: 
-        repo_name = args[0]
-    repo_path = path.path(".").joinpath(repo_name)
-    if repo_path.exists():
-        print "%s already exists, can not overwrite content. Exiting." % repo_path.abspath()
-        return 3
     # }}}
-    try:
-        repo_path.makedirs()
-    except OSError, e:
-        print "Can not create directories. %s. Exiting." % e
-        return 4
-    repo_path.joinpath("editors.txt").touch()
-    repo_path.joinpath("blocked-authors.txt").touch()
-    rc_file = path.path(os.environ["HOME"]).joinpath(".gitologyrc")
-    rc_file_content = """\
-[DEFAULTS]
-AUTHOR: www.example.com
-USE_MD5: %s
-
-[REPO]
-LOCAL: %s
-REMOTE: 
-AUTO_COMMIT: False
-""" % ( options.use_md5, repo_path.abspath() )
-    s_rc_file = repo_path.joinpath("sample.gitologyrc")
-    s_rc_file.open("w").write(rc_file_content)
-    if rc_file.exists():
-        print "You already have .gitlogyrc file, sample rc file written to", 
-        print s_rc_file.abspath()
-        print "Copy it to ~/.gitologyrc"
-    else: 
-        rc_file.open("w").write(rc_file_content)
-        print "Information about this repo written to %s" % rc_file.abspath()
+    if options.show_rc_file:
+        print gsettings.RC_FILE
+        return 0
+    if options.show_repo_path:
+        print gsettings.LOCAL_REPO_PATH
+        return 0
+    # show repo size
+    # show number of documents
+    # show all blogs
+    # show info about one blog
+    # show info about some url
     return 0
 
 if __name__ == "__main__":

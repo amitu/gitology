@@ -11,26 +11,28 @@ If file_name is passed, it will be used.
 """
 
 import ConfigParser, os, path
-from gitology.utils import attrdict
+from gitology.utils import attrdict, ImproperlyConfigured
 
 def get_config(file_name=None):
     config = ConfigParser.ConfigParser()
     config.optionxform = str
     _config = attrdict()
     if file_name:
-        _config.RC_FILE = os.path.expanduser(file_name)
+        _config.RC_FILE = path.path(os.path.expanduser(file_name))
     elif "GITOLOGY_CONFIG_FILE" in os.environ:
-        _config.RC_FILE = os.path.expanduser(os.environ["GITOLOGY_CONFIG_FILE"])
+        _config.RC_FILE = path.path(
+            os.path.expanduser(os.environ["GITOLOGY_CONFIG_FILE"])
+        )
     else: 
-        _config.RC_FILE = os.path.expanduser("~/.gitologyrc") 
+        _config.RC_FILE = path.path(os.path.expanduser("~/.gitologyrc"))
+    if not _config.RC_FILE.exists(): 
+        raise ImproperlyConfigured("RC file does not exists: %s" % _config.RC_FILE.abspath())
     config.read(_config.RC_FILE) 
     for section in config.sections():
         _config[section] = attrdict()
         for k, v in config.items(section):
             _config[section][k] = v
     return _config
-
-class ImproperlyConfigured(Exception): pass
 
 def initialize():
     conf = get_config()

@@ -10,6 +10,8 @@ import docutils.writers.html4css1, docutils.core
 from odict import OrderedDict as odict
 # }}}
 
+class ImproperlyConfigured(Exception): pass
+
 # path2obj # {{{
 def path2obj(path):
     from django.core.urlresolvers import get_mod_func
