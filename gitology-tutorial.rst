@@ -10,6 +10,17 @@ data, in a special directory called a gitology repository. Gitology repository
 itself is under a version control system. As of now only `git` is supported as
 RCS backend.
 
+features
+--------
+
+- text based
+- blog
+- threaded comments
+- dependencies in one folder
+- wiki
+- offline-online syncronization
+- ...
+
 gitology repository
 -------------------
 
@@ -155,6 +166,12 @@ or `git` can be used to find out history of each file in the document.
     ~/Document/gitology_repo`.  `gitology-convert-repo --to-md5` or
     `gitology-convert-repo --to-flat` can be used to convert existing
     repositores. 
+
+TODO: write about meta: `type`. Can a `document` be part of more than one
+blog/blog and wiki etc. Can it have multiple types. It can be a `blog` and
+`note` which is coming in future, so it should be allowed. In that case how
+should meta properties related to different application, or different instances
+of the same instance be handled?
 
 gitology python api
 --------------------
@@ -334,6 +351,9 @@ name of the category should be valid directory name. The actual title of the
 category that is shown to the user is stored as meta data `title` on category
 document. The url of category page is based on meta data `slug`, the url of
 category page would be `/links/labelled/programming/` for the above example. 
+
+Any document that is used as a blog post is given a `type` meta data called
+`blog_label`. 
 
 A category is associated to a blog by means of a text file named after category
 name. This text file resides in the folder
