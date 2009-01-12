@@ -472,12 +472,136 @@ Follow the following steps to add `gitology.d` to a django project:
    TEMPLATE_FOLDERS = (gsettings.LOCAL_REPO_PATH.joinpath("templates"), )
 
 
-You will also have to tell `gitology.d` about the `.gitologyrc` configuration file. This can be achieved by setting `GITOLOGY_CONFIG_FILE` environment variable before importing `gitlogy.d` modules. 
+You will also have to tell `gitology.d` about the `.gitologyrc` configuration
+file. This can be achieved by setting `GITOLOGY_CONFIG_FILE` environment
+variable before importing `gitlogy.d` modules. 
 
-`GITOLOGY_CONFIG_FILE` environment variable can be set in `modpython` projects by adding a `SetEnv GITOLOGY_CONFIG_FILE /location/of/gitologyrc` in apache's httpd.conf. Another way to achieve the same could be to programatically set environment variable in `settings.py` eg, inside `settings.py`::
+`GITOLOGY_CONFIG_FILE` environment variable can be set in `modpython` projects
+by adding a `SetEnv GITOLOGY_CONFIG_FILE /location/of/gitologyrc` in apache's
+httpd.conf. Another way to achieve the same could be to programatically set
+environment variable in `settings.py` eg, inside `settings.py`::
 
 	import os
 	os.environ["GITOLOGY_CONFIG_FILE"] = "/path/of/gitlogyrc"
+
+gitology command line tools
+---------------------------
+
+Gitology comes with a variety of tools to make working with gitology repository
+easy.
+
+**common options**
+
+All `gitology-*` command line tools follow a few common options. 
+
+-h, --help:
+    Show the help about the command line arguments, and exit.
+
+--about:
+    Show a brief description of what this tool does, and exit.
+
+--version:
+    Version of gitology being used, and exit. 
+
+--rc=GITOLOGY_RC_FILE_LOCATION:
+    Location of gitology rc file can be overwritten for the execution of this
+    command by specifying this command line parameter.
+
+**gitology-init**
+
+`gitology-init` is used for creating a new gitology repository. If no option is
+supplied it asks for a location where repository should be created. Repository
+name can also be supplied as command line argument. It also takes the following
+options:
+
+--use-md5: 
+    If this command line option is supplied, a md5 based repository would be
+    created. This is useful if the repository is going to have a large number
+    of documents and file system can not support that many files in one
+    directory. This table lists number of documents allowed for various file systems:
+   
+    ==========  =====================================
+    Filesystem  Maximum umber of files in a directory
+    ==========  =====================================
+    fat32       65535
+    ntfs        TK
+    ext3        TK
+    reiserfs    TK
+    ==========  =====================================
+
+    While systems can handle a large number of folders inside a single folder,
+    the recommended number for windows is about 10,000 after which md5 based
+    folder structure should be considered. 
+
+    For simplicyty, gitology uses a non md5 based directory structure for
+    repository.
+
+    The tool `gitology-convert-repo` can be used to convert repository with md5
+    to one without md5 and vice versa.
+
+--rcs=RCS_TO_USE: 
+    Revision control system to use. Gitology 0.1 only support `none` and `git`
+    as the revision control systems. The default value for this parameter is
+    `git`.
+
+**gitology-info**
+
+If no command line arguments are supplied, this command 
+
+--rc-file:
+    Print the file name of the rc file being used, and exit. The default is
+    `$HOME/.gitologyrc` for unix like systems and `$HOME/_gitologyrc` under
+    windows like system. Default can be overwritten by environment variable
+    `GITOLOGY_CONFIG_FILE`. This parameter first reads the environment variable
+    and then checks the default rc file path for the operating system in use. 
+
+--repo-path:
+    Print the location of gitology repository, and exit. It follows gitology
+    repository lookup protocol for this purpose.
+
+--repo-size:
+    Prints the size of repository in human readable format, and exits.
+
+--number-of-documents:
+    Prints the number of documents in the repository, and exists.
+
+--document=DOCUMENT_NAME:
+    Prints information about the document, end exits. The following information
+    are printed: its size, creation time, author, 
+
+--blogs:
+    Prints all blogs and their titles, and exits.
+
+--blog[=BLOG_NAME]:
+    Prints information about the blog whose name is given and exits. If no name
+    is supplied, special name `main` is assumed.
+
+--url=URL:
+    Prints the application used by the url and other properties when available,
+    and exits. 
+
+**gitology-resync**
+
+**gitogoy-document-create**
+
+**gitology-document-cd**
+
+**gitology-document-search**
+
+**gitology-document-rename**
+
+**gitology-document-delete**
+
+**gitology-document-info**
+
+**gitology-blog-start**
+
+**gitology-blog-update**
+
+**gitology-blog-document**
+
+**gitology-wiki-document**
+
 
 installation
 ------------
@@ -620,3 +744,12 @@ directories there.
     0.1
     $ 
 
+Congratulations! Please file file bug report at so and so. Patches and feedback
+most welcome.
+
+*Bonus: bash auto completion script*
+
+Gitology comes with a powerful auto completion script to assist command line
+usage. It is installed by the name `gitology-bash-completion`. It can be
+enabled by adding the following line to your `~/.bashrc` file. It can also be installed system wide
+by placing it unders `/etc/bash.d/`...

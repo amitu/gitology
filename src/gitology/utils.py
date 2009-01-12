@@ -5,7 +5,7 @@ Various utility functions used by gitology.*
 from django.conf.urls.defaults import patterns
 from django.utils import simplejson
 
-import path, sys
+import path, sys, os, textwrap
 import docutils.writers.html4css1, docutils.core
 from odict import OrderedDict as odict
 # }}}
