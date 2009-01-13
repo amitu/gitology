@@ -137,7 +137,8 @@ def main():
                 len(label.open().readlines())
             )
         return 0
-    # show info about some url
+    # show info about some url: this should be done using urlpatterns
+    # built for django application
     print "RC_FILE:", gsettings.RC_FILE
     print "REPO_PATH:", gsettings.LOCAL_REPO_PATH
     print "Number of documents:", len(
