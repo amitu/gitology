@@ -13,6 +13,8 @@ try:
 except utils.ImproperlyConfigured, e:
     print "ImproperlyConfigured:", e
     raise SystemExit
+
+from gitology.document import Document
 # }}}
 
 # build_parser # {{{
@@ -84,11 +86,48 @@ def main():
         print "%.2f %s" % utils.getDirSize(gsettings.LOCAL_REPO_PATH)
         return 0
     # show number of documents
+    if options.show_num_documents:
+        print len(gsettings.LOCAL_REPO_PATH.joinpath("documents").dirs())
+        return 0
     # show all blogs
-    # show info about one blog
+    if options.show_blogs:
+        print "\n".join(
+            p.namebase for p in
+            gsettings.LOCAL_REPO_PATH.joinpath("blogs").dirs()
+        )
+        return 0
+    # show info about one blog:
+    #   title of the blog, url of the blog.
+    #   number of posts, labels, number of posts per label
+    if options.blog_name:
+        doc = Document("blogs@%s" % options.blog_name)
+        if not doc.exists():
+            print 'Blog "%s" does not exists.' % options.blog_name
+            return 4
+        print "Title:", doc.meta.title
+        print "URL:", doc.meta.url
+        print "Number of blog posts:",
+        gen_lst = utils.gen_find(
+            "*.lst", gsettings.LOCAL_REPO_PATH.joinpath("blogs")
+        )
+        date_files = utils.gen_exclude(
+            r"blogs\/%s\/labels" % options.blog_name,
+            gen_lst
+        )
+        date_files_opened = utils.gen_open(date_files)
+        all_lines = utils.gen_cat(date_files_opened)
+        print utils.counter(all_lines)
+        return 0
     # show info about some url
     print "RC_FILE:", gsettings.RC_FILE
     print "REPO_PATH:", gsettings.LOCAL_REPO_PATH
+    print "Number of documents:", len(
+        gsettings.LOCAL_REPO_PATH.joinpath("documents").dirs()
+    )
+    print "Blogs:", ", ".join(
+        p.namebase for p in
+        gsettings.LOCAL_REPO_PATH.joinpath("blogs").dirs()
+    )
     return 0
 
 if __name__ == "__main__":

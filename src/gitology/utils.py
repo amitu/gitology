@@ -6,6 +6,8 @@ from django.conf.urls.defaults import patterns
 from django.utils import simplejson
 
 import path, sys, os, textwrap
+import fnmatch, re, path
+import gzip, bz2
 import docutils.writers.html4css1, docutils.core
 from odict import OrderedDict as odict
 # }}}
@@ -304,3 +306,47 @@ def getDirSize(dir):
         return (round(total/1024.0, 2), 'KB')
     return (total, 'bytes')
 # }}}
+
+# generators from http://www.dabeaz.com/generators/
+# these generators are one time use only
+
+# use http://www.fiber-space.de/generator_tools/doc/generator_tools.html 
+# for copying generators.
+
+def gen_find(filepat,top=""):
+    if not top: top = path.path(".").abspath()
+    top = os.path.expanduser(top)
+    for path_, dirlist, filelist in os.walk(top):
+        for name in fnmatch.filter(filelist, filepat):
+            yield os.path.join(path_, name)
+
+def gen_exclude(pattern, lines):
+    patter = re.compile(pattern)
+    for line in lines:
+        if not re.search(pattern, line):
+            yield line
+    
+def gen_grep(pattern, lines):
+    patter = re.compile(pattern)
+    for line in lines:
+        if re.search(pattern, line):
+            yield line
+
+def gen_open(filenames):
+    for name in filenames:
+        if name.endswith(".gz"):
+              yield gzip.open(name)
+        elif name.endswith(".bz2"):
+              yield bz2.BZ2File(name)
+        else:
+              yield open(name)
+
+def gen_cat(sources):
+    for s in sources:
+        for item in s:
+            yield item
+
+def counter(gen):
+    c = 0
+    for item in gen: c += 1
+    return c 
