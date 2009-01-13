@@ -766,14 +766,15 @@ a wiki page.
 --url=URL:
     URL on which the wiki should appear. 
 
-importing existing blogs into gitology
---------------------------------------
+importing existing blogs and wiki into gitology
+-----------------------------------------------
 
-Gitology source distribution comes with an example import script that reads
-blog data from a json file and creates a gitology repository based on it. 
+Gitology source distribution comes with an example import script, under
+`src/importers` folder, that reads blog data from a json file and creates a
+gitology repository based on it. 
 
-In future gitology will include tools to import blogs data from wordpress,
-blogger, liverjournal etc. [HELP needed :-)]
+In future gitology will include tools to import blog and wiki data from
+wordpress, blogger, liverjournal, mediawiki etc. [HELP needed :-)]
 
 installation
 ------------
