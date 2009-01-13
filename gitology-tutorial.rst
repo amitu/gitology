@@ -276,7 +276,7 @@ document.
 
 Any document used as blog has `type` meta data `blog`.
 
-To eash blog creation, gitology comes with a command `gitology-start-blog`. It
+To eash blog creation, gitology comes with a command `gitology-blog-start`. It
 asks for blog name, title and subtitle and creates the document and blog folder
 for you.  `gitology-alter-blog` can be used to change these properties of
 existing blogs. 
