@@ -6,7 +6,7 @@ from django.conf.urls.defaults import patterns
 from django.utils import simplejson
 
 import path, sys, os, textwrap
-import fnmatch, re, path
+import fnmatch, re, path, string
 import gzip, bz2
 import docutils.writers.html4css1, docutils.core
 from odict import OrderedDict as odict
@@ -307,7 +307,7 @@ def getDirSize(dir):
     return (total, 'bytes')
 # }}}
 
-# generators from http://www.dabeaz.com/generators/
+# generators from http://www.dabeaz.com/generators/ # {{{
 # these generators are one time use only
 
 # use http://www.fiber-space.de/generator_tools/doc/generator_tools.html 
@@ -350,3 +350,18 @@ def counter(gen):
     c = 0
     for item in gen: c += 1
     return c 
+# }}}
+
+# is_valid_url # {{{
+allowed_chars_in_urls = string.ascii_letters + string.digits + ".-_/"
+def is_valid_url(url):
+    if not url.startswith("/"): return False
+    for c in url: 
+        if c not in allowed_chars_in_urls:
+            return False
+    # consecutive // not allowed
+    for p in url.split("/")[1:-1]:
+        if not p: return False
+    return True
+# }}}
+

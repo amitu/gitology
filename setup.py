@@ -6,9 +6,9 @@ setup(
     package_dir = { '': 'src' },
 
     scripts = [
-        'src/tools/gitology',
         'src/tools/gitology-init',
         'src/tools/gitology-info',
+        'src/tools/gitology-wiki-document',
     ],
     
     test_suite = "gitology.tests.suite", 

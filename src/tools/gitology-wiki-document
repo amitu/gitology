@@ -1,0 +1,79 @@
+#!/usr/bin/python
+"""
+wiki-fy the given document
+"""
+# imports
+import sys, gitology, os, path
+from optparse import OptionParser
+
+from gitology import utils
+from gitology.config import settings as gsettings
+from gitology.document import Document
+# }}}
+
+# build_parser # {{{
+def build_parser():
+    parser = OptionParser(
+        version = "%prog " + gitology.VERSION,
+        usage = "Usage: %prog [options] [repository_folder_location]",
+    )
+    parser.add_option(
+        "-u", "--url", action="store", dest="url",
+        help="show information about the given URL"
+    )
+    parser.add_option(
+        "--about", action="callback", callback=print_about,
+        help="find out more about this script"
+    )
+    return parser
+# }}}
+
+
+# print_about # {{{
+def print_about(*args, **kw):
+    print utils.smart_wrap(
+        """Expose the given document to wiki."""
+    )
+    raise SystemExit
+# }}}
+
+def main():
+    # get arguments # {{{
+    parser = build_parser()
+    (options, args) = parser.parse_args()
+    if len(args) > 1:
+        parser.error("Please specify only one document name.")
+    if len(args) == 0:
+        try:
+            doc_name = raw_input("Please enter the document's name: ") 
+        except KeyboardInterrupt: 
+            print
+            return 1
+    else: 
+        doc_name = args[0]
+    if not options.url:
+        url = raw_input("Please enter wiki URL for this document: ")
+    else: url = options.url
+    # }}}
+    doc = Document(doc_name)
+    if not doc.exists(): 
+        print "Document does not exists."
+        return 2
+    if not utils.is_valid_url(url):
+        print "URL is not valid."
+        return 3
+    # "wikifying it."
+    o_url = url
+    # get the file name:
+    url = url[1:]
+    if url.endswith("/"):
+        url = url[:-1]
+    url += ".txt"
+    wiki_file = gsettings.LOCAL_REPO_PATH.joinpath("wiki", url)
+    if not wiki_file.parent.exists():
+        wiki_file.parent.makedirs()
+    wiki_file.open("w").write(doc_name)
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
