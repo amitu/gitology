@@ -87,6 +87,8 @@ def main():
     # show all blogs
     # show info about one blog
     # show info about some url
+    print "RC_FILE:", gsettings.RC_FILE
+    print "REPO_PATH:", gsettings.LOCAL_REPO_PATH
     return 0
 
 if __name__ == "__main__":

@@ -52,9 +52,9 @@ Replies(gitology-sample-repo/documents/python/replies)
 >>> python_document.replies.fs_path.endswith("gitology-sample-repo/documents/python/replies")
 True
 >>> len(python_document.replies)
-3
+1
 >>> python_document.replies.count()
-4
+1
 >>> 
 
 Analyzing a single comment:
@@ -65,7 +65,7 @@ True
 'index.rst'
 >>> comment.index
 u'<div class="document">\n<p>python sucks!</p>\n</div>\n'
->>> python_document.replies.append(author_name="amit upadhyay", comment_content="this rocks")
+>>> # python_document.replies.append(author_name="amit upadhyay", comment_content="this rocks")
 >>>
 
 >>> asd_document = Document("asd")
