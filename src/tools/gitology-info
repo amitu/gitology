@@ -104,9 +104,12 @@ def main():
         if not doc.exists():
             print 'Blog "%s" does not exists.' % options.blog_name
             return 4
+
         print "Title:", doc.meta.title
         print "URL:", doc.meta.url
+
         print "Number of blog posts:",
+
         gen_lst = utils.gen_find(
             "*.lst", gsettings.LOCAL_REPO_PATH.joinpath("blogs")
         )
@@ -116,7 +119,23 @@ def main():
         )
         date_files_opened = utils.gen_open(date_files)
         all_lines = utils.gen_cat(date_files_opened)
+
         print utils.counter(all_lines)
+
+        print 
+        print "Labels:"
+        print
+
+        for label in gsettings.LOCAL_REPO_PATH.joinpath(
+            "blogs/%s/labels" % options.blog_name
+        ).files():
+            label_doc = Document(
+                "blogs@%s@label@%s" % (options.blog_name, label.namebase)
+            )
+            print "%s (%s) - %s posts" % (
+                label_doc.meta.title, label.namebase,  
+                len(label.open().readlines())
+            )
         return 0
     # show info about some url
     print "RC_FILE:", gsettings.RC_FILE
