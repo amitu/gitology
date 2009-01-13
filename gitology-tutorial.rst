@@ -769,7 +769,11 @@ a wiki page.
 importing existing blogs into gitology
 --------------------------------------
 
-...
+Gitology source distribution comes with an example import script that reads
+blog data from a json file and creates a gitology repository based on it. 
+
+In future gitology will include tools to import blogs data from wordpress,
+blogger, liverjournal etc. [HELP needed :-)]
 
 installation
 ------------
