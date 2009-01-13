@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+
 setup(
     name = "gitology",
     version = "0.1",
@@ -8,6 +9,7 @@ setup(
     scripts = [
         'src/tools/gitology-init',
         'src/tools/gitology-info',
+        'src/tools/gitology-blog-start',
         'src/tools/gitology-wiki-document',
     ],
     
@@ -15,7 +17,7 @@ setup(
 
     package_data = {
         # If any package contains *.txt or *.rst files, include them:
-        '': ['*.txt', '*.rst'],
+        '': ['*.txt', '*.rst', "*.html"],
         # And include any *.msg files found in the 'hello' package, too:
         'hello': ['*.msg'],
     },

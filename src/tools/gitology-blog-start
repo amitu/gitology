@@ -1,0 +1,110 @@
+#!/usr/bin/python
+"""
+start a new blog
+"""
+# imports
+import sys, gitology, os, path
+from optparse import OptionParser
+
+from gitology import utils
+from gitology.config import settings as gsettings
+from gitology.document import Document
+# }}}
+
+# build_parser # {{{
+def build_parser():
+    parser = OptionParser(
+        version = "%prog " + gitology.VERSION,
+        usage = "Usage: %prog [options] [repository_folder_location]",
+    )
+    parser.add_option(
+        "-t", "--title", action="store", dest="title",
+        help="use TITLE as the title of the blog"
+    )
+    parser.add_option(
+        "-s", "--subtitle", action="store", dest="subtitle",
+        help="use SUBTITLE as the title of the blog"
+    )
+    parser.add_option(
+        "-u", "--url", action="store", dest="url",
+        help="show information about the given URL"
+    )
+    parser.add_option(
+        "--about", action="callback", callback=print_about,
+        help="find out more about this script"
+    )
+    return parser
+# }}}
+
+
+# print_about # {{{
+def print_about(*args, **kw):
+    print utils.smart_wrap(
+        """start a new blog"""
+    )
+    raise SystemExit
+# }}}
+
+def main():
+    # get arguments # {{{
+    parser = build_parser()
+    (options, args) = parser.parse_args()
+    if len(args) > 1:
+        parser.error("Please specify only one blog name.")
+    if len(args) == 0:
+        try:
+            blog_name = raw_input("Please enter the blog's name: ") 
+        except KeyboardInterrupt: 
+            print
+            return 1
+    else: 
+        blog_name = args[0]
+    if not options.title: 
+        # TODO: here see if the expected document exists and has title metadata
+        try:
+            title = raw_input("Please enter blog title: ")
+        except KeyboardInterrupt: 
+            print
+            return 1
+    else: title = options.title
+    if not options.subtitle: 
+        # TODO: here see if the expected document exists and has this metadata
+        try:
+            title = raw_input("Please enter blog subtitle: ")
+        except KeyboardInterrupt: 
+            print
+            return 1
+    else: subtitle = options.subtitle
+    if not options.url:
+        try:
+            url = raw_input(
+                "You have not specified any url, use default: /%s/? "
+                "Leave empty if yes: " % blog_name
+            )
+        except KeyboardInterrupt: 
+            print
+            return 1
+        if not url:
+            url = "/%s/" % blog_name
+    else: url = options.url
+    # }}}
+    doc = Document("blogs@%s" % blog_name)
+    doc.create(index_content="unset")
+    doc.meta.title = "Anything Else"
+    doc.meta.subtitle = "Nerdier than thou"
+    doc.meta.url = "/blog/"
+    doc.meta.type = "blog"
+    doc.meta.save()
+
+    blog_folder = gsettings.LOCAL_REPO_PATH.joinpath("blogs/%s" % blog_name)
+    if not blog_folder.exists(): blog_folder.makedirs()
+
+    labels_folder = gsettings.LOCAL_REPO_PATH.joinpath(
+        "blogs/%s/labels" % blog_name
+    )
+    if not labels_folder.exists(): labels_folder.makedirs()
+    
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

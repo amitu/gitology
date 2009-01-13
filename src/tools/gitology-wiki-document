@@ -52,7 +52,11 @@ def main():
     else: 
         doc_name = args[0]
     if not options.url:
-        url = raw_input("Please enter wiki URL for this document: ")
+        try:
+            url = raw_input("Please enter wiki URL for this document: ")
+        except KeyboardInterrupt: 
+            print
+            return 1
     else: url = options.url
     # }}}
     doc = Document(doc_name)
