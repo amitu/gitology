@@ -1,0 +1,74 @@
+"""
+post some document
+"""
+# imports
+import sys, gitology, os, path
+from optparse import OptionParser
+
+from gitology import utils, blog
+from gitology.config import settings as gsettings
+from gitology.document import Document
+# }}}
+
+# build_parser # {{{
+def build_parser():
+    parser = OptionParser(
+        version = "%prog " + gitology.VERSION,
+        usage = "Usage: %prog [options] [repository_folder_location]",
+    )
+    parser.add_option(
+        "--blog", action="store", dest="blog_name", default="main",
+        help="Post will appear in this BLOG_NAME blog. Default=main"
+    )
+    parser.add_option(
+        "-u", "--url", action="store", dest="url",
+        help="post would appear at this URL"
+    )
+    parser.add_option(
+        "--about", action="callback", callback=print_about,
+        help="find out more about this script"
+    )
+    return parser
+# }}}
+
+
+# print_about # {{{
+def print_about(*args, **kw):
+    print utils.smart_wrap(
+        """post a document on the blog"""
+    )
+    raise SystemExit
+# }}}
+
+def main():
+    parser = build_parser()
+    (options, args) = parser.parse_args()
+    if len(args) > 1:
+        parser.error("Please specify only one document name.")
+    if len(args) == 0:
+        try:
+            doc_name = raw_input("Please enter the document's name: ") 
+        except KeyboardInterrupt: 
+            print
+            return 1
+    else: 
+        doc_name = args[0]
+    post_doc = Document(doc_name)
+    if not post_doc.exists():
+        print "Document does not exists"
+        return 2
+
+    if not options.url:
+        try:
+            url = raw_input(
+                "Please enter URL: "
+            )
+        except KeyboardInterrupt: 
+            print
+            return 1
+    else: url = options.url
+    blog.blog_document(post_doc, url, options.blog_name)
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

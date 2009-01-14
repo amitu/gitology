@@ -10,6 +10,7 @@ setup(
         'src/tools/gitology-init',
         'src/tools/gitology-info',
         'src/tools/gitology-blog-start',
+        'src/tools/gitology-blog-document',
         'src/tools/gitology-wiki-document',
     ],
     
