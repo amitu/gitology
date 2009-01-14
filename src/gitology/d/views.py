@@ -78,7 +78,11 @@ def show_wiki(request):
     else:
         form = forms.CommentForm(remote_ip)
     return render_to_response(
-        "wiki/page.html", { 'document': document, 'form': form },
+        [
+            document.meta.get("template", "non_existant"),
+            "wiki/page.html"
+        ], 
+        { 'document': document, 'form': form },
         context_instance = RequestContext(request)
     )
 # }}}
