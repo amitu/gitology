@@ -20,7 +20,7 @@
     {% for comment in post.document.replies %}
     <li>
     <div class="comment-body">
-        {{ comment.index|safe }}
+        {{ comment.index|removetags|linebreaksbr }}
         <br>
         <a href="{{ comment.meta.author_url }}">{{ comment.meta.author_name }}</a>
     </div>
