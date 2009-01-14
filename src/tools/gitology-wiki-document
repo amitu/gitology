@@ -77,6 +77,8 @@ def main():
     if not wiki_file.parent.exists():
         wiki_file.parent.makedirs()
     wiki_file.open("w").write(doc_name)
+    doc.meta.url = o_url
+    doc.meta.save()
     return 0
 
 if __name__ == "__main__":

@@ -14,6 +14,8 @@ def blog_document(document, url, blog="main", dtime=None):
     blog_file.open("a+").write(
         "%s %s %s\n" % (url, document.name, str(dtime))
     )
+    document.meta.url = url
+    document.meta.save()
     for label in document.meta.get("labels", []):
         gsettings.LOCAL_REPO_PATH.joinpath(
             "blogs/%s/labels/%s.lst" % (blog, label)
