@@ -203,7 +203,7 @@ class Replies(NamedObject):
         return Comment(dirs[k].abspath())
 
     def append(
-        self, author_name, comment_content, format="rst",
+        self, author_name, comment_content, format="txt",
         author_openid="anonymous", on=None, email=None, url=None, 
     ): 
         if not self.fs_path.exists():

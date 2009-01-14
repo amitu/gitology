@@ -154,7 +154,6 @@ def get_blog(p):
     )
     from django.contrib.syndication.feeds import Feed
     class LatestEntries(Feed):
-        print b["document"].name
         title = b["document"].meta.title
         link = b["document"].meta.title
         description = b["document"].meta.subtitle
