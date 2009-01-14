@@ -90,9 +90,9 @@ def main():
     # }}}
     doc = Document("blogs@%s" % blog_name)
     doc.create(index_content="unset")
-    doc.meta.title = "Anything Else"
-    doc.meta.subtitle = "Nerdier than thou"
-    doc.meta.url = "/blog/"
+    doc.meta.title = title
+    doc.meta.subtitle = subtitle
+    doc.meta.url = url
     doc.meta.type = "blog"
     doc.meta.save()
 
