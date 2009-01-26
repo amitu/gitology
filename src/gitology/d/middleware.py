@@ -52,7 +52,7 @@ class URLConfMiddleware:
         if not request.path.endswith("/"):
             if "%s/" % request.path in utils.global_blog_dict:
                 return http.HttpResponsePermanentRedirect(request.path + "/")
-            else:
+            elif "." not in request.path.rsplit("/", 1)[-1]:
                 try:
                     urlresolvers.resolve(
                         request.path_info
