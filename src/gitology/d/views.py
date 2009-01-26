@@ -21,7 +21,7 @@ def show_blog(request, blog_data):
         template_name = loader.select_template(
             ["blog/%s/index.html" % blog_data["name"], "blog/index.html"]
         ).name,
-        template_object_name = "post", paginate_by = 30, 
+        template_object_name = "post", paginate_by = 10, 
         extra_context = { 'blog_data': blog_data },
     )
 # }}}
@@ -36,7 +36,7 @@ def show_category(request, blog_data, label_name):
         template_name = loader.select_template(
             ["blog/%s/category.html" % blog_data["name"], "blog/category.html"]
         ).name,
-        template_object_name = "post", paginate_by = 30,
+        template_object_name = "post", paginate_by = 10,
         extra_context = { 
             'blog_data': blog_data, 'category_data': category_data 
         },
