@@ -14,6 +14,5 @@ class CleverCSSNode(template.Node):
         self.nodelist = nodelist
     def render(self, context):
         output = self.nodelist.render(context)
-        print clevercss
         return clevercss.convert(output)
 
