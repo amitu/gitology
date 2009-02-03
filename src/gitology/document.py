@@ -174,6 +174,9 @@ class Comment(DocumentBase):
     def __init__(self, name):
         super(Comment, self).__init__(name)
         self.fs_path = path.path(self.name)
+
+    def gid(self):
+        return self.fs_path.namebase
 # }}}
 
 # Replies # {{{
