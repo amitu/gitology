@@ -365,3 +365,10 @@ def is_valid_url(url):
     return True
 # }}}
 
+# parse_date # {{{
+def parse_date(s):
+    from django.db.models.fields import DateTimeField
+    dtf = DateTimeField()
+    return dtf.to_python(s)
+# }}}
+

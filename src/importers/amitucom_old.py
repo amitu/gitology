@@ -4,6 +4,7 @@ from django.utils import simplejson
 from gitology.document import Document
 from gitology.blog import blog_document
 from gitology.config import settings as gsettings
+from gitology.utils import parse_date
 
 blog = "main"
 author = "Amit Upadhyay"
@@ -22,13 +23,6 @@ def collect_data():
         else:
             d[i[u'model']][i[u'pk']] = i[u'fields']
     return d
-# }}}
-
-# parse_date # {{{
-def parse_date(s):
-    from django.db.models.fields import DateTimeField
-    dtf = DateTimeField()
-    return dtf.to_python(s)
 # }}}
 
 # MONTHS # {{{
