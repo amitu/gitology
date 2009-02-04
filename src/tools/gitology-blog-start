@@ -70,7 +70,7 @@ def main():
     if not options.subtitle: 
         # TODO: here see if the expected document exists and has this metadata
         try:
-            title = raw_input("Please enter blog subtitle: ")
+            subtitle = raw_input("Please enter blog subtitle: ")
         except KeyboardInterrupt: 
             print
             return 1

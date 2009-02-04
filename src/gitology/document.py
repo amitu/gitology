@@ -73,7 +73,7 @@ class DocumentBase(NamedObject):
         
         This raises DocumentAlreadyExists if document already exists. 
         """
-        if self.exists(): raise DocumentAlreadyExists
+        if self.exists(): raise DocumentAlreadyExists(self.name)
         if not author:
             author = settings.DEFAULTS.AUTHOR
         assert_author_can_write(author)
