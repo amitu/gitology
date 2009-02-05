@@ -147,7 +147,7 @@ class DocumentBase(NamedObject):
         if self.exists():
             self._meta = DocumentMeta(self.fs_path.joinpath("meta.json"))
             return self._meta
-        else: raise DocumentDoesNotExists
+        else: raise DocumentDoesNotExists(self.name)
     meta = property(_get_meta)
 
     def _get_replies(self):

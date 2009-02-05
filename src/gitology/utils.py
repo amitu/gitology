@@ -144,11 +144,11 @@ def get_blog(p):
     urls = []
     b = get_blog_data(p)
     urls.append(
-        ("%s$" % b["prefix"], "gitology.d.views.show_blog", { 'blog_data': b,})
+        ("^%s$" % b["prefix"], "gitology.d.views.show_blog", { 'blog_data': b,})
     )
     urls.append(
         (
-            "%slabelled/(?P<label_name>[^/]+)/$" % b["prefix"], 
+            "^%slabelled/(?P<label_name>[^/]+)/$" % b["prefix"], 
             "gitology.d.views.show_category", { 'blog_data': b },
         )
     )
@@ -168,7 +168,7 @@ def get_blog(p):
 
     urls.append(
         (
-            '%sfeeds/(?P<url>.*)/$' % b["prefix"], 
+            '^%sfeeds/(?P<url>.*)/$' % b["prefix"], 
             'django.contrib.syndication.views.feed',
             {'feed_dict': feeds},
         )
