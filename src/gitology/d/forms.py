@@ -19,10 +19,12 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
             comment_content = d("comment"),
         )
         if settings.DEBUG: return
+        email = d("email")
+        if not email: email = "upadhyay+gitology@gmail.com"
         send_mail(
             'New comment by %s' % d("name"), 
             "www.amitu.com%s" % document.meta.url, 
-            'upadhyay+gitology@gmail.com',
-            ['upadhyay@gmail.com'], fail_silently=False
+            email, ['upadhyay@gmail.com'], 
+            fail_silently=False
         )
 

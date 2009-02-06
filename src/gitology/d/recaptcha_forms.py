@@ -34,6 +34,7 @@ class RecaptchaWidget(forms.Widget):
        super(RecaptchaWidget, self).__init__()
 
     def render(self, name, value, attrs=None):
+        if settings.LOCAL_INSTANCE: return ""
         html = librecaptcha.displayhtml(settings.RECAPTCHA_PUB_KEY,
                                         theme=RECAPTCHA_THEME,
                                         lang=RECAPTCHA_LANG)
@@ -56,6 +57,7 @@ class RecaptchaField(forms.Field):
         super(RecaptchaField, self).__init__(*args, **kwargs)
     
     def clean(self, value):
+        if settings.LOCAL_INSTANCE: return True
         if SKIP_IF_IN_DEBUG_MODE and settings.DEBUG:
             return True
         value = super(RecaptchaField, self).clean(value)

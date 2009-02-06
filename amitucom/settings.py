@@ -1,17 +1,35 @@
 # Django settings for web project.
+
+# relocatable django # {{{
 import path
-
 SETTINGS_FILE_FOLDER = path.path(__file__).parent
+# }}}
 
+# DEBUG # {{{
 DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+#TEMPLATE_DEBUG = False
+# }}}
 
+# ADMINS etc # {{{
 ADMINS = (
     ('Amit Upadhyay', 'gitology@amitu.com'),
 )
 
 MANAGERS = ADMINS
+# }}}
 
+# Mail settings # {{{
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'youremail@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_PORT = 587
+EMAIL_SUBJECT_PREFIX = "[amitu.com] "
+# }}}
+
+# Django Internal # {{{
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 TIME_ZONE = 'America/Chicago'
 
@@ -21,14 +39,10 @@ LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 
 SECRET_KEY = 'qrz%q1z(%z+%!h3eq&l6qadwc+^wt3x(i8ntirvdmxnsdwgrvr'
+APPEND_SLASH = True
+# }}}
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-    'django.template.loaders.eggs.load_template_source',
-)
-
+# MIDDLEWARE_CLASSES # {{{
 MIDDLEWARE_CLASSES = (
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -37,14 +51,19 @@ MIDDLEWARE_CLASSES = (
 
     'gitology.d.middleware.URLConfMiddleware',
 )
+# }}}
 
+# TEMPLATE_CONTEXT_PROCESSORS # {{{
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth', 
     'django.core.context_processors.debug', 
     'django.core.context_processors.i18n', 
     'django.core.context_processors.media',
-    'django.core.context_processors.request'
+    'django.core.context_processors.request',
+
+    'gitology.d.utils.context_processor',
 )
+# }}}
 
 ROOT_URLCONF = 'amitucom.urls'
 
@@ -65,12 +84,15 @@ INSTALLED_APPS = (
 )
 
 # recaptcha # {{{
-RECAPTCHA_PUB_KEY = "YOUR PUBLIC KEY"
-RECAPTCHA_PRIV_KEY = "YOUR SECRET KEY"
+RECAPTCHA_PUB_KEY = "YOUR RECAPTHCA PULIC KEY"
+RECAPTCHA_PRIV_KEY = "YOUR RECAPTHCA PRIVATE KEY"
 RECAPTCHA_THEME = "white"
 # }}}
 
+LOCAL_INSTANCE = False
+
+# local_settings # {{{
 try:
     from local_settings import *
 except ImportError: pass
-
+# }}}
