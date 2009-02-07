@@ -35,7 +35,9 @@ class DocumentMeta(attrdict):
         super(DocumentMeta, self).__init__(*args, **kw)
         self.fs_path = path.path(file_path).abspath()
         if self.fs_path.exists():
-            d = simplejson.loads(self.fs_path.open().read())
+            json_data = self.fs_path.open().read()
+            if not json_data: json_data = "{}"
+            d = simplejson.loads(json_data)
             self.__dict__.update(d)
 
     def save(self):
@@ -177,6 +179,10 @@ class Comment(DocumentBase):
 
     def gid(self):
         return self.fs_path.namebase
+
+    def get_follower(self):
+        if self.meta.get("follow"):
+            return self.meta.get("email")
 # }}}
 
 # Replies # {{{
@@ -200,14 +206,25 @@ class Replies(NamedObject):
         return len(self.fs_path.dirs())
 
     def __getitem__(self, k):
-        if not self.fs_path.exists(): raise KeyError
+        if not self.fs_path.exists(): raise KeyError(self.fs_path)
         dirs = self.fs_path.dirs()
         utils.sort_nicely(dirs)
         return Comment(dirs[k].abspath())
 
+    def get_followers(self):
+        followers = []
+        for comment in self:
+            if comment.get_follower():
+                followers.append(comment.get_follower())
+            try:
+                followers.extend(comment.replies.get_followers())
+            except KeyError: pass
+        return followers
+
     def append(
         self, author_name, comment_content, format="txt",
         author_openid="anonymous", on=None, email=None, url=None, 
+        follow=False
     ): 
         if not self.fs_path.exists():
             self.fs_path.makedirs()
@@ -223,6 +240,7 @@ class Replies(NamedObject):
         comment.meta.author_openid = author_openid
         if not on: on = datetime.now()
         comment.meta.posted_on = str(on)
+        comment.meta.follow = follow
         comment.meta.save()
 # }}}
 

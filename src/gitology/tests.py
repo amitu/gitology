@@ -54,7 +54,7 @@ True
 >>> len(python_document.replies)
 1
 >>> python_document.replies.count()
-1
+2
 >>> 
 
 Analyzing a single comment:
@@ -74,6 +74,12 @@ True
 >>> asd_document.replies.count()
 0
 >>>
+
+Comment followers:
+>>> python_document.replies.get_followers()
+[]
+>>>
+
 """
 
 import unittest
