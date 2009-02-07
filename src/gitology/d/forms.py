@@ -29,7 +29,7 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
         send_mail(
             'New comment by %s' % d("name"), 
             "www.amitu.com%s" % document.meta.url, 
-            "no-reply@amitu.com", document.replies.get_followers(),
+            "no-reply@amitu.com", list(set(document.replies.get_followers())),
             fail_silently=False
         )
         if settings.DEBUG: return
