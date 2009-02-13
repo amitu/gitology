@@ -1,0 +1,63 @@
+{% load enable_comments %}
+<div name="comments" id="comments">
+    <h4>Comments</h4>
+{% if document.replies.count %}
+<ul>
+    {% for comment in document.replies %}
+    <li>
+        <div class="comment">
+            <a name="comment{{ comment.gid }}"></a>
+            <img class="avatar" align="right" src="http://www.gravatar.com/avatar/{{ comment.meta.author_email|lower|md5 }}.jpg?d=http://localhost:8000/static/white.gif">
+            <div class="comment-body">{{ comment.index|safe }}</div>
+            <div class="comment-footer">
+            --<br>
+            <div class="permalink">
+{% if comment.meta.posted_on %}{{ comment.meta.posted_on|ts2date|date:"d M Y" }}{% endif %} 
+                <a href="#comment{{ comment.gid }}">#</a>
+            </div>
+            {% if comment.meta.author_url %}
+            <a rel="nofollow" href="{{ comment.meta.author_url }}">{{ comment.meta.author_name }}</a>
+            {% else %}
+            {{ comment.meta.author_name }}
+            {% endif %}
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="no-comments">There are no comments, be the first to comment.</p>
+{% endif %}
+    <div id="enter-comment">
+        <h3>Leave a Reply</h3>
+        <a name="reply"></a>
+        <form method="post" action=".">
+            <div class="field">
+                {{ form.name }} <span><label for="id_name">Name (required)<label></span>
+                {% if form.errors.name %}<span class="error">{{ form.errors.name|join:" " }}</span>{% endif %}
+            </div>
+            <div class="field">
+                {{ form.email }} <span><label for="id_email">Email (Never shown)</label></span>
+                {% if form.errors.email %}<span class="error">{{ form.errors.email|join:" " }}</span>{% endif %}
+            </div>
+            <div class="field">
+                {{ form.url }} <span><label for="id_url">Website</label></span>
+                {% if form.errors.url %}<span class="error">{{ form.errors.url|join:" " }}</span>{% endif %}
+            </div>
+            <div class="field">
+                {{ form.comment }}
+                {% if form.errors.comment %}<span class="error">{{ form.errors.comment|join:" " }}</span>{% endif %}
+            </div>
+            <div class="captcha_field field">
+                {{ form.captcha }} Prove you are human:
+                {% if form.errors.captcha %}<span class="error captcha_error">{{ form.errors.captcha|join:" " }}</span>{% endif %}
+            </div>
+            <div class="cboth"></div>
+            <div class="field">
+                {{ form.follow }} <span><label for="id_follow">Follow Discussion (your will get a mail if someone posts a comment now onwards)</label></span>
+            </div>
+            <input type="submit" class="submit" value="Post">
+            <p>PS: Your email address will be used for <a href="/howto/show-photo-with-blog-comments/">showing your photo along with comment</a>.</p>
+        </form>
+    </div>
+</div>

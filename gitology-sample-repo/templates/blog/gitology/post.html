@@ -1,6 +1,6 @@
-{% extends "blog/base.html" %}
+{% extends "blog/gitology/base.html" %}
 {% load enable_comments %}
-{% block title %}Blog &raquo; {{ post.document.meta.title }}{% endblock %}
+{% block title %}Gitology &raquo; {{ post.document.meta.title|safe }}{% endblock %}
 {% block content %}
   <h2 class="date-header">{{ post.posted_on|date:"l, F j, Y" }}</h2>
   <div class="post">
@@ -21,7 +21,7 @@
     <p>
         Label{{ post.labels|length|pluralize }}: 
         {% for label in post.labels %}
-            <a href="/blog/labelled/{{ label.document.meta.slug }}/" title="{{ label.document.meta.descrption }}">
+            <a href="/gitology/labelled/{{ label.document.meta.slug }}/" title="{{ label.document.meta.descrption }}">
                 {{ label.document.meta.title }}</a>
         {% endfor %}
     </p>

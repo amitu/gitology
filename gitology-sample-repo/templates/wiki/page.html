@@ -1,0 +1,216 @@
+{% extends "wiki/base.html" %}
+{% load clevercsstag enable_comments %}
+{% block title %}{{ document.meta.title|safe }}{% endblock %}
+{% block extra_style %}
+/* Stylesheet for ReStructuredText by Marius Gedminas.
+ * (I didn't like the default one)
+ */
+strong { color: #666666; }
+
+a { 
+    color: #7c7c7c; 
+    text-decoration: none; 
+    border-bottom: 1px dotted;
+    letter-spacing: 1;
+}
+
+a:hover { border-bottom: 1px solid; }
+
+p {
+    text-align: justify;
+    line-height: 1.5;
+}
+
+p strong { color: #7c7c7c; }
+
+cite {
+    color: #954545;
+    font-family: Andale Mono, Courier New, monospace;
+    font-style: normal;
+}
+
+h1 {
+    font-size: 1.3em;
+    color: #6b6b6b;
+}
+
+h1.title {
+    font-size: 2.5em;
+    color: #464646;
+}
+/* Monospace text */
+
+tt {
+    font-family: Andale Mono, Courier New, monospace;
+    color: #954545;
+}
+
+/* Definition lists */
+
+dt {
+    font-weight: bold;
+}
+dd {
+    margin-bottom: 1em;
+}
+
+/* Doctest blocks */
+
+pre.doctest-block {
+    color: #008000;
+}
+
+/* Literal blocks */
+
+pre.literal-block {
+    color: #954545;
+    background: #fcfcfc;
+    border: 1px solid #f1f1f1;
+    padding: 5px 5px;
+    width: auto;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    font-family: Courier New, monospace;
+    font-size: 11px;
+    overflow: auto;
+}
+
+pre.literal-block a {
+    color: #954545;
+    text-decoration: none;
+    border: 0px;
+}
+/* Indented quotations */
+
+blockquote {
+    border: 1px solid #f1f1f1;
+    padding: 8px 15px;
+    text-align: justify;
+    background: #fcfcfc;
+}
+blockquote > p {
+    color: #000080;
+}
+
+/* Tables */
+
+table {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: none;
+    border-right: none;
+    border-collapse: collapse;
+}
+tr:first-child > th {
+    border-top: none;
+}
+th {
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+    border-bottom: none;
+    text-align: left;
+}
+tr:first-child > td {
+    border-top: 1px solid black;
+}
+table[rules=none] tr:first-child > td {
+    border-top: none;
+}
+td {
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+    border-bottom: none;
+    padding: 1px 4px;
+}
+td, th {
+    padding-left: 1em;
+}
+td:first-child,
+th:first-child {
+    padding-left: 4px;
+}
+
+td p:first-child {
+    margin-top: 0;
+}
+
+/* Footnotes */
+
+a.footnote-reference,
+a.fn-backref {
+    font-size: xx-small;
+    vertical-align: super;
+    line-height: normal;
+    text-decoration: none;
+}
+a.footnote-reference:hover,
+a.fn-backref:hover {
+    text-decoration: underline;
+}
+
+table.footnote {
+    border: none;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 20px;
+    margin-right: 0.5em;
+    font-size: small;
+}
+table.footnote td {
+    border: none;
+    padding-top: 1em;
+    padding-left: 0px;
+}
+table.footnote tr:first-child > td.label {
+    border-top: 1px solid #eee;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+table.footnote + table.footnote {
+    margin-top: 0;
+}
+table.footnote + table.footnote td {
+    border: none;
+    padding-top: 0;
+}
+
+/* System messages (aka errors) */
+
+div.system-message {
+    border-left: 3px double red;
+    margin-left: 19px;
+    padding-left: 19px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: red;
+}
+
+div.system-message p.system-message-title {
+    margin-top: 0;
+    font-weight: bold;
+}
+{% clevercss %}
+#content li:
+    list-style: disc
+    line-height: 1.3
+    margin-left: 40px
+
+#sidebar a:
+    border-bottom: 0
+    color: #888 
+
+    &:hover:
+        border-bottom: 1px dotted
+
+{% endclevercss %}
+{% endblock %}
+{% block content %}
+
+{{ document.index|safe }}
+{% if not document.meta.comments_hidden %}
+{% show_comments document %}
+{% endif %}
+{% endblock %}

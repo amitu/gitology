@@ -1,0 +1,273 @@
+/* http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+	text-decoration: none;
+}
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+body {
+	color: #888;
+	background: white;
+}
+ol, ul {
+	list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+    padding: 10px 0 15px 35px;
+    font-size: 88%;
+    background: url(/static/quotes.gif) no-repeat top left;
+	line-height: 1.5;
+}
+/* end css reset */
+
+/* main layout */
+body {
+	min-width: 960px;
+}
+#wrapper {
+	width: 960px;
+	margin: 0 auto;
+}
+#header {
+}
+#header h1 {
+	padding-top: 10px;
+	padding-left: 25px;
+	padding-bottom: 20px;
+}
+#header a { 
+	border-bottom: 1px dotted;
+}
+#header span { color: red; }
+#content {
+	padding: 10px;
+	float: left;
+	width: 560px;
+}
+#top-ad { float: right }
+#sidebar {
+	padding: 10px;
+	float: right;
+	width: 300px;
+}
+#footer {
+	padding: 10px;
+	clear: both;
+}
+/* end main layout */
+
+/* base colors */
+body {
+	background: #eee; 
+}
+#wrapper {
+	background: #ddd;
+}
+#header-wrapper {
+	-moz-border-radius: 0 0 0 6%;
+	background: #ddd;
+}
+#header {
+	background: white;
+	clear: both;
+}
+#header span { color: red; }
+#content {
+	background: white;	
+}
+#sidebar {
+	background: #ddd;
+}
+#footer {
+	background: #ddd;
+}
+/* end base colors */
+#header #action_header {
+	float: right;
+	color: #666;
+	background: #ccc;
+	padding: 10px;
+	-moz-border-radius: 0 0 0 12%;
+	font-weight: bold;
+}
+#sidebar div.box {
+	margin-bottom: 10px;
+	margin-left: auto;
+}
+#sidebar div.boxi { margin-top: 10px; }
+#sidebar div.box div.title {
+	-moz-border-radius: 2% 2% 0 0;
+	padding: 5px 10px;
+	background: #ccc;
+	color: #666;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+#sidebar div.box div.body {
+	-moz-border-radius: 0 0 2% 2%;
+	padding: 20px;
+	background: white;
+	border-bottom: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+/* typography */
+a { border-bottom: 1px dotted; color: #888; }
+#content { 
+	padding-left: 40px; padding-right: 40px;
+	-moz-border-radius: 0 4% 4% 0;
+}	
+#content p {
+	line-height: 1.5;
+	color: #888;
+	padding-bottom: 20px;
+	text-align: justify;	
+}
+#content h2 {
+	color: #888;
+	font-size: 32px;
+}
+#content h1 {
+    font-size: 38px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+#content h3 {
+    font-size: 24px;
+    font-weight: bold;
+}
+blockquote h1 {
+    font-size: 24px;
+}
+blockquote h2 {
+    font-size: 18px;
+}
+blockquote h4 { 
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+/* end typography */
+/* comments */
+div#comments { 
+    border-top: 1px dotted #aaa;
+    padding-top: 20px;
+}
+div#comments h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    padding-left: 18px;
+    margin-left: -20px;
+    background: url(/static/comment.png) no-repeat left;
+}
+div#comments img.avatar { 
+    padding-left: 10px;
+}
+div#comments div.comment{
+    border: 1px dotted #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    padding-bottom: 5px;
+    margin-left: -12px;
+    overflow: hidden;
+}
+div#comments p { 
+    margin-bottom: 7px; 
+    padding-bottom: 0px;
+    line-height: 1.2;
+}
+div#comments .permalink {
+    float: right;
+    font-size: 12px;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+div#comments .comment-footer {
+    clear: both;
+    margin-bottom: 0px;
+}
+div#enter-comment {
+    border: 1px dotted #ddd;
+    padding-top: 10px;
+    padding-left: 12px;
+    padding-bottom: 10px;
+    padding-right: 14px;
+    margin-left: -12px;
+}
+div#enter-comment h3 {
+    padding-bottom: 10px;
+}
+div#enter-comment .error {
+    background: #FCFD01;
+    color: black;
+    font-size: 12px;
+    padding: 2px;
+}
+div#enter-comment .field input {
+    border: 0px;
+    border-bottom: 1px dotted black;
+    width: 250px;
+    margin-right: 10px;
+    background: white;
+}
+div#enter-comment textarea {
+    border: 1px dotted black;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 540px;
+    background: white;
+}
+div#enter-comment div#recaptcha_area { float: right; }
+div#enter-comment span.captcha_error {
+    display: block;
+    margin-top: 5px;
+    padding: 5px;
+    width: 200px;
+}
+div#enter-comment .captcha_field { 
+    margin-top: 5px;
+}
+div#enter-comment input.submit { 
+    width: 100px; margin-bottom: 10px; 
+    clear: both;
+}
+strong { font-weight: bold; }
+div.search input.q {
+    background: white;
+    border: 0px;
+    border-bottom: 1px dotted;
+}
+/* end comments */
+.cboth { clear: both }

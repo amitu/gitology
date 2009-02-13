@@ -1,7 +1,8 @@
-{% extends "blog/base.html" %}
+{% extends "blog/gitology/base.html" %}
 {% load paginator lookup %}
-
 {% block content %}
+{{ blog_data.document.index|safe }}
+<h2 class='blog-title'>Weblog</h2>
 {% for post in post_list %}
     {% with blog_data.posts|lookup:post as post %}
 {% ifchanged %}
@@ -11,7 +12,6 @@
     <h3 class="post-title">
 	 {{ post.document.meta.title }}
     </h3>
-    
      
     <div class="post-body">
     
@@ -23,7 +23,7 @@
     <p>
         Label{{ post.labels|length|pluralize }}: 
         {% for label in post.labels %}
-            <a href="/blog/labelled/{{ label.document.meta.slug }}/" title="{{ label.document.meta.description }}">
+            <a href="/gitology/labelled/{{ label.document.meta.slug }}/" title="{{ label.document.meta.description }}">
                 {{ label.document.meta.title }}</a>
         {% endfor %}
     </p>

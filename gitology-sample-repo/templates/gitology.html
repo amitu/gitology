@@ -1,0 +1,35 @@
+{% extends "wiki/page.html" %}
+{% load clevercsstag %}
+{% block extra_head_early %}
+<link rel="alternate" type="application/rss+xml"  href="/gitology/feeds/latest/" title="RSS Feed Gitology blog">
+{% endblock %}
+{% block sidebar_early %}
+<div class="box">
+<div class="title">Gitology (<a href="/gitology/">Home</a>)</div>
+<div class="body">
+    <ul>
+        <li><a href="/gitology/feeds/latest/"><img src="/static/feed-icon-16.gif"></a> <a href="/gitology/">Blog</a></li>
+        <!-- li><a href="/gitology/about/">About</a></li -->
+        <li><a href="/gitology/documentation/">Documentation</a></li>
+        <!-- li>Release Notes</li -->
+        <li><a href="/gitology/download/">Download</a></li>
+        <li>Themes (coming soon)</li>
+        <!-- li><a href="/gitology/faq/">Frequently Asked Questions</a></li -->
+        <li><a href="/gitology/development/">Development</a></li>
+    </ul>
+</div>
+</div>
+{% endblock %}
+{% block top_action %}
+<a type="application/rss+xml" href="/gitology/feeds/latest/">Subscribe</a>
+{% endblock %}
+{% block extra_style2 %}
+{% clevercss %}
+#action_header a:
+    background: url(/static/feed-icon-16.gif) no-repeat left
+    padding-left: 20px
+    border-bottom: 0px
+    color: #555
+
+{% endclevercss %}
+{% endblock %}
