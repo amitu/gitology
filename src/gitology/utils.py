@@ -201,13 +201,30 @@ def get_wiki():
     return urls
 # }}}
 
+# get redirects # {{{
+global_redirect_dict = {}
+def get_redirects():
+    from gitology.config import settings as gsettings
+    redirects_file = gsettings.LOCAL_REPO_PATH.joinpath("redirects.lst")
+    if not redirects_file.exists(): return
+    for line in redirects_file.open().readlines():
+        try:
+            before, after = line.split()
+        except ValueError:
+            print "Bad redirect line: ", line
+            continue
+        global_redirect_dict[before] = after
+# }}}
+
 # refresh_urlconf_cache # {{{
 def refresh_urlconf_cache():
     print "refresh_urlconf_cache"
     from gitology.config import settings
     """ creates a urlconf that is stored """
+    global global_wiki_dict, global_blog_dict, global_redirect_dict
     global_blog_dict = {}
     global_wiki_dict = {}
+    global_redirect_dict = {}
     urls = [''] 
     # for blog:
     # list of blogs is in $reporoot/blogs/
@@ -215,6 +232,7 @@ def refresh_urlconf_cache():
     # blog named "main" goes under /blog/, rest of them go to /folder_name/
     urls += get_blogs() 
     urls += get_wiki()
+    get_redirects()
     # for each blog, list of labels in $reporoot/blogs/blog_name/labels/ 
     # urls: /blog_name/label/label_name/
     # for each blog, date based heirarchy is kept in 

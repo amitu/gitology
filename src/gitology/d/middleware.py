@@ -49,6 +49,10 @@ class URLConfMiddleware:
             return show_post(request)
         if request.path in utils.global_wiki_dict:
             return show_wiki(request)
+        if request.path in utils.global_redirect_dict:
+            return http.HttpResponsePermanentRedirect(
+                utils.global_redirect_dict[request.path]
+            )
         if not request.path.endswith("/"):
             if "%s/" % request.path in utils.global_blog_dict:
                 return http.HttpResponsePermanentRedirect(request.path + "/")
@@ -60,5 +64,7 @@ class URLConfMiddleware:
                 except urlresolvers.Resolver404: 
                     return http.HttpResponseRedirect(request.path + "/")
                 else:
-                    return http.HttpResponsePermanentRedirect(request.path + "/")
+                    return http.HttpResponsePermanentRedirect(
+                        request.path + "/"
+                    )
         return response # must be real 404!
