@@ -10,6 +10,7 @@ import sys
 
 from gitology.config import settings as gsettings
 from gitology import utils
+from gitology.document import Document
 from gitology.d import forms
 # }}}
 
@@ -89,3 +90,12 @@ def show_wiki(request):
 def add_comment(request, document_name): pass
 def index(request): return HttpResponse("OK")
 # }}}
+
+def show_document(request, name):
+    if not settings.LOCAL_INSTANCE: raise Http404
+    document = Document(name)
+    if not document.exists(): raise Http404
+    return render_to_response(
+        "document.html", { 'document': document },
+        context_instance=RequestContext(request),
+    )

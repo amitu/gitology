@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     }),
     (r'^openid/complete/$', 'django_openidconsumer.views.complete'),
     (r'^openid/signout/$', 'django_openidconsumer.views.signout'),
+    (r'^document/(?P<name>.*)/$', 'gitology.d.views.show_document'),
 )
