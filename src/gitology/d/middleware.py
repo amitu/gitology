@@ -48,7 +48,8 @@ class URLConfMiddleware:
         if request.path in utils.global_blog_dict:
             return show_post(request)
         if request.path in utils.global_wiki_dict:
-            return show_wiki(request)
+            try: return show_wiki(request)
+            except http.Http404: return response # original 404 error
         if request.path in utils.global_redirect_dict:
             return http.HttpResponsePermanentRedirect(
                 utils.global_redirect_dict[request.path]
