@@ -50,12 +50,12 @@ def show_post(request):
     post = blog_data["posts"][request.path]
     remote_ip = request.META['REMOTE_ADDR']
     if request.method == "POST":
-        form = forms.CommentForm(remote_ip, request.POST)
+        form = forms.CommentForm(request, remote_ip, request.POST)
         if form.is_valid():
             form.save(post["document"])
             return HttpResponseRedirect(request.path)
     else:
-        form = forms.CommentForm(remote_ip)
+        form = forms.CommentForm(request, remote_ip)
     return render_to_response(
         ["blog/%s/post.html" % blog_data["name"], "blog/post.html", ],
         { 'blog_data': blog_data, 'post': post, 'form': form },
@@ -75,12 +75,12 @@ def show_wiki(request):
             raise Http404
     remote_ip = request.META['REMOTE_ADDR']
     if request.method == "POST":
-        form = forms.CommentForm(remote_ip, request.POST)
+        form = forms.CommentForm(request, remote_ip, request.POST)
         if form.is_valid():
             form.save(document)
             return HttpResponseRedirect(request.path)
     else:
-        form = forms.CommentForm(remote_ip)
+        form = forms.CommentForm(request, remote_ip)
     return render_to_response(
         [
             document.meta.get("template", "non_existant"),

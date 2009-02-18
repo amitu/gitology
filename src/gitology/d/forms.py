@@ -11,6 +11,13 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
     email = forms.EmailField(required=False)
     comment = forms.CharField(widget=forms.Textarea)
 
+    def __init__(self, request, *args, **kw):
+        super(CommentForm, self).__init__(*args, **kw)
+        self.fields["name"].initial = request.session.get("stored_name")
+        self.fields["url"].initial = request.session.get("stored_url")
+        self.fields["email"].initial = request.session.get("stored_email")
+        self.request = request
+    
     def clean_email(self):
         d = self.cleaned_data.get
         if d("follow") and not d("email"):
@@ -19,6 +26,7 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
 
     def save(self, document): 
         d = self.cleaned_data.get
+
         document.replies.append(
             author_name = d("name"),
             email = d("email"),
@@ -26,13 +34,20 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
             comment_content = d("comment"),
             follow = d("follow"),
         )
+
+        self.request.session["stored_name"] = d("name")
+        self.request.session["stored_url"] = d("url")
+        self.request.session["stored_email"] = d("email")
+
         send_mail(
             'New comment by %s' % d("name"), 
             "www.amitu.com%s" % document.meta.url, 
             "no-reply@amitu.com", list(set(document.replies.get_followers())),
             fail_silently=False
         )
+
         if settings.DEBUG: return
+
         email = d("email")
         if not email: email = "upadhyay+gitology@gmail.com"
         send_mail(
