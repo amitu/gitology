@@ -50,12 +50,12 @@ def show_post(request):
     post = blog_data["posts"][request.path]
     remote_ip = request.META['REMOTE_ADDR']
     if request.method == "POST":
-        form = forms.CommentForm(request, remote_ip, request.POST)
+        form = forms.CommentForm(request, post["document"], remote_ip, request.POST)
         if form.is_valid():
-            form.save(post["document"])
+            form.save()
             return HttpResponseRedirect(request.path)
     else:
-        form = forms.CommentForm(request, remote_ip)
+        form = forms.CommentForm(request, post["document"], remote_ip)
     return render_to_response(
         ["blog/%s/post.html" % blog_data["name"], "blog/post.html", ],
         { 'blog_data': blog_data, 'post': post, 'form': form },
@@ -73,20 +73,26 @@ def show_wiki(request):
     if document.meta.get("private"):
         if not unicode(request.openid) in document.meta.get("viewers", []):
             raise Http404
-    remote_ip = request.META['REMOTE_ADDR']
-    if request.method == "POST":
-        form = forms.CommentForm(request, remote_ip, request.POST)
-        if form.is_valid():
-            form.save(document)
-            return HttpResponseRedirect(request.path)
+    if request.REQUEST.get("edit"):
+        form_cls = forms.EditWikiForm
+        template = "wiki/edit.html"
     else:
-        form = forms.CommentForm(request, remote_ip)
-    return render_to_response(
-        [
+        form_cls = forms.CommentForm
+        template = [
             document.meta.get("template", "non_existant"),
             "wiki/page.html"
-        ], 
-        { 'document': document, 'form': form },
+        ] 
+    remote_ip = request.META['REMOTE_ADDR']
+    if request.method == "POST":
+        form = form_cls(request, document, remote_ip, request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.path)
+        else: print form.errors
+    else:
+        form = form_cls(request, document, remote_ip)
+    return render_to_response(
+        template, { 'document': document, 'form': form },
         context_instance = RequestContext(request)
     )
 # }}}
@@ -94,6 +100,7 @@ def add_comment(request, document_name): pass
 def index(request): return HttpResponse("OK")
 # }}}
 
+# show_document # {{{
 def show_document(request, name):
     if not settings.LOCAL_INSTANCE: raise Http404
     document = Document(name)
@@ -102,3 +109,4 @@ def show_document(request, name):
         "document.html", { 'document': document },
         context_instance=RequestContext(request),
     )
+# }}}
