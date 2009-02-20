@@ -71,7 +71,13 @@ def show_archive(request, blog_name, archive_format): pass
 def show_wiki(request): 
     document = utils.global_wiki_dict[request.path] 
     if document.meta.get("private"):
-        if not unicode(request.openid) in document.meta.get("viewers", []):
+        if not unicode(request.openid) in (
+            document.meta.get(
+                "viewers", []
+            ) + gsettings.LOCAL_REPO_PATH.joinpath(
+                "editors.txt"
+            ).read().split()
+        ):
             raise Http404
     remote_ip = request.META['REMOTE_ADDR']
     if request.method == "POST":
