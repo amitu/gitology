@@ -76,8 +76,11 @@ def show_wiki(request):
     if request.REQUEST.get("edit"):
         if not unicode(request.openid) in gsettings.LOCAL_REPO_PATH.joinpath(
             "editors.txt"
-        ).read().split():
-            if document.meta.get("readonly"): raise Http404
+        ).read().split(): # requesting user is not editor, chk if he is allowed:
+            if document.meta.get(
+                "readonly", 
+                getattr(gsettings, "DEFAULT_WIKI_READONLY", True)
+            ): raise Http404
         form_cls = forms.EditWikiForm
         template = "wiki/edit.html"
     else:
