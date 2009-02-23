@@ -13,6 +13,10 @@ def select_theme(view_func):
     def wrapped(request, *args, **kw):
         if request.GET.get("theme"):
             gsettings.threadlocal.theme = request.GET["theme"]
+        elif "THEME" in request.COOKIES:
+            gsettings.threadlocal.theme = request.COOKIES["THEME"]
+        elif "THEME" in request.session:
+            gsettings.threadlocal.theme = request.session["THEME"]
         elif "THEME" in gsettings.DEFAULTS:
             gsettings.threadlocal.theme = gsettings.DEFAULTS.THEME
         return view_func(request, *args, **kw)
