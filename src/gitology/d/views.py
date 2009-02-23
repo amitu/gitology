@@ -20,7 +20,11 @@ def show_blog(request, blog_data):
     return object_list(
         request, queryset = blog_data["posts"],
         template_name = loader.select_template(
-            ["blog/%s/index.html" % blog_data["name"], "blog/index.html"]
+            [
+                "%s/blog/%s/index.html" % (gsettings.DEFAULTS.get("THEME"), blog_data["name"]),
+                "%s/blog/index.html" % gsettings.DEFAULTS.get("THEME"),
+                "blog/%s/index.html" % blog_data["name"], "blog/index.html"
+            ]
         ).name,
         template_object_name = "post", paginate_by = 10, 
         extra_context = { 'blog_data': blog_data },
@@ -35,7 +39,11 @@ def show_category(request, blog_data, label_name):
     return object_list(
         request, queryset = category_data["posts"],
         template_name = loader.select_template(
-            ["blog/%s/category.html" % blog_data["name"], "blog/category.html"]
+            [
+                "%s/blog/%s/category.html" % (gsettings.DEFAULTS.get("THEME"), blog_data["name"]),
+                "%s/blog/category.html" % gsettings.DEFAULTS.get("THEME"),
+                "blog/%s/category.html" % blog_data["name"], "blog/category.html"
+            ]
         ).name,
         template_object_name = "post", paginate_by = 10,
         extra_context = { 
@@ -57,7 +65,11 @@ def show_post(request):
     else:
         form = forms.CommentForm(request, remote_ip)
     return render_to_response(
-        ["blog/%s/post.html" % blog_data["name"], "blog/post.html", ],
+        [
+            "%s/blog/%s/post.html" % (gsettings.DEFAULTS.get("THEME"), blog_data["name"]),
+            "%s/blog/post.html" % gsettings.DEFAULTS.get("THEME"),
+            "blog/%s/post.html" % blog_data["name"], "blog/post.html", 
+        ],
         { 'blog_data': blog_data, 'post': post, 'form': form },
         context_instance = RequestContext(request)
     )
@@ -87,9 +99,15 @@ def show_wiki(request):
             return HttpResponseRedirect(request.path)
     else:
         form = forms.CommentForm(request, remote_ip)
+
     return render_to_response(
         [
+            "%s/%s" % (
+                gsettings.DEFAULTS.get("THEME"),
+                document.meta.get("template", "non_existant")
+            ),
             document.meta.get("template", "non_existant"),
+            "%s/wiki/page.html" % gsettings.DEFAULTS.get("THEME"),
             "wiki/page.html"
         ], 
         { 'document': document, 'form': form },
@@ -105,6 +123,7 @@ def show_document(request, name):
     document = Document(name)
     if not document.exists(): raise Http404
     return render_to_response(
-        "document.html", { 'document': document },
+        [ "%s/document.html" % gsettings.DEFAULTS.get("THEME"), "document.html"], 
+        { 'document': document },
         context_instance=RequestContext(request),
     )
