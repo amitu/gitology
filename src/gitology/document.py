@@ -242,6 +242,7 @@ class Replies(NamedObject):
         comment.meta.posted_on = str(on)
         comment.meta.follow = follow
         comment.meta.save()
+        return comment
 # }}}
 
 # Document {{{

@@ -61,8 +61,8 @@ def show_post(request):
     if request.method == "POST":
         form = forms.CommentForm(request, remote_ip, request.POST)
         if form.is_valid():
-            form.save(post["document"])
-            return HttpResponseRedirect(request.path)
+            chash = "#comment%s" % form.save(post["document"]).gid()
+            return HttpResponseRedirect(request.path + chash)
     else:
         form = forms.CommentForm(request, remote_ip)
     return render_to_response(
@@ -93,8 +93,8 @@ def show_wiki(request):
     if request.method == "POST":
         form = forms.CommentForm(request, remote_ip, request.POST)
         if form.is_valid():
-            form.save(document)
-            return HttpResponseRedirect(request.path)
+            chash = "#comment%s" % form.save(document).gid()
+            return HttpResponseRedirect(request.path + chash)
     else:
         form = forms.CommentForm(request, remote_ip)
     return render_to_response(

@@ -27,7 +27,7 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
     def save(self, document): 
         d = self.cleaned_data.get
 
-        document.replies.append(
+        comment = document.replies.append(
             author_name = d("name"),
             email = d("email"),
             url = d("url"),
@@ -46,7 +46,7 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
             fail_silently=False
         )
 
-        if settings.DEBUG: return
+        if settings.DEBUG: return comment
 
         email = d("email")
         if not email: email = "upadhyay+gitology@gmail.com"
@@ -56,4 +56,6 @@ class CommentForm(recaptcha_forms.RecaptchaForm):
             email, ['upadhyay@gmail.com'], 
             fail_silently=False
         )
+
+        return comment
 
