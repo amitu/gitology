@@ -5,7 +5,13 @@ Various utility functions used by gitology.*
 from django.conf.urls.defaults import patterns
 from django.utils import simplejson
 
-import path, sys, os, textwrap
+import sys, os, textwrap
+
+try:
+    import path
+except ImportError:
+    from gitology import path
+
 import fnmatch, re, path, string
 import gzip, bz2
 import docutils.writers.html4css1, docutils.core

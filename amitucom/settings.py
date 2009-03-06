@@ -1,7 +1,10 @@
 # Django settings for web project.
 
 # relocatable django # {{{
-import path
+try:
+    import path
+except ImportError:
+    from gitology import path
 SETTINGS_FILE_FOLDER = path.path(__file__).parent
 # }}}
 
